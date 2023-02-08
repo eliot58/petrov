@@ -1,0 +1,194 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=1440, initial-scale=0.8" name='MobileOptimized'>
+    <link rel="stylesheet" href="{% static 'test/style.css' %}">
+    <style>
+        .custom-checkbox>input{position:absolute;z-index:-1;opacity:0}.custom-checkbox>span{display:inline-flex;align-items:center;user-select:none}.custom-checkbox>span::before{content:"";display:inline-block;width:1em;height:1em;flex-shrink:0;flex-grow:0;border:1px solid #EB6018;margin-right:.5em;background-repeat:no-repeat;background-position:center center;background-size:50% 50%}.custom-checkbox>input:not(:disabled):not(:checked)+span:hover::before{border-color:#EB6018}.custom-checkbox>input:not(:disabled):active+span::before{background-color:#b3d7ff;border-color:#EB6018}.custom-checkbox>input:focus+span::before{box-shadow:0 0 0 .2rem hsla(95,100%,50%,.25)}.custom-checkbox>input:focus:not(:checked)+span::before{border-color:#EB6018}.custom-checkbox>input:checked+span::before{border-color:#EB6018;background-color:#EB6018;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e")}.custom-checkbox>input:disabled+span::before{background-color:#e9ecef}
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div class="wrapper">
+        <section class="home">
+            <div class="navbar">
+                <div class="navbar_content">
+                    <div class="navbar_brand">
+                        <img src="{% static 'test/img/logo_petr.png' %}" alt="">
+                    </div>
+                    <div class="navbar_profile">
+                        <div class="ava">
+                            <img src="{% static 'test/img/user.png' %}" alt="">
+                            <a href=""><img src="{% static 'test/img/ico/pen.svg' %}" alt="">Изменить</a>
+                        </div>
+                        <p>Иванов Иван</p>
+                    </div>
+                    <div class="navbar_links">
+                        <nav>
+                            <ul>
+                                <li class="nav_link">
+                                    <div>
+                                        <img src="{% static 'test/img/ico/orders.svg' %}" alt="">
+                                        <a href="">Заказы</a>
+                                    </div>
+                                </li>
+                                <li class="nav_link">
+                                    <div>
+                                        <img src="{% static 'test/img/ico/settings.svg' %}" alt="">
+                                        <a href="">Настройка уведомлений</a>
+                                    </div>
+                                </li>
+                                <li class="nav_link">
+                                    <div>
+                                        <img src="{% static 'test/img/ico/store.svg' %}" alt="">
+                                        <a href="">Магазин</a>
+                                    </div>
+                                </li>
+                                <li class="nav_link">
+                                    <div>
+                                        <img src="{% static 'test/img/ico/state.svg' %}" alt="">
+                                        <a href="">Статистика</a>
+                                    </div>
+                                </li>
+                                <li class="nav_link">
+                                    <div>
+                                        <img src="{% static 'test/img/ico/services.svg' %}" alt="">
+                                        <a onclick="this.parentNode.nextElementSibling.style.display = 'block';return false;" href="">Сервисы</a>
+                                    </div>
+                                    <ul>
+                                        <li>
+                                            <a href="">Гарантийный талон</a>
+                                            <img src="{% static 'test/img/ico/arrow-right.svg' %}" alt="">
+                                        </li>
+                                        <li>
+                                            <a href="">Гарантийный талон</a>
+                                        </li>
+                                        <li>
+                                            <a href="">Гарантийный талон</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav_link">
+                                    <div>
+                                        <img src="{% static 'test/img/ico/finance.svg' %}" alt="">
+                                        <a href="">Финансы</a>
+                                    </div>
+                                </li>
+                                <li class="nav_link">
+                                    <div>
+                                        <img src="{% static 'test/img/ico/contacts.svg' %}" alt="">
+                                        <a href="">Контакты</a>
+                                    </div>
+                                </li>
+                                <hr class="border">
+                                <li class="nav_link not-img">
+                                    <a href="">Профильные системы</a>
+                                </li>
+                                <li class="nav_link not-img">
+                                    <a href="">Учебные материалы</a>
+                                </li>
+                                <li class="nav_link not-img">
+                                    <a href="">Сертификаты и протоколы</a>
+                                </li>
+                                <li class="nav_link not-img">
+                                    <a href="">Видеообучение</a>
+                                </li>
+                                <li class="nav_link not-img">
+                                    <a href="{% url 'logout_core_view' %}">Выйти с учетной записи</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="header">
+                    <nav class="menu">
+                        <a href="" class="menu_link">Главная</a>
+                        <a href="" class="menu_link">Новинки</a>
+                        <a href="" class="menu_link">Инструкции</a>
+                        <a href="" class="menu_link">Оплатить заказ</a>
+                    </nav>
+                    <div class="service-icons">
+                        <a href=""><img src="{% static 'test/img/ico/bell.svg' %}" alt=""></a>
+                        <a href=""><img src="{% static 'test/img/ico/phone-Light.svg' %}" alt=""></a>
+                    </div>
+                </div>
+                <section class="notsssection">
+                    <form class="settings" action="{% url 'notifications' %}" method="post">
+                        <p>Настройка уведомлений</p>
+                        <div class="orders_table">
+                            <table class="table">
+                                <tr>
+                                    <th>Получение уведомлений</th>
+                                    <th>Обмен накладными</th>
+                                    <th>Решение рекламаций</th>
+                                </tr>
+                                <tr>
+                                    <td class="table__item-center"><div class="checkbox">
+                                        <label class="custom-checkbox">
+                                            <input type="checkbox" name="email_alert">
+                                            <span>e-mail</span>
+                                        </label>
+                                    </div></td>
+                                    <td class="table__item-center"><div class="checkbox">
+                                        <label class="custom-checkbox">
+                                            <input type="checkbox" name="change_mail">
+                                            <span>Отправка по почте</span>
+                                        </label>
+                                    </div></td>
+                                    <td class="table__item-center"><div class="checkbox">
+                                        <label class="custom-checkbox">
+                                            <input type="checkbox" name="ads_client">
+                                            <span>Решение с клиентом</span>
+                                        </label>
+                                    </div></td>
+                                </tr>
+                                <tr>
+                                    <td class="table__item-center"><div class="checkbox">
+                                        <label class="custom-checkbox">
+                                            <input type="checkbox" name="sms_alert">
+                                            <span>SMS</span>
+                                        </label>
+                                    </div></td>
+                                    <td class="table__item-center"><div class="checkbox">
+                                        <label class="custom-checkbox">
+                                            <input type="checkbox" name="change_email">
+                                            <span>Отправка по e-mail</span>
+                                        </label>
+                                    </div></td>
+                                    <td class="table__item-center"><div class="checkbox">
+                                        <label class="custom-checkbox">
+                                            <input type="checkbox" name="ads_me">
+                                            <span>Решение  через меня</span>
+                                        </label>
+                                    </div></td>
+                                </tr>
+                                <tr>
+                                    <td class="table__item-center"><div class="checkbox">
+                                        <label class="custom-checkbox">
+                                            <input type="checkbox" name="telegram_alert">
+                                            <span>Telegram</span>
+                                        </label>
+                                    </div></td>
+                                    <td class="table__item-center"><div class="checkbox">
+                                        <label class="custom-checkbox">
+                                            <input type="checkbox" name="change_manager">
+                                            <span>Менеджером в руки</span>
+                                        </label>
+                                    </div></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <button type="submit">Сохранить</button>
+                    </form>
+                    
+                </section>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

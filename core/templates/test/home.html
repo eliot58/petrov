@@ -1,0 +1,176 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=1440, initial-scale=0.8" name='MobileOptimized'>
+    <link rel="stylesheet" href="{% static 'test/style.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <div class="wrapper">
+        <section class="home">
+            <div class="navbar">
+                <div class="navbar_content">
+                    <div class="navbar_brand">
+                        <img src="{% static 'test/img/logo_petr.png' %}" alt="">
+                    </div>
+                    <div class="navbar_profile">
+                        <div class="ava">
+                            <img src="{% static 'test/img/user.png' %}" alt="">
+                            <a href="{% url 'profile' %}"><img src="{% static 'test/img/ico/pen.svg' %}" alt="">Изменить</a>
+                        </div>
+                        <p>Иванов Иван</p>
+                    </div>
+                    <div class="navbar_links">
+                        <nav>
+                            <ul>
+                                <li class="nav_link">
+                                    <div>
+                                        <img src="{% static 'test/img/ico/orders.svg' %}" alt="">
+                                        <a href="{% url 'orders' %}">Заказы</a>
+                                    </div>
+                                </li>
+                                <li class="nav_link">
+                                    <div>
+                                        <img src="{% static 'test/img/ico/settings.svg' %}" alt="">
+                                        <a href="{% url 'notifications' %}">Настройка уведомлений</a>
+                                    </div>
+                                </li>
+                                <li class="nav_link">
+                                    <div>
+                                        <img src="{% static 'test/img/ico/store.svg' %}" alt="">
+                                        <a href="{% url 'store' %}">Магазин</a>
+                                    </div>
+                                </li>
+                                <li class="nav_link">
+                                    <div>
+                                        <img src="{% static 'test/img/ico/state.svg' %}" alt="">
+                                        <a href="{% url 'state' %}">Статистика</a>
+                                    </div>
+                                </li>
+                                <li class="nav_link">
+                                    <div>
+                                        <img src="{% static 'test/img/ico/services.svg' %}" alt="">
+                                        <a onclick="if (this.parentNode.nextElementSibling.style.display == 'block'){this.parentNode.nextElementSibling.style.display = 'none'} else {this.parentNode.nextElementSibling.style.display = 'block'};return false;" href="">Сервисы</a>
+                                    </div>
+                                    <ul>
+                                        <li>
+                                            <a href="">Гарантийный талон</a>
+                                            <img src="{% static 'test/img/ico/arrow-right.svg' %}" alt="">
+                                        </li>
+                                        <li>
+                                            <a href="">Рекламации</a>
+                                        </li>
+                                        <li>
+                                            <a href="">Акт замеров</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav_link">
+                                    <div>
+                                        <img src="{% static 'test/img/ico/finance.svg' %}" alt="">
+                                        <a href="">Финансы</a>
+                                    </div>
+                                </li>
+                                <li class="nav_link">
+                                    <div>
+                                        <img src="{% static 'test/img/ico/contacts.svg' %}" alt="">
+                                        <a href="{% url 'contacts' %}">Контакты</a>
+                                    </div>
+                                </li>
+                                <hr class="border">
+                                <li class="nav_link not-img">
+                                    <a href="{% url 'shapes' %}">Профильные системы</a>
+                                </li>
+                                <li class="nav_link not-img">
+                                    <a href="{% url 'learn' %}">Учебные материалы</a>
+                                </li>
+                                <li class="nav_link not-img">
+                                    <a href="{% url 'certificate' %}">Сертификаты и протоколы</a>
+                                </li>
+                                <li class="nav_link not-img">
+                                    <a href="{% url 'videolearn' %}">Видеообучение</a>
+                                </li>
+                                <li class="nav_link not-img">
+                                    <a href="{% url 'logout_core_view' %}">Выйти с учетной записи</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="header">
+                    <nav class="menu">
+                        <a href="{% url 'index' %}" class="menu_link menu_link_active">Главная</a>
+                        <a href="{% url 'news' %}" class="menu_link">Новинки</a>
+                        <a href="{% url 'instructions' %}" class="menu_link">Инструкции</a>
+                    </nav>
+                    <div class="service-icons">
+                        <a href=""><img src="{% static 'test/img/ico/bell.svg' %}" alt=""></a>
+                        <a href=""><img src="{% static 'test/img/ico/phone-Light.svg' %}" alt=""></a>
+                        <div class="service-icons">
+                            <a href=""><img src="img/ico/bell.svg" alt=""></a>
+                            <a href=""><img src="img/ico/phone-Light.svg" alt=""></a>
+                            <a href="" style="position: relative;">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="IconChangeColor" height="20" width="20"><path d="M21.5,15a3,3,0,0,0-1.9-2.78l1.87-7a1,1,0,0,0-.18-.87A1,1,0,0,0,20.5,4H6.8L6.47,2.74A1,1,0,0,0,5.5,2h-2V4H4.73l2.48,9.26a1,1,0,0,0,1,.74H18.5a1,1,0,0,1,0,2H5.5a1,1,0,0,0,0,2H6.68a3,3,0,1,0,5.64,0h2.36a3,3,0,1,0,5.82,1,2.94,2.94,0,0,0-.4-1.47A3,3,0,0,0,21.5,15Zm-3.91-3H9L7.34,6H19.2ZM9.5,20a1,1,0,1,1,1-1A1,1,0,0,1,9.5,20Zm8,0a1,1,0,1,1,1-1A1,1,0,0,1,17.5,20Z" id="mainIconPathAttribute" fill="#737373" stroke-width="0" stroke="#ff0000"></path></svg>
+                                <span style="position: absolute;
+                                right: -5px;
+                                bottom: 0px;
+                                width: 10px;
+                                height: 10px;
+                                text-align: center;
+                                line-height: 10px;
+                                border-radius: 50%;
+                                background: #f35320;
+                                color: #ffffff;
+                                font-size: 8px;
+                                font-weight: 600;">0</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <section class="homesection">
+                    <div class="left">
+                        <div class="bonus">
+                            <p class="bonus_title">Ваши бонусы</p>
+                            <div class="bonus_total">
+                                <img src="{% static 'test/img/ico/ellipse.svg' %}" alt="">
+                                <p>{{ request.user.diler.bonus }}</p>
+                            </div>
+                            <div class="bonus_percent">
+                                <img src="{% static 'test/img/ico/arrow.svg' %}" alt="">
+                                <p class="percent">2.0%</p>
+                                <p class="percent_title">больше чем в прошлом месяце</p>
+                            </div>
+                        </div>
+                        <p class="subtitle">За продажу этих продуктов вам будут начислены бонусы, которые, Вы можете потратить в магазине.</p>
+                        <ul>
+                            {% for bonus in bonuses %}
+                            <li>
+                                <img src="{% static 'test/img/ico/check-circle-Regular.svg' %}" alt="">
+                                <p>{{ bonus.shape.title }} - {{ bonus.count }} бонус</p>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="right">
+                        <div class="new-items">
+                            <p class="title">Новинки</p>
+                            {% for new in news %}
+                            <div class="new-item">
+                                <img class="date" src="{% static 'test/img/ico/calendar-Regular.svg' %}" alt="">
+                                <p class="new-item_date">{{ new.date|date:'d.m.Y' }}</p>
+                                <p>{{ new.title }}</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
