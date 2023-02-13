@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <div class="d-flex flex-column">
+            <div class="notifications col-xl-10">
+                <div class="notifications__title">Коммерческие предложения</div>
+                <table style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Профиль</th>
+                            <th>Фурнитура</th>
+                            <th>Стеклопакет</th>
+                            <th>Размер</th>
+                            <th>Базовая цена</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for offer in offers %}
+                        <tr>
+                            <td>{{ offer.shape.name }}</td>
+                            <td>{{ offer.implement.name }}</td>
+                            <td>{{ offer.glazing.name }}</td>
+                            <td>{{ offer.size }}</td>
+                            <td>{{ offer.price }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

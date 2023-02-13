@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <form action="" class="talon col-xl-10">
+            <div class="profile__title">Распечатать гарантийный талон</div>
+            <div class="col-xl-5">
+                <div class="d-flex flex-column">
+                    <div class="auth__input col-xl-6">
+                        <input type="text" placeholder="Ввведите номер заказа" name="talon_id">
+                    </div>
+                    <button class="col-xl-4">Показать</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

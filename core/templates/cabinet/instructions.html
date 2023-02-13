@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <div class="new col-xl-10">
+            <div class="new__title">Инструкции</div>
+            <div class="upload__items col-xl-12">
+                {% for instruction in instructions %}
+                <div class="upload__item">
+                    <div class="d-flex align-items-center">
+                        <img class="calendar" src="img/ico/calendar.svg" alt="">
+                        <div class="new__item-date">{{ instruction.date }}</div>
+                        <div class="new__item-title">{{ instruction.title }}</div>
+                    </div>
+                    <a class="download d-flex align-items-center" href="{{ instruction.file.url }}">
+                        <div class="download__text">Скачать</div>
+                        <img class="download__img" src="img/ico/download.svg" alt="">
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

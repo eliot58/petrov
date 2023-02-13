@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <div class="new col-xl-10">
+            <div class="new__title">Учебные материалы</div>
+            <div class="upload__items col-xl-12">
+                {% for learn in learns %}
+                <div class="upload__item">
+                    <div class="d-flex align-items-center">
+                        <img class="calendar" src="img/ico/calendar.svg" alt="">
+                        <div class="new__item-date">{{ learn.date }}</div>
+                        <div class="new__item-title">{{ learn.title }}</div>
+                    </div>
+                    <a class="download d-flex align-items-center" href="{{ learn.file.url }}">
+                        <div class="download__text">Скачать</div>
+                        <img class="download__img" src="img/ico/download.svg" alt="">
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

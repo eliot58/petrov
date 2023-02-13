@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}{% endblock title %}
+
+{% load static %}
+
+{% block content %}
+    <div class="row">
+        <div class="store col-xl-12">
+            <div class="store__items d-flex flex-wrap">
+                {% for item in items %}
+                <div class="store-item d-flex col-xl-6">
+                    <img src="{{ item.photo.url }}" width="255" height="330" alt="">
+                    <div class="store-item__data d-flex flex-column col-xl-4">
+                        <div class="store-item__data-title">{{ item.title }}</div>
+                        <div class="store-item__data-description">{{ item.description }}</div>
+                        <div class="store-item__data-all">В наличии: {{ item.count }}</div>
+                        <div class="store-item__data-bonus-price">{{ item.price_of_bonus }}</div>
+                        <div class="store-item__data-price">{{ item.price }}</div>
+                        <div class="store-item__data-count d-flex justify-content-between">
+                            <span>-</span>
+                            <input type="text" value="1">
+                            <span>+</span>
+                        </div>
+                        <button class="cart__btn" style="padding: 10px 20px;">Добавить в корзину</button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="custom-pagination d-flex col-xl-4 align-items-center justify-content-between">
+                {% if items.has_previous %}
+                    <a class="left-arrow" href="?page={{ items.previous_page_number }}"><img src="{% static 'img/ico/left_arrow.svg' %}" alt=""></a>
+                {% endif %}
+                {% for i in items.paginator.page_range %}
+                    {% if i > items.number|add:-4 and i < items.number|add:8 %}
+                        {% if items.number == i %}
+                            <a href="" class="pagination__item pagination__item-active">{{ items.number }}</a>
+                        {% else %}
+                            <a href="?page={{ i }}" class="pagination__item">{{ i }}</a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% if items.has_next %}
+                    <a class="right-arrow" href="?page={{ items.next_page_number }}"><img src="{% static 'img/ico/right_arrow.svg' %}" alt=""></a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

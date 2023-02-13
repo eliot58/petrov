@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="d-flex flex-column align-items-end">
+                <div class="period__title">Показать заказы за период</div>
+                <div class="period__form col-xl-5 d-flex justify-content-end">
+                    <div class="period__input">
+                        <input type="date">
+                    </div>
+                    <div class="period__input">
+                        <input type="date">
+                    </div>
+                </div>
+                <button class="period__button">Показать</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="search col-xl-5">
+                <div class="search__title">Найти заказ</div>
+                <div class="search__input">
+                    <input type="text">
+                    <img src="img/ico/search.svg" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="orders">
+                <div class="table-responsive">
+                    <table class="col-xl-10">
+                        <thead>
+                            <tr>
+                                <th>№</th>
+                                <th>Статус</th>
+                                <th>Дата/час доставки Заказчику</th>
+                                <th>Дата заказа</th>
+                                <th>Дата оплаты</th>
+                                <th>Адрес/Телефон Заказчика</th>
+                                <th>Дата/час доставки на склад</th>
+                                <th>Дата/час доставки Заказчику</th>
+                                <th>Крайний срок доставки</th>
+                                <th><img src="img/ico/comment.svg" alt=""></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>292998</td>
+                                <td>Выполнено</td>
+                                <td>16.09.2022</td>
+                                <td>16.09.2022</td>
+                                <td>г.Москва, ул.Калужская 78 +789008765431</td>
+                                <td>16.09.2022, 20.00</td>
+                                <td>16.09.2022, 20.00</td>
+                                <td>#0B344B</td>
+                                <td>16.09.2022, 20.00</td>
+                                <td><img src="img/ico/comment-active.svg" alt=""></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

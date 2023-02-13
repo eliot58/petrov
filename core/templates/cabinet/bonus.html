@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <div class="bonus">
+            <div class="results col-xl-8 d-flex flex-column justify-content-start">
+                <div class="results__title">Бонусы</div>
+                <div class="price d-flex justify-content-between">
+                    <div class="price__key" style="font-weight: 600;">Товар</div>
+                    <div class="price__value" style="font-weight: 600;">Количество бонусов</div>
+                </div>
+                {% for bonus in bonuses %}
+                <div class="price d-flex justify-content-between">
+                    <div class="price__key">{{ bonus.item.title }}</div>
+                    <div class="price__value">{{ bonus.count }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

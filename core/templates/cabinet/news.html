@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <div class="new col-xl-10">
+            <div class="new__title">Новинки</div>
+            {% for new in news %}
+            <div class="new__items col-xl-12">
+                <div class="new__item">
+                    <img class="calendar" src="img/ico/calendar.svg" alt="">
+                    <div class="new__item-date">{{ new.date }}</div>
+                    <div class="new__item-title">{{ new.title }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}

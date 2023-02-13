@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <form action="" class="profile col-xl-10">
+            <div class="profile__title">Профиль</div>
+            <div class="profile__inner col-xl-6">
+                <div class="auth__input">
+                    <input type="text" placeholder="ФИО" name="fullName">
+                </div>
+                <div class="auth__input">
+                    <input type="email" placeholder="E-mail" name="email">
+                </div>
+                <div class="auth__input">
+                    <input type="tel" placeholder="Телефон" name="phone">
+                </div>
+                <div class="auth__input">
+                    <input type="tel" placeholder="Телефон оповещений" name="alert_phone">
+                </div>
+                <div class="auth__input">
+                    <input type="text" placeholder="Адрес" name="address">
+                </div>
+                <div class="auth__input">
+                    <input type="text" placeholder="Территориальный менеджер" name="manager">
+                </div>
+                <div class="auth__input">
+                    <input type="text" placeholder="Расчетчик" name="calculator">
+                </div>
+            </div>
+            <button class="save-btn">Сохранить</button>
+        </form>
+    </div>
+{% endblock content %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <form class="ads-create col-xl-10 d-flex flex-column">
+            <div class="ads-create__title">Рекламации по заказу</div>
+            <div class="ads-create__data">Автор рекламации: <span>Иван Иванов</span></div>
+            <div class="ads-create__data">Дата подачи рекламации: <span>20.12.2022</span></div>
+            <div class="ads-create__data">№ конструкции: <span>342424</span></div>
+            <div class="ads-create__data">Адрес доставки: <span>г. Москва</span></div>
+            <div class="ads-create__data">E-mail автора: <span>ivanivanov@mail.ru</span></div>
+            <div class="ads-create__data">Телефон автора: <span>+7843784738</span></div>
+            <textarea class="col-xl-10" name="" id="" cols="30" rows="10" placeholder="Опишите что произошло в свободной форме"></textarea>
+            <div class="upload-files d-flex">
+                <div class="upload-files__title">Прикрепить файлы рекламации</div>
+                <div class="upload-files__btn">
+                    <img src="img/ico/clip.svg" alt="">
+                </div>
+                <div class="upload-files__btn">
+                    <img src="img/ico/clip.svg" alt="">
+                </div>
+                <div class="upload-files__btn">
+                    <img src="img/ico/clip.svg" alt="">
+                </div>
+                <div class="upload-files__btn">
+                    <img src="img/ico/clip.svg" alt="">
+                </div>
+                <div class="upload-files__btn">
+                    <img src="img/ico/clip.svg" alt="">
+                </div>
+            </div>
+            <textarea class="col-xl-10" name="" id="" cols="30" rows="10" placeholder="Какие ваши пожелания? Замена, принять к сведению или компенсация?"></textarea>
+            <button class="ads-create__btn col-xl-2">Создать</button>
+        </form>
+    </div>
+{% endblock content %}

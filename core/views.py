@@ -6,7 +6,6 @@ from .utils.pass_generator import generator
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_POST
 from .models import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -64,16 +63,33 @@ def logout_view(request):
 
 @login_required(login_url='/login/')
 def index(request):
-    return render(request, 'test/home.html', {'bonuses': Bonus.objects.all(), 'news': New.objects.all()[:5]})
+    return render(request, 'cabinet/main.html', {'bonuses': Bonus.objects.all()[:3], 'news': New.objects.all()[:5]})
+
+@login_required(login_url='/login/')
+def ads(request):
+    pass
+
+@login_required(login_url='/login/')
+def talon(request):
+    pass
+
+def price(request):
+    return render(request, 'cabinet/price.html', {'prices': Price.objects.all()})
 
 @login_required(login_url='/login/')
 def cart(request):
-    return render(request, 'test/cart.html', {'prices': Price.objects.all()})
+    return render(request, 'cabinet/cart.html')
 
-@login_required(login_url='/login/')
+
 def news(request):
-    return render(request, 'test/new.html', {'news': New.objects.all()})
+    return render(request, 'cabinet/news.html', {'news': New.objects.all()})
 
+def bonus(request):
+    return render(request, 'cabinet/bonus.html', {'bonuses': Bonus.objects.all()})
+
+
+def offers(request):
+    return render(request, 'cabinet/offers.html', {'offers': Offers.objects.all()})
 
 
 @login_required(login_url='/login/')
@@ -89,16 +105,16 @@ def profile(request):
         diler.calculator = request.POST['calculator']
         diler.save()
         return render(index)
-    return render(request, 'test/profile.html')
+    return render(request, 'cabinet/profile.html')
 
 @login_required(login_url='/login/')
 def orders(request):
-    return render(request, 'test/profile.html')
+    return render(request, 'cabinet/orders.html')
 
 @login_required(login_url='/login/')
 def store(request):
     items = Store.objects.all().order_by('id')
-    paginator = Paginator(items, 6)
+    paginator = Paginator(items, 4)
     page = request.GET.get('page')
     try:
         items = paginator.page(page)
@@ -106,16 +122,15 @@ def store(request):
         items = paginator.page(1)
     except EmptyPage:
         items = paginator.page(paginator.num_pages)
-    return render(request, 'test/store.html', {'items': items})
+    return render(request, 'cabinet/store.html', {'items': items})
 
 @login_required(login_url='/login/')
 def notifications(request):
     if request.method == 'POST':
         
         return render(index)
-    return render(request, 'test/notifications.html')
+    return render(request, 'cabinet/notifications.html')
 
-@login_required(login_url='/login/')
 def shapes(request):
     items = Shape.objects.all().order_by('id')
     paginator = Paginator(items, 3)
@@ -126,23 +141,16 @@ def shapes(request):
         items = paginator.page(1)
     except EmptyPage:
         items = paginator.page(paginator.num_pages)
-    return render(request, 'test/shape.html', {'items': items, 'range': range(1,11)})
+    return render(request, 'cabinet/shapes.html', {'items': items, 'range': range(1,11)})
 
-
-
-
-@login_required(login_url='/login/')
 def instructions(request):
-    return render(request, 'test/instructions.html', {'instructions': Instructions.objects.all()})
+    return render(request, 'cabinet/instructions.html', {'instructions': Instructions.objects.all()})
 
-@login_required(login_url='/login/')
 def learn(request):
-    return render(request, 'test/learn.html', {'learns': Learn.objects.all()})
+    return render(request, 'cabinet/learn.html', {'learns': Learn.objects.all()})
 
-@login_required(login_url='/login/')
 def certificate(request):
-    return render(request, 'test/certificate.html', {'certificates': Certificate.objects.all()})
+    return render(request, 'cabinet/certificate.html', {'certificates': Certificate.objects.all()})
 
-@login_required(login_url='/login/')
 def videolearn(request): 
-    return render(request, 'test/videolearn.html', {'videolearns': Video.objects.all()})
+    return render(request, 'cabinet/video.html', {'videos': Video.objects.all()})

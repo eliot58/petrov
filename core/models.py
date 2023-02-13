@@ -3,30 +3,29 @@ from django.contrib.auth.models import User
 
 class Diler(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Дилер')
-    fullName = models.CharField(max_length=100)
-    email = models.EmailField()
-    phone = models.CharField(max_length=12)
-    alert_phone = models.CharField(max_length=12, default='')
-    address = models.CharField(max_length=200, default='')
-    discount_window = models.IntegerField(default=0)
-    accessories_discount = models.IntegerField(default=0)
-    manager = models.CharField(max_length=100, default='')
-    calculator = models.CharField(max_length=100, default='')
-    last_login = models.DateTimeField(auto_now=True)
-    last_week_bonus = models.FloatField(default=0)
-    bonus = models.FloatField(default=0)
+    fullName = models.CharField(max_length=100, verbose_name='ФИО')
+    email = models.EmailField(verbose_name='E-mail')
+    phone = models.CharField(max_length=12, verbose_name='Телефон')
+    alert_phone = models.CharField(max_length=12, default='', verbose_name='Телефон для уведомлений')
+    address = models.CharField(max_length=200, default='', verbose_name='Адрес')
+    discount_window = models.IntegerField(default=0, verbose_name='Скидка на окна')
+    accessories_discount = models.IntegerField(default=0, verbose_name='Скидка на аксессуары')
+    manager = models.CharField(max_length=100, default='', verbose_name='Территориальный менеджер')
+    calculator = models.CharField(max_length=100, default='', verbose_name='Расчетчик')
+    last_login = models.DateTimeField(auto_now=True, verbose_name='Дата последнего входа')
+    bonus = models.FloatField(default=0, verbose_name='Бонусы дилера')
 
-    sms_alert = models.BooleanField(default=False)
-    telegram_alert = models.BooleanField(default=False)
-    email_alert = models.BooleanField(default=False)
+    sms_alert = models.BooleanField(default=False, verbose_name='E-mail')
+    telegram_alert = models.BooleanField(default=False, verbose_name='SMS')
+    email_alert = models.BooleanField(default=False, verbose_name='Telegram')
 
-    change_mail = models.BooleanField(default=False)
-    change_email = models.BooleanField(default=False)
-    change_manager = models.BooleanField(default=False)
+    change_mail = models.BooleanField(default=False, verbose_name='Отправка по почте')
+    change_email = models.BooleanField(default=False, verbose_name='Отправка по e-mail')
+    change_manager = models.BooleanField(default=False, verbose_name='Менеджером в руки')
 
 
-    ads_client = models.BooleanField(default=False)
-    ads_me = models.BooleanField(default=False)
+    ads_client = models.BooleanField(default=False, verbose_name='Решение с клиентом')
+    ads_me = models.BooleanField(default=False, verbose_name='Решение через меня')
 
 
     def __str__(self):
@@ -48,12 +47,12 @@ class Order(models.Model):
 
 
 class Store(models.Model):
-    photo = models.FileField(upload_to='store/img')
-    title = models.CharField(max_length=20)
-    description = models.TextField()
-    count = models.IntegerField()
-    price_of_bonus = models.IntegerField()
-    price  = models.IntegerField()
+    photo = models.FileField(upload_to='store/img', verbose_name='Фото')
+    title = models.CharField(max_length=20, verbose_name='Заголовок')
+    description = models.TextField(verbose_name='Описание')
+    count = models.IntegerField(verbose_name='В наличии')
+    price_of_bonus = models.PositiveIntegerField(verbose_name='Цена в бонусах')
+    price  = models.PositiveIntegerField(verbose_name='Цена в рублях')
 
 
     class Meta:
@@ -65,8 +64,8 @@ class Store(models.Model):
 
 
 class Shape(models.Model):
-    photo =  models.FileField(upload_to='shape/img')
-    name = models.CharField(max_length=40)
+    photo =  models.FileField(upload_to='shape/img', verbose_name='Фото')
+    name = models.CharField(max_length=40, verbose_name='Название')
     rate = [
         (1, '1'),
         (2, '2'),
@@ -80,15 +79,15 @@ class Shape(models.Model):
         (10, '10'),
         
     ]
-    warm_proofing = models.IntegerField(choices=rate)
-    sound_proofing = models.IntegerField(choices=rate)
-    camera = models.IntegerField()
-    shape_width = models.CharField(max_length=10)
-    shape_height = models.CharField(max_length=10)
-    width_glaze = models.CharField(max_length=10)
+    warm_proofing = models.IntegerField(choices=rate, verbose_name='Теплоизоляция')
+    sound_proofing = models.IntegerField(choices=rate, verbose_name='Шумоизоляция')
+    camera = models.IntegerField(verbose_name='Количество камер')
+    shape_width = models.CharField(max_length=10, verbose_name='Ширина профиля')
+    shape_height = models.CharField(max_length=10, verbose_name='Высота рамы')
+    width_glaze = models.CharField(max_length=10, verbose_name='Ширина стеклопакета')
 
-    warm_proofing_dc = models.CharField(max_length=10)
-    sound_proofing_dc = models.CharField(max_length=10)
+    warm_proofing_dc = models.CharField(max_length=10, verbose_name='Сопротивление теплопередачи в Дц')
+    sound_proofing_dc = models.CharField(max_length=10, verbose_name='Шумоизоляция в Дц')
 
 
     class Meta:
@@ -97,9 +96,9 @@ class Shape(models.Model):
 
 
 class Implement(models.Model):
-    name = models.CharField(max_length=40)
-    country = models.CharField(max_length=30)
-    generator = models.CharField(max_length=30)
+    name = models.CharField(max_length=40, verbose_name='Название')
+    country = models.CharField(max_length=30, verbose_name='Страна производителя')
+    generator = models.CharField(max_length=30, verbose_name='Производитель')
 
     class Meta:
         verbose_name = 'Фурнитура'
@@ -108,9 +107,9 @@ class Implement(models.Model):
 
 
 class Glazing(models.Model):
-    articul =  models.CharField(max_length=20)
-    name = models.CharField(max_length=40)
-    percent = models.FloatField()
+    articul =  models.CharField(max_length=20, verbose_name='Артикул')
+    name = models.CharField(max_length=40, verbose_name='Название')
+    percent = models.FloatField(verbose_name='Заголовок')
     
 
 
@@ -118,13 +117,18 @@ class Glazing(models.Model):
         verbose_name = 'Стеклопакет'
         verbose_name_plural = 'Стеклопакеты'
 
+class Unit(models.Model):
+    unit = models.CharField(max_length=10)
 
+    class Meta:
+        verbose_name = 'Единица измерения'
+        verbose_name_plural = 'Единицы измерения'
 
 
 class Bonus(models.Model):
-    item = models.ForeignKey(Store, on_delete=models.CASCADE)
-    unit = models.PositiveIntegerField()
-    count = models.FloatField()
+    item = models.ForeignKey(Store, on_delete=models.CASCADE, verbose_name='Товар')
+    unit = models.ForeignKey(Unit,on_delete=models.CASCADE,verbose_name='Единица измерения')
+    count = models.FloatField(verbose_name='Бонусы')
 
     class Meta:
         verbose_name = 'Бонус'
@@ -133,26 +137,26 @@ class Bonus(models.Model):
 
 
 class Price(models.Model):
-    name = models.CharField(max_length=40)
-    price = models.IntegerField()
+    region = models.CharField(max_length=40, verbose_name='Регион')
+    price = models.PositiveIntegerField(verbose_name='Цена')
 
     class Meta:
         verbose_name = 'Логистика'
         verbose_name_plural = 'Логистика'
 
 class Role(models.Model):
-    name = models.CharField(max_length=80)
+    name = models.CharField(max_length=80, verbose_name='Роль')
 
     class Meta:
         verbose_name = 'Роль'
         verbose_name_plural = 'Роли'
 
 class Employ(models.Model):
-    fullName = models.CharField(max_length=100)
-    role = models.ForeignKey(Role, on_delete=models.CASCADE)
-    phone = models.CharField(max_length=12)
-    email = models.EmailField()
-    photo = models.FileField(upload_to='employ')
+    fullName = models.CharField(max_length=100, verbose_name='ФИО')
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, verbose_name='Роль')
+    phone = models.CharField(max_length=12, verbose_name='Телефон')
+    email = models.EmailField(verbose_name='E-mail')
+    photo = models.FileField(upload_to='employ', verbose_name='Фото')
 
     class Meta:
         verbose_name = 'Сотрудник'
@@ -160,8 +164,8 @@ class Employ(models.Model):
 
 
 class New(models.Model):
-    title = models.CharField(max_length=200)
-    date = models.DateField(auto_now_add=True)
+    title = models.CharField(max_length=100, verbose_name='Заголовок')
+    date = models.DateField(auto_now_add=True, verbose_name='Дата создания')
 
     class Meta:
         verbose_name = 'Новинка'
@@ -169,9 +173,9 @@ class New(models.Model):
 
 
 class Instructions(models.Model):
-    title = models.CharField(max_length=100)
-    date = models.DateField(auto_now_add=True)
-    file = models.FileField(upload_to='learn/instructions')
+    title = models.CharField(max_length=100, verbose_name='Заголовок')
+    date = models.DateField(auto_now_add=True, verbose_name='Дата создания')
+    file = models.FileField(upload_to='learn/instructions', verbose_name='Файл')
 
     class Meta:
         verbose_name = 'Инструкция'
@@ -179,9 +183,9 @@ class Instructions(models.Model):
 
 
 class Learn(models.Model):
-    title = models.CharField(max_length=100)
-    date = models.DateField(auto_now_add=True)
-    file = models.FileField(upload_to='learn/materials')
+    title = models.CharField(max_length=100, verbose_name='Заголовок')
+    date = models.DateField(auto_now_add=True, verbose_name='Дата создания')
+    file = models.FileField(upload_to='learn/materials', verbose_name='Файл')
 
 
     class Meta:
@@ -191,9 +195,9 @@ class Learn(models.Model):
 
 
 class Certificate(models.Model):
-    title = models.CharField(max_length=100)
-    date = models.DateField(auto_now_add=True)
-    file = models.FileField(upload_to='certificate')
+    title = models.CharField(max_length=100, verbose_name='Заголовок')
+    date = models.DateField(auto_now_add=True, verbose_name='Дата создания')
+    file = models.FileField(upload_to='certificate', verbose_name='Файл')
 
 
     class Meta:
@@ -202,9 +206,9 @@ class Certificate(models.Model):
 
 
 class Video(models.Model):
-    title = models.CharField(max_length=100)
-    date = models.DateField(auto_now_add=True)
-    file = models.FileField(upload_to='learn/video')
+    title = models.CharField(max_length=100, verbose_name='Заголовок')
+    date = models.DateField(auto_now_add=True, verbose_name='Дата создания')
+    file = models.FileField(upload_to='learn/video', verbose_name='Файл')
 
 
     class Meta:
@@ -213,3 +217,13 @@ class Video(models.Model):
 
 
 
+class Offers(models.Model):
+    shape = models.ForeignKey(Shape, on_delete=models.CASCADE, verbose_name='Профиль')
+    implement = models.ForeignKey(Implement, on_delete=models.CASCADE, verbose_name='Фурнитура')
+    glazing = models.ForeignKey(Glazing, on_delete=models.CASCADE, verbose_name='Стеклопакет')
+    size = models.CharField(max_length=20, verbose_name='Размер')
+    price = models.PositiveIntegerField(verbose_name='Базовая цена')
+
+    class Meta:
+        verbose_name = 'Коммерческое предложение'
+        verbose_name_plural = 'Коммерческие предложения'

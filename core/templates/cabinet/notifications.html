@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <form class="d-flex flex-column">
+            <div class="notifications col-xl-10">
+                <div class="notifications__title">Настройка уведомлений</div>
+                <table style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Получение уведомлений</th>
+                            <th>Обмен накладными</th>
+                            <th>Решение рекламаций</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="table__item-center"><div class="checkbox">
+                                <label class="custom-checkbox">
+                                    <input type="checkbox" name="remember" value="indigo">
+                                    <span>E-mail</span>
+                                </label>
+                            </div></td>
+                            <td class="table__item-center"><div class="checkbox">
+                                <label class="custom-checkbox">
+                                    <input type="checkbox" name="remember" value="indigo">
+                                    <span>Отправка по почте</span>
+                                </label>
+                            </div></td>
+                            <td class="table__item-center"><div class="checkbox">
+                                <label class="custom-checkbox">
+                                    <input type="checkbox" name="remember" value="indigo">
+                                    <span>Решение с клиентом</span>
+                                </label>
+                            </div></td>
+                        </tr>
+                        <tr>
+                            <td class="table__item-center"><div class="checkbox">
+                                <label class="custom-checkbox">
+                                    <input type="checkbox" name="remember" value="indigo">
+                                    <span>SMS</span>
+                                </label>
+                            </div></td>
+                            <td class="table__item-center"><div class="checkbox">
+                                <label class="custom-checkbox">
+                                    <input type="checkbox" name="remember" value="indigo">
+                                    <span>Отправка по E-mail</span>
+                                </label>
+                            </div></td>
+                            <td class="table__item-center"><div class="checkbox">
+                                <label class="custom-checkbox">
+                                    <input type="checkbox" name="remember" value="indigo">
+                                    <span>Решение  через меня</span>
+                                </label>
+                            </div></td>
+                        </tr>
+                        <tr>
+                            <td class="table__item-center"><div class="checkbox">
+                                <label class="custom-checkbox">
+                                    <input type="checkbox" name="remember" value="indigo">
+                                    <span>Telegram</span>
+                                </label>
+                            </div></td>
+                            <td class="table__item-center"><div class="checkbox">
+                                <label class="custom-checkbox">
+                                    <input type="checkbox" name="remember" value="indigo">
+                                    <span>Менеджером в руки</span>
+                                </label>
+                            </div></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button class="notifications-btn col-xl-2 mt-4" type="submit">Сохранить</button>
+        </form>
+    </div>
+{% endblock content %}
