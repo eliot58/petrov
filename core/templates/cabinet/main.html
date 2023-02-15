@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}{% endblock title %}
+{% block title %} Главная {% endblock title %}
 
 {% load static %}
 
@@ -12,7 +12,7 @@
                     <div class="bonus__cart-title">Ваши бонусы</div>
                     <div class="bonus__cart-count">
                         <div class="ellipse"></div>
-                        <div class="bonus__count">100</div>
+                        <div class="bonus__count">{{ request.user.diler.bonus }}</div>
                     </div>
                     <div class="bonus__cart-percent">
                         <div class="triangle"></div>
