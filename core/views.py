@@ -104,7 +104,7 @@ def profile(request):
         diler.manager = request.POST['manager']
         diler.calculator = request.POST['calculator']
         diler.save()
-        return render(index)
+        return redirect(profile)
     return render(request, 'cabinet/profile.html')
 
 @login_required(login_url='/login/')
@@ -127,8 +127,17 @@ def store(request):
 @login_required(login_url='/login/')
 def notifications(request):
     if request.method == 'POST':
-        
-        return render(index)
+        diler = request.user.diler
+        diler.sms_alert = True if 'sms_alert' in request.POST else False
+        diler.telegram_alert = True if 'telegram_alert' in request.POST else False
+        diler.email_alert = True if 'email_alert' in request.POST else False
+        diler.change_mail = True if 'change_mail' in request.POST else False
+        diler.change_email = True if 'change_email' in request.POST else False
+        diler.change_manager = True if 'change_manager' in request.POST else False
+        diler.ads_client = True if 'ads_client' in request.POST else False
+        diler.ads_me = True if 'ads_me' in request.POST else False
+        diler.save()
+        return redirect(notifications)
     return render(request, 'cabinet/notifications.html')
 
 def shapes(request):

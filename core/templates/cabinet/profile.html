@@ -5,28 +5,29 @@
 {% block content %}
     <div class="row">
         <form action="{% url 'profile' %}" class="profile col-xl-10" method="post">
+            {% csrf_token %}
             <div class="profile__title">Профиль</div>
             <div class="profile__inner col-xl-6">
                 <div class="auth__input">
-                    <input type="text" placeholder="ФИО" name="fullName">
+                    <input type="text" placeholder="ФИО" name="fullName" value="{{request.user.diler.fullName}}">
                 </div>
                 <div class="auth__input">
-                    <input type="email" placeholder="E-mail" name="email">
+                    <input type="email" placeholder="E-mail" name="email" value="{{request.user.diler.email}}">
                 </div>
                 <div class="auth__input">
-                    <input type="tel" placeholder="Телефон" name="phone">
+                    <input type="tel" placeholder="Телефон" name="phone" value="{{request.user.diler.phone}}">
                 </div>
                 <div class="auth__input">
-                    <input type="tel" placeholder="Телефон оповещений" name="alert_phone">
+                    <input type="tel" placeholder="Телефон оповещений" name="alert_phone" value="{{request.user.diler.alert_phone}}">
                 </div>
                 <div class="auth__input">
-                    <input type="text" placeholder="Адрес" name="address">
+                    <input type="text" placeholder="Адрес" name="address" value="{{request.user.diler.address}}">
                 </div>
                 <div class="auth__input">
-                    <input type="text" placeholder="Территориальный менеджер" name="manager">
+                    <input type="text" placeholder="Территориальный менеджер" name="manager" value="{{request.user.diler.manager}}">
                 </div>
                 <div class="auth__input">
-                    <input type="text" placeholder="Расчетчик" name="calculator">
+                    <input type="text" placeholder="Расчетчик" name="calculator" value="{{request.user.diler.calculator}}">
                 </div>
             </div>
             <button class="save-btn" type="submit">Сохранить</button>

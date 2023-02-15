@@ -80,6 +80,15 @@ h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: 400;}
     align-items: center;
 }
 
+.auth__input img{
+    margin-right: 6px;
+}
+
+
+.auth__input input{
+    width: 100%;
+}
+
 
 .auth__recovery {
     display: flex;
@@ -101,7 +110,8 @@ h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: 400;}
     border-radius: 8px;
     background: #95D5EC;
     color: #000;
-    padding: 10px 16px;
+    text-align: center;
+    padding: 10px 0px;
     font-weight: 700;
     font-size: 20px;
 }
