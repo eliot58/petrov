@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="row">
-        <form action="" class="profile col-xl-10">
+        <form action="{% url 'profile' %}" class="profile col-xl-10" method="post">
             <div class="profile__title">Профиль</div>
             <div class="profile__inner col-xl-6">
                 <div class="auth__input">
@@ -29,7 +29,7 @@
                     <input type="text" placeholder="Расчетчик" name="calculator">
                 </div>
             </div>
-            <button class="save-btn">Сохранить</button>
+            <button class="save-btn" type="submit">Сохранить</button>
         </form>
     </div>
 {% endblock content %}
