@@ -26,7 +26,7 @@ class Diler(models.Model):
 
     ads_client = models.BooleanField(default=False, verbose_name='Решение с клиентом')
     ads_me = models.BooleanField(default=False, verbose_name='Решение через меня')
-
+    
 
     def __str__(self):
         return self.name
@@ -38,6 +38,8 @@ class Diler(models.Model):
 
 
 class Order(models.Model):
+
+    
 
     class Meta:
         verbose_name = 'Заказ'

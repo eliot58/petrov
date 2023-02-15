@@ -76,11 +76,10 @@ h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: 400;}
     border-radius: 8px;
     padding: 10px;
     margin-bottom: 10px;
+    display: flex;
+    align-items: center;
 }
 
-.auth__input img{
-    vertical-align: middle;
-}
 
 .auth__recovery {
     display: flex;
@@ -102,8 +101,7 @@ h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: 400;}
     border-radius: 8px;
     background: #95D5EC;
     color: #000;
-    text-align: center;
-    padding: 10px 0px;
+    padding: 10px 16px;
     font-weight: 700;
     font-size: 20px;
 }
@@ -704,6 +702,11 @@ textarea {
     margin-bottom: 16px;
 }
 
+.store-item img {
+    border: 1px solid #95D5EC;
+    border-radius: 20px;
+}
+
 
 .store-item__data {
     margin-left: 16px;
@@ -792,6 +795,11 @@ textarea {
 
 .shape__item {
     position: relative;
+}
+
+.shape__item img{
+    border: 1px solid #EB6018;
+    border-radius: 48px;
 }
 
 .shape__item-title {

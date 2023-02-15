@@ -19,22 +19,22 @@
                 <img src="{% static 'img/user.png' %}" alt="">
                 <a href="{% url 'profile' %}"><img src="{% static 'img/ico/pen.svg' %}" alt="">Изменить</a>
             </div>
-            <div class="vertical-menu__name">Иванов Иван</div>
+            <div class="vertical-menu__name">{{ request.user.diler.fullName }}</div>
             <nav>
                 <ul class="navbar__links">
-                    <li class="navbar__link navbar__link-active">
+                    <li class="navbar__link {% if request.path == '/orders/' %} navbar__link-active {% endif %}">
                         <div>
                             <img src="{% static 'img/ico/orders.svg' %}" alt="">
                             <a href="{% url 'orders' %}">Заказы</a>
                         </div>
                     </li>
-                    <li class="navbar__link">
+                    <li class="navbar__link  {% if request.path == '/notifications/' %} navbar__link-active {% endif %}">
                         <div>
                             <img src="{% static 'img/ico/settings.svg' %}" alt="">
                             <a href="{% url 'notifications' %}">Настройка уведомлений</a>
                         </div>
                     </li>
-                    <li class="navbar__link">
+                    <li class="navbar__link  {% if request.path == '/store/' %} navbar__link-active {% endif %}">
                         <div>
                             <img src="{% static 'img/ico/store.svg' %}" alt="">
                             <a href="{% url 'store' %}">Магазин</a>
@@ -51,13 +51,18 @@
                             <img src="{% static 'img/ico/services.svg' %}" alt="">
                             <a onclick="if (this.parentNode.nextElementSibling.style.display == 'block'){this.parentNode.nextElementSibling.style.display = 'none'} else {this.parentNode.nextElementSibling.style.display = 'block'};return false;" href="">Сервисы</a>
                         </div>
-                        <ul class="sub-navbar__links">
+                        <ul class="sub-navbar__links" {% if request.path == '/talon/' or request.path == '/ads/' %} style="display: block;" {% endif %}>
                             <li class="sub-navbar__link">
                                 <a href="{% url 'talon' %}">Гарантийный талон</a>
-                                <!-- <img src="img/ico/arrow-right.svg" alt=""> -->
+                                {% if request.path == '/talon/' %} 
+                                    <img src="{% static 'img/ico/arrow-right.svg' %}" alt=""> 
+                                {% endif %}
                             </li>
                             <li class="sub-navbar__link">
                                 <a href="{% url 'ads' %}">Рекламации</a>
+                                {% if request.path == '/ads/' %} 
+                                    <img src="{% static 'img/ico/arrow-right.svg' %}" alt=""> 
+                                {% endif %}
                             </li>
                             <li class="sub-navbar__link">
                                 <a href="">Акт-замеров</a>
@@ -70,7 +75,7 @@
                             <a href="">Финансы</a>
                         </div>
                     </li>
-                    <li class="navbar__link">
+                    <li class="navbar__link  {% if request.path == '/commands/' %} navbar__link-active {% endif %}">
                         <div>
                             <img src="{% static 'img/ico/contacts.svg' %}" alt="">
                             <a href="{% url 'commands' %}">Контакты</a>
@@ -105,11 +110,11 @@
             <header>
                 <div class="container">
                     <nav class="menu">
-                        <a href="{% url 'index' %}" class="menu__link menu__link-active">Главная</a>
-                        <a href="{% url 'news' %}" class="menu__link">Новинки</a>
-                        <a href="{% url 'instructions' %}" class="menu__link">Инструкции</a>
-                        <a href="{% url 'bonus' %}" class="menu__link">Бонусы</a>
-                        <a href="{% url 'offers' %}" class="menu__link">Коммерческие предложения</a>
+                        <a href="{% url 'index' %}" class="menu__link {% if request.path == '/' %} menu__link-active  {% endif %}">Главная</a>
+                        <a href="{% url 'news' %}" class="menu__link {% if request.path == '/news/' %} menu__link-active  {% endif %}">Новинки</a>
+                        <a href="{% url 'instructions' %}" class="menu__link {% if request.path == '/instructions/' %} menu__link-active  {% endif %}">Инструкции</a>
+                        <a href="{% url 'bonus' %}" class="menu__link {% if request.path == '/bonus/' %} menu__link-active  {% endif %}">Бонусы</a>
+                        <a href="{% url 'offers' %}" class="menu__link {% if request.path == '/offers/' %} menu__link-active  {% endif %}">Коммерческие предложения</a>
                         <div class="menu__icons">
                             <a class="menu__icon" href=""><img src="{% static 'img/ico/bell.svg' %}" alt=""></a>
                             <a class="menu__icon" href=""><img src="{% static 'img/ico/phone.svg' %}" alt=""></a>

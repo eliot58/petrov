@@ -67,11 +67,11 @@ def index(request):
 
 @login_required(login_url='/login/')
 def ads(request):
-    pass
+    return render(request, 'cabinet/price.html', {'prices': Price.objects.all()})
 
 @login_required(login_url='/login/')
 def talon(request):
-    pass
+    return render(request, 'cabinet/price.html', {'prices': Price.objects.all()})
 
 def price(request):
     return render(request, 'cabinet/price.html', {'prices': Price.objects.all()})

@@ -16,7 +16,7 @@
                         <div class="proof__title">Теплоизоляция</div>
                         <ul class="d-flex">
                             {% for i in range %}
-                                <li {% if i <= shape.warm_proofing %} class="active" {% endif %}></li>
+                                <li {% if i <= item.warm_proofing %} class="active" {% endif %}></li>
                             {% endfor %}
                         </ul>
                     </div>
@@ -24,7 +24,7 @@
                         <div class="proof__title">Шумоизоляция</div>
                         <ul class="d-flex">
                             {% for i in range %}
-                                <li {% if i <= shape.sound_proofing %} class="active" {% endif %}></li>
+                                <li {% if i <= item.sound_proofing %} class="active" {% endif %}></li>
                             {% endfor %}
                         </ul>
                     </div>
@@ -34,27 +34,27 @@
                         <p class="shape-name">{{ item.name }}</p>
                         <div class="shape-attr d-flex justify-content-between">
                             <div class="shape-attr__key">Количество камер</div>
-                            <div class="shape-attr__value">{{ shape.camera }}</div>
+                            <div class="shape-attr__value">{{ item.camera }}</div>
                         </div>
                         <div class="shape-attr d-flex justify-content-between">
                             <div class="shape-attr__key">Ширина профиля</div>
-                            <div class="shape-attr__value">{{ shape.shape_width }}</div>
+                            <div class="shape-attr__value">{{ item.shape_width }}</div>
                         </div>
                         <div class="shape-attr d-flex justify-content-between">
                             <div class="shape-attr__key">Высота рамы</div>
-                            <div class="shape-attr__value">{{ shape.shape_height }}</div>
+                            <div class="shape-attr__value">{{ item.shape_height }}</div>
                         </div>
                         <div class="shape-attr d-flex justify-content-between">
                             <div class="shape-attr__key">Ширина стеклопакета</div>
-                            <div class="shape-attr__value">{{ shape.width_glaze }}</div>
+                            <div class="shape-attr__value">{{ item.width_glaze }}</div>
                         </div>
                         <div class="shape-attr d-flex justify-content-between">
                             <div class="shape-attr__key">Шумоизоляция</div>
-                            <div class="shape-attr__value">{{ shape.sound_proofing_dc }}</div>
+                            <div class="shape-attr__value">{{ item.sound_proofing_dc }}</div>
                         </div>
                         <div class="shape-attr d-flex justify-content-between">
                             <div class="shape-attr__key">Сопротивление теплопередачи</div>
-                            <div class="shape-attr__value">{{ shape.warm_proofing_dc }}</div>
+                            <div class="shape-attr__value">{{ item.warm_proofing_dc }}</div>
                         </div>
                     </div>
                 </div>
