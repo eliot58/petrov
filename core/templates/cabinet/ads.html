@@ -2,10 +2,12 @@
 
 {% block title %}{% endblock title %}
 
+{% load static %}
+
 {% block content %}
     <div class="row">
         <div class="col-xl-10">
-            <div class="ads-info"><img src="img/ico/info.svg" alt=""> Уважаемые дилеры <br> Перед созданием рекламации просьба ознакомиться с инструкцией, чтобы не получить автоотказ</div>
+            <div class="ads-info"><img src="{% static 'img/ico/info.svg' %}" alt=""> Уважаемые дилеры <br> Перед созданием рекламации просьба ознакомиться с инструкцией, чтобы не получить автоотказ</div>
             <div class="d-flex justify-content-evenly">
                 <button class="ads-info-btn1">Инструкция</button>
                 <button class="ads-info-btn2">Подать рекламацию</button>

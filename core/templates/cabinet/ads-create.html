@@ -2,6 +2,8 @@
 
 {% block title %}{% endblock title %}
 
+{% load static %}
+
 {% block content %}
     <div class="row">
         <form class="ads-create col-xl-10 d-flex flex-column">
@@ -16,19 +18,19 @@
             <div class="upload-files d-flex">
                 <div class="upload-files__title">Прикрепить файлы рекламации</div>
                 <div class="upload-files__btn">
-                    <img src="img/ico/clip.svg" alt="">
+                    <img src="{% static 'img/ico/clip.svg' %}" alt="">
                 </div>
                 <div class="upload-files__btn">
-                    <img src="img/ico/clip.svg" alt="">
+                    <img src="{% static 'img/ico/clip.svg' %}" alt="">
                 </div>
                 <div class="upload-files__btn">
-                    <img src="img/ico/clip.svg" alt="">
+                    <img src="{% static 'img/ico/clip.svg' %}" alt="">
                 </div>
                 <div class="upload-files__btn">
-                    <img src="img/ico/clip.svg" alt="">
+                    <img src="{% static 'img/ico/clip.svg' %}" alt="">
                 </div>
                 <div class="upload-files__btn">
-                    <img src="img/ico/clip.svg" alt="">
+                    <img src="{% static 'img/ico/clip.svg' %}" alt="">
                 </div>
             </div>
             <textarea class="col-xl-10" name="" id="" cols="30" rows="10" placeholder="Какие ваши пожелания? Замена, принять к сведению или компенсация?"></textarea>

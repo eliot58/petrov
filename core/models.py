@@ -38,7 +38,9 @@ class Diler(models.Model):
 
 
 class Order(models.Model):
+    status_choices = [
 
+    ]
     
 
     class Meta:
@@ -139,6 +141,7 @@ class Bonus(models.Model):
 
 
 class Price(models.Model):
+    zone = models.PositiveIntegerField()
     region = models.CharField(max_length=40, verbose_name='Регион')
     price = models.PositiveIntegerField(verbose_name='Цена')
 

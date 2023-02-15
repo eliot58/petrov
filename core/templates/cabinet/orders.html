@@ -2,6 +2,8 @@
 
 {% block title %}{% endblock title %}
 
+{% load static %}
+
 {% block content %}
     <div class="container">
         <div class="row">
@@ -23,7 +25,19 @@
                 <div class="search__title">Найти заказ</div>
                 <div class="search__input">
                     <input type="text">
-                    <img src="img/ico/search.svg" alt="">
+                    <img src="{% static 'img/ico/search.svg' %}" alt="">
+                </div>
+                <div class="search__count">
+                    <span>показать</span>
+                    <select name="" id="">
+                        <option value="" selected disabled></option>
+                        <option value="">10</option>
+                        <option value="">20</option>
+                        <option value="">30</option>
+                        <option value="">50</option>
+                        <option value="">Все</option>
+                    </select>
+                    <span>записей</span>
                 </div>
             </div>
         </div>
