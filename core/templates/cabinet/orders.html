@@ -48,30 +48,40 @@
                         <thead>
                             <tr>
                                 <th>№</th>
-                                <th>Статус</th>
-                                <th>Дата/час доставки Заказчику</th>
-                                <th>Дата заказа</th>
-                                <th>Дата оплаты</th>
-                                <th>Адрес/Телефон Заказчика</th>
-                                <th>Дата/час доставки на склад</th>
-                                <th>Дата/час доставки Заказчику</th>
-                                <th>Крайний срок доставки</th>
-                                <th><img src="img/ico/comment.svg" alt=""></th>
+                                <th>Дата создания</th>
+                                <th>Дата передачи в производство</th>
+                                <th>Плановая дата отгрузки</th>
+                                <th>Измененная дата отгрузки</th>
+                                <th>Время доставки</th>
+                                <th>Фактическая дата отгрузки</th>
+                                <th>Текущее состояние заказа</th>
+                                <th>Количество изделий</th>
+                                <th>Общая площадь изделий</th>
+                                <th>Стоимость заказа</th>
+                                <th>Платеж по заказу</th>
+                                <th>Заказ дилера</th>
+                                <th>Комментарий</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {% for order in orders %}
                             <tr>
-                                <td>292998</td>
-                                <td>Выполнено</td>
-                                <td>16.09.2022</td>
-                                <td>16.09.2022</td>
-                                <td>г.Москва, ул.Калужская 78 +789008765431</td>
-                                <td>16.09.2022, 20.00</td>
-                                <td>16.09.2022, 20.00</td>
-                                <td>#0B344B</td>
-                                <td>16.09.2022, 20.00</td>
-                                <td><img src="img/ico/comment-active.svg" alt=""></td>
+                                <td>{{order.order_name}}</td>
+                                <td>{% if order.order_date_create %}{{order.order_date_create}}{% else %}отсуствует{% endif %}</td>
+                                <td>{% if order.date_start %}{{order.date_start}}{% else %}отсуствует{% endif %}</td>
+                                <td>{% if order.date_end_plan %}{{order.date_end_plan}}{% else %}отсуствует{% endif %}</td>
+                                <td>{% if order.dop_data %}{{order.dop_data}}{% else %}отсуствует{% endif %}</td>
+                                <td>{% if order.deliverytime %}{{order.deliverytime}}{% else %}отсуствует{% endif %}</td>
+                                <td>{% if order.date_end_fact %}{{order.date_end_fact}}{% else %}отсуствует{% endif %}</td>
+                                <td>{{order.state_name}}</td>
+                                <td>{{order.items_qu}}</td>
+                                <td>{{order.items_sqr}}</td>
+                                <td>{{order.order_sm}}</td>
+                                <td>{{order.sm_pay}}</td>
+                                <td>{% if order.No_dil %}{{order.No_dil}}{% else %}{% endif %}</td>
+                                <td>{% if order.dop_comment %}{{order.dop_comment}}{% else %}{% endif %}</td>
                             </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>

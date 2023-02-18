@@ -8,7 +8,8 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from .models import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+import requests
+import json
 
 #LOGIN REGISTER LOGOUT
 #============================================================================
@@ -17,6 +18,7 @@ def login_view(request):
         login_form = LoginForm(request.POST)
         if login_form.is_valid():
             cd = login_form.cleaned_data
+
             user = authenticate(username=cd['username'], password=cd['password'])
             if user.is_active:
                 if 'remember' not in request.POST:
@@ -109,7 +111,14 @@ def profile(request):
 
 @login_required(login_url='/login/')
 def orders(request):
-    return render(request, 'cabinet/orders.html')
+    r = requests.get(f'http://176.62.187.250/loadDataForGridPerSellerCode.php?jsoncallback=jQuery1113010583719635799582_1676741279402&s_code={request.user.diler.seller_code}&create_date_from=2023-01-01&create_date_to=2023-02-18&order_id_from=&order_id_to=&manufacture_date_from=&manufacture_date_to=&ready_date_from=&ready_date_to=&filter_select_state=')
+    print(r.text)
+    s = r.text
+    start = s.index('(')
+    end = s.rindex(')')
+    json_string = s[start+1:end]
+    
+    return render(request, 'cabinet/orders.html', {'orders': json.loads(json_string)})
 
 @login_required(login_url='/login/')
 def store(request):

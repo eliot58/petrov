@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 class Diler(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Дилер')
     fullName = models.CharField(max_length=100, verbose_name='ФИО')
-    email = models.EmailField(verbose_name='E-mail')
-    phone = models.CharField(max_length=12, verbose_name='Телефон')
+    email = models.EmailField(verbose_name='E-mail', blank=True)
+    phone = models.CharField(max_length=12, verbose_name='Телефон', blank=True)
     alert_phone = models.CharField(max_length=12, default='', verbose_name='Телефон для уведомлений')
     address = models.CharField(max_length=200, default='', verbose_name='Адрес')
     discount_window = models.IntegerField(default=0, verbose_name='Скидка на окна')
@@ -14,6 +14,7 @@ class Diler(models.Model):
     calculator = models.CharField(max_length=100, default='', verbose_name='Расчетчик')
     last_login = models.DateTimeField(auto_now=True, verbose_name='Дата последнего входа')
     bonus = models.FloatField(default=0, verbose_name='Бонусы дилера')
+    seller_code = models.CharField(max_length=20)
 
     sms_alert = models.BooleanField(default=False, verbose_name='E-mail')
     telegram_alert = models.BooleanField(default=False, verbose_name='SMS')

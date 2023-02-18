@@ -5,7 +5,8 @@ from django.contrib.auth.models import User
 from .models import Diler
 from django.core.exceptions import ValidationError
 from django.contrib.auth.hashers import check_password
-
+import requests
+import json
 
 class SignupForm(forms.Form):
     fullName = forms.CharField(max_length=100,label='',widget=forms.TextInput(attrs={"placeholder": "Введите ФИО"}))
@@ -45,15 +46,38 @@ class LoginForm(forms.Form):
     def clean_password(self):
         password = self.cleaned_data['password']
         username = self.cleaned_data['username']
-        
-        try:
-            user = User.objects.get(username=username)
-        except User.DoesNotExist:
+
+        r = requests.get(f'http://176.62.187.250/auth.php?jsoncallback=jQuery1113007469605505475574_1676738570680&login={username}&passwd={password}')
+        s = r.text
+        start = s.index('(')
+        end = s.rindex(')')
+        json_string = s[start+1:end]
+
+        data = json.loads(json_string)
+        if data['seller_code'] == 'empty' or data['seller_name'] == 'empty':
             raise ValidationError('Неверный email или пароль')
         else:
-            if not(check_password(password, user.password)):
-                raise ValidationError('Неверный email или пароль')
-        return password
+            try:
+                user = User.objects.get(username=username)
+            except User.DoesNotExist:
+                new_user = User()
+                new_user.username = username
+                new_user.email = username
+                new_user.set_password(password)
+                new_user.save()
+                Diler.objects.create(user=new_user,fullName=data['seller_name'], seller_code=data['seller_code'])
+                return password
+            else:
+                return password
+        
+        # try:
+        #     user = User.objects.get(username=username)
+        # except User.DoesNotExist:
+        #     raise ValidationError('Неверный email или пароль')
+        # else:
+        #     if not(check_password(password, user.password)):
+        #         raise ValidationError('Неверный email или пароль')
+        # return password
                 
         
 
