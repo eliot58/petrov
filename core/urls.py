@@ -7,7 +7,6 @@ from .forms import *
 urlpatterns = [
     path('', index, name='index'),
     path('login/', login_view, name='login_view'),
-    path('signup/', signup, name='signup'),
     path('password_reset/', auth_views.PasswordResetView.as_view(template_name='auth/password_reset_form.html',email_template_name = 'auth/password_reset_email.html', form_class=ResetPassForm), name = 'password_reset'),
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='auth/password_reset_done.html'), name = 'password_reset_done'),
     url(r'^password-reset/confirm/(?P<uidb64>[-\w]+)/(?P<token>[-\w]+)/$', auth_views.PasswordResetConfirmView.as_view(template_name='auth/password_reset_confirm.html',form_class=PassSetForm), name ='password_reset_confirm'),

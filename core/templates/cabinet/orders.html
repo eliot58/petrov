@@ -59,6 +59,9 @@
                                 <th>Общая площадь изделий</th>
                                 <th>Стоимость заказа</th>
                                 <th>Платеж по заказу</th>
+                                <th>Профиль</th>
+                                <th>Фурнитура</th>
+                                <th>Стеклопакет</th>
                                 <th>Заказ дилера</th>
                                 <th>Комментарий</th>
                             </tr>
@@ -78,6 +81,9 @@
                                 <td>{{order.items_sqr}}</td>
                                 <td>{{order.order_sm}}</td>
                                 <td>{{order.sm_pay}}</td>
+                                <td>{{order.prof_name}}</td>
+                                <td>{{order.furn_name}}</td>
+                                <td>{{order.sp_name}}</td>
                                 <td>{% if order.No_dil %}{{order.No_dil}}{% else %}{% endif %}</td>
                                 <td>{% if order.dop_comment %}{{order.dop_comment}}{% else %}{% endif %}</td>
                             </tr>

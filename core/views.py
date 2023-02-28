@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from .forms import *
-from .utils.pass_generator import generator
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -35,29 +34,29 @@ def login_view(request):
     return render(request, 'auth/login.html', {'form': login_form})
 
 
-def signup(request):
-    if request.method == 'POST':
-        password = generator(8)
-        profile_form = SignupForm(request.POST)
-        if profile_form.is_valid():
-            cd = profile_form.cleaned_data
-            new_user = User()
-            new_user.username = cd['email']
-            new_user.email = cd['email']
-            new_user.set_password(password)
-            new_user.save()
-            Diler.objects.create(user=new_user,fullName=cd['fullName'],email=cd['email'],phone=cd['phone'])
-            msg = 'Вы зарегистрировались в петровских окнах' + '\n' + 'Ваш login: ' + request.POST['email'] + '\n' + 'Ваш password: ' + password
-            try:
-                send_mail('Регистрация в todotodo', msg, settings.EMAIL_HOST_USER, [request.POST['email']], fail_silently=False)
-            except:
-                new_user.delete()
-                return render(request, 'auth/lose.html')
-            return render(request, 'auth/success.html')
-    else:
-        profile_form = SignupForm()
+# def signup(request):
+#     if request.method == 'POST':
+#         password = generator(8)
+#         profile_form = SignupForm(request.POST)
+#         if profile_form.is_valid():
+#             cd = profile_form.cleaned_data
+#             new_user = User()
+#             new_user.username = cd['email']
+#             new_user.email = cd['email']
+#             new_user.set_password(password)
+#             new_user.save()
+#             Diler.objects.create(user=new_user,fullName=cd['fullName'],email=cd['email'],phone=cd['phone'])
+#             msg = 'Вы зарегистрировались в петровских окнах' + '\n' + 'Ваш login: ' + request.POST['email'] + '\n' + 'Ваш password: ' + password
+#             try:
+#                 send_mail('Регистрация в todotodo', msg, settings.EMAIL_HOST_USER, [request.POST['email']], fail_silently=False)
+#             except:
+#                 new_user.delete()
+#                 return render(request, 'auth/lose.html')
+#             return render(request, 'auth/success.html')
+#     else:
+#         profile_form = SignupForm()
 
-    return render(request, 'auth/signup.html', {'form': profile_form})
+#     return render(request, 'auth/signup.html', {'form': profile_form})
 
 def logout_view(request):
     logout(request)
@@ -117,7 +116,7 @@ def orders(request):
     start = s.index('(')
     end = s.rindex(')')
     json_string = s[start+1:end]
-    
+    print(json_string)
     return render(request, 'cabinet/orders.html', {'orders': json.loads(json_string)})
 
 @login_required(login_url='/login/')
