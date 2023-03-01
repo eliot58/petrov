@@ -3,7 +3,6 @@ from .models import *
 
 
 admin.site.register(Diler)
-admin.site.register(Order)
 admin.site.register(Shape)
 admin.site.register(Store)
 admin.site.register(Bonus)

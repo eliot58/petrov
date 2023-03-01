@@ -1,6 +1,24 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+def default_cart():
+    return {"items": []}
+
+class Store(models.Model):
+    photo = models.FileField(upload_to='store/img', verbose_name='Фото')
+    title = models.CharField(max_length=20,unique=True, verbose_name='Заголовок')
+    description = models.TextField(verbose_name='Описание')
+    count = models.IntegerField(verbose_name='В наличии')
+    price_of_bonus = models.PositiveIntegerField(verbose_name='Цена в бонусах')
+    price  = models.PositiveIntegerField(verbose_name='Цена в рублях')
+
+
+    class Meta:
+        verbose_name = 'Магазин'
+        verbose_name_plural = 'Магазин'
+    
+
+
 class Diler(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Дилер')
     fullName = models.CharField(max_length=100, verbose_name='ФИО')
@@ -27,6 +45,12 @@ class Diler(models.Model):
 
     ads_client = models.BooleanField(default=False, verbose_name='Решение с клиентом')
     ads_me = models.BooleanField(default=False, verbose_name='Решение через меня')
+
+    cart = models.JSONField(default=default_cart)
+
+    def count(self):
+        return len(self.cart["items"])
+
     
 
     def __str__(self):
@@ -38,39 +62,12 @@ class Diler(models.Model):
         verbose_name_plural = 'Дилеры'
 
 
-class Order(models.Model):
-    status_choices = [
-
-    ]
-    
-
-    class Meta:
-        verbose_name = 'Заказ'
-        verbose_name_plural = 'Заказы'
-
-
-
-
-class Store(models.Model):
-    photo = models.FileField(upload_to='store/img', verbose_name='Фото')
-    title = models.CharField(max_length=20, verbose_name='Заголовок')
-    description = models.TextField(verbose_name='Описание')
-    count = models.IntegerField(verbose_name='В наличии')
-    price_of_bonus = models.PositiveIntegerField(verbose_name='Цена в бонусах')
-    price  = models.PositiveIntegerField(verbose_name='Цена в рублях')
-
-
-    class Meta:
-        verbose_name = 'Магазин'
-        verbose_name_plural = 'Магазин'
-
-
 
 
 
 class Shape(models.Model):
     photo =  models.FileField(upload_to='shape/img', verbose_name='Фото')
-    name = models.CharField(max_length=40, verbose_name='Название')
+    name = models.CharField(max_length=40,unique=True, verbose_name='Название')
     rate = [
         (1, '1'),
         (2, '2'),
@@ -101,7 +98,7 @@ class Shape(models.Model):
 
 
 class Implement(models.Model):
-    name = models.CharField(max_length=40, verbose_name='Название')
+    name = models.CharField(max_length=40,unique=True, verbose_name='Название')
     country = models.CharField(max_length=30, verbose_name='Страна производителя')
     generator = models.CharField(max_length=30, verbose_name='Производитель')
 
@@ -112,7 +109,7 @@ class Implement(models.Model):
 
 
 class Glazing(models.Model):
-    articul =  models.CharField(max_length=20, verbose_name='Артикул')
+    articul =  models.CharField(max_length=20,unique=True, verbose_name='Артикул')
     name = models.CharField(max_length=40, verbose_name='Название')
     percent = models.FloatField(verbose_name='Заголовок')
     
@@ -143,7 +140,7 @@ class Bonus(models.Model):
 
 class Price(models.Model):
     zone = models.PositiveIntegerField()
-    region = models.CharField(max_length=40, verbose_name='Регион')
+    region = models.CharField(max_length=40,unique=True, verbose_name='Регион')
     price = models.PositiveIntegerField(verbose_name='Цена')
 
     class Meta:

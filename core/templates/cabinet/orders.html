@@ -7,38 +7,35 @@
 {% block content %}
     <div class="container">
         <div class="row">
-            <div class="d-flex flex-column align-items-end">
+            <form class="d-flex flex-column align-items-end" method="get" action="{% url 'orders' %}">
                 <div class="period__title">Показать заказы за период</div>
                 <div class="period__form col-xl-5 d-flex justify-content-end">
                     <div class="period__input">
-                        <input type="date">
+                        <input type="date" name="create_date_from" reguired>
                     </div>
                     <div class="period__input">
-                        <input type="date">
+                        <input type="date" name="create_date_to" required>
                     </div>
                 </div>
-                <button class="period__button">Показать</button>
-            </div>
+                <button type="submit" class="period__button">Показать</button>
+            </form>
         </div>
         <div class="row">
             <div class="search col-xl-5">
                 <div class="search__title">Найти заказ</div>
-                <div class="search__input">
-                    <input type="text">
-                    <img src="{% static 'img/ico/search.svg' %}" alt="">
-                </div>
-                <div class="search__count">
+                <form class="search__input" method="get" action="{% url 'orders' %}">
+                    <input type="text" name="search" required>
+                    <img src="{% static 'img/ico/search.svg' %}" onclick="this.parentNode.submit()" alt="">
+                </form>
+                <form class="search__count" method="get" action="{% url 'orders' %}">
                     <span>показать</span>
-                    <select name="" id="">
-                        <option value="" selected disabled></option>
-                        <option value="">10</option>
-                        <option value="">20</option>
-                        <option value="">30</option>
-                        <option value="">50</option>
-                        <option value="">Все</option>
+                    <select name="table_length" id="" onchange="this.parentNode.submit()">
+                        <option value="5" {% if request.GET.table_length != '10' and request.GET.table_length != '20' %} selected {% endif %}>5</option>
+                        <option value="10" {% if request.GET.table_length == '10' %} selected {% endif %}>10</option>
+                        <option value="20" {% if request.GET.table_length == '20' %} selected {% endif %}>20</option>
                     </select>
                     <span>записей</span>
-                </div>
+                </form>
             </div>
         </div>
         <div class="row">
@@ -67,7 +64,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for order in orders %}
+                            {% for order in items %}
                             <tr>
                                 <td>{{order.order_name}}</td>
                                 <td>{% if order.order_date_create %}{{order.order_date_create}}{% else %}отсуствует{% endif %}</td>
@@ -90,6 +87,23 @@
                             {% endfor %}
                         </tbody>
                     </table>
+                </div>
+                <div class="custom-pagination d-flex col-xl-4 align-items-center justify-content-between">
+                    {% if items.has_previous %}
+                        <a class="left-arrow" href="?page={{ items.previous_page_number }}"><img src="{% static 'img/ico/left_arrow.svg' %}" alt=""></a>
+                    {% endif %}
+                    {% for i in items.paginator.page_range %}
+                        {% if i > items.number|add:-4 and i < items.number|add:8 %}
+                            {% if items.number == i %}
+                                <a href="" class="pagination__item pagination__item-active">{{ items.number }}</a>
+                            {% else %}
+                                <a href="?page={{ i }}" class="pagination__item">{{ i }}</a>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if items.has_next %}
+                        <a class="right-arrow" href="?page={{ items.next_page_number }}"><img src="{% static 'img/ico/right_arrow.svg' %}" alt=""></a>
+                    {% endif %}
                 </div>
             </div>
         </div>

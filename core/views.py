@@ -1,16 +1,17 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
 from .forms import *
-from django.core.mail import send_mail
-from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from .models import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import requests
 import json
+from datetime import datetime
+    
 
-#LOGIN REGISTER LOGOUT
+
+
+#LOGIN LOGOUT
 #============================================================================
 def login_view(request):
     if request.method == 'POST':
@@ -34,33 +35,11 @@ def login_view(request):
     return render(request, 'auth/login.html', {'form': login_form})
 
 
-# def signup(request):
-#     if request.method == 'POST':
-#         password = generator(8)
-#         profile_form = SignupForm(request.POST)
-#         if profile_form.is_valid():
-#             cd = profile_form.cleaned_data
-#             new_user = User()
-#             new_user.username = cd['email']
-#             new_user.email = cd['email']
-#             new_user.set_password(password)
-#             new_user.save()
-#             Diler.objects.create(user=new_user,fullName=cd['fullName'],email=cd['email'],phone=cd['phone'])
-#             msg = 'Вы зарегистрировались в петровских окнах' + '\n' + 'Ваш login: ' + request.POST['email'] + '\n' + 'Ваш password: ' + password
-#             try:
-#                 send_mail('Регистрация в todotodo', msg, settings.EMAIL_HOST_USER, [request.POST['email']], fail_silently=False)
-#             except:
-#                 new_user.delete()
-#                 return render(request, 'auth/lose.html')
-#             return render(request, 'auth/success.html')
-#     else:
-#         profile_form = SignupForm()
-
-#     return render(request, 'auth/signup.html', {'form': profile_form})
-
 def logout_view(request):
     logout(request)
     return redirect(login_view)
+
+
 
 @login_required(login_url='/login/')
 def index(request):
@@ -110,14 +89,48 @@ def profile(request):
 
 @login_required(login_url='/login/')
 def orders(request):
-    r = requests.get(f'http://176.62.187.250/loadDataForGridPerSellerCode.php?jsoncallback=jQuery1113010583719635799582_1676741279402&s_code={request.user.diler.seller_code}&create_date_from=2023-01-01&create_date_to=2023-02-18&order_id_from=&order_id_to=&manufacture_date_from=&manufacture_date_to=&ready_date_from=&ready_date_to=&filter_select_state=')
-    print(r.text)
+    if 'create_date_to' in request.GET:
+        r = requests.get(f'http://176.62.187.250/loadDataForGridPerSellerCode.php?jsoncallback=jQuery1113010583719635799582_1676741279402&s_code={request.user.diler.seller_code}&create_date_from={request.GET["create_date_from"]}-01-01&create_date_to={request.GET["create_date_to"]}&order_id_from=&order_id_to=&manufacture_date_from=&manufacture_date_to=&ready_date_from=&ready_date_to=&filter_select_state=')
+    else:
+        current_datetime = datetime.now()
+        r = requests.get(f'http://176.62.187.250/loadDataForGridPerSellerCode.php?jsoncallback=jQuery1113010583719635799582_1676741279402&s_code={request.user.diler.seller_code}&create_date_from={current_datetime.year}-01-01&create_date_to={current_datetime.date()}&order_id_from=&order_id_to=&manufacture_date_from=&manufacture_date_to=&ready_date_from=&ready_date_to=&filter_select_state=')
     s = r.text
     start = s.index('(')
     end = s.rindex(')')
     json_string = s[start+1:end]
-    print(json_string)
-    return render(request, 'cabinet/orders.html', {'orders': json.loads(json_string)})
+
+
+
+    items = json.loads(json_string)
+
+    if 'search' in request.GET:
+        newitems = []
+        for item in items:
+            if item['order_name'].find(request.GET['search']) != -1:
+                newitems.append(item)
+                continue
+            if item['prof_name'].find(request.GET['search']) != -1:
+                newitems.append(item)
+                continue
+            if item['furn_name'].find(request.GET['search']) != -1:
+                newitems.append(item)
+                continue
+            if item['sp_name'].find(request.GET['search']) != -1:
+                newitems.append(item)
+
+        items = newitems
+
+    paginator = Paginator(items, int(request.GET['table_length']) if 'table_length' in request.GET else 5)
+    page = request.GET.get('page')
+    try:
+        items = paginator.page(page)
+    except PageNotAnInteger:
+        items = paginator.page(1)
+    except EmptyPage:
+        items = paginator.page(paginator.num_pages)
+
+
+    return render(request, 'cabinet/orders.html', {'items': items})
 
 @login_required(login_url='/login/')
 def store(request):

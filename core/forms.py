@@ -54,6 +54,7 @@ class LoginForm(forms.Form):
         json_string = s[start+1:end]
 
         data = json.loads(json_string)
+
         if data['seller_code'] == 'empty' or data['seller_name'] == 'empty':
             raise ValidationError('Неверный email или пароль')
         else:
