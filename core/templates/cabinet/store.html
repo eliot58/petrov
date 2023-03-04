@@ -11,19 +11,21 @@
                 {% for item in items %}
                 <div class="store-item d-flex col-xl-6">
                     <img src="{{ item.photo.url }}" width="255" height="330" alt="">
-                    <div class="store-item__data d-flex flex-column col-xl-4">
+                    <form method="post" action="{% url 'cart' %}" class="store-item__data d-flex justify-content-between flex-column col-xl-4">
+                        {% csrf_token %}
                         <div class="store-item__data-title">{{ item.title }}</div>
                         <div class="store-item__data-description">{{ item.description }}</div>
-                        <div class="store-item__data-all">В наличии: {{ item.count }}</div>
-                        <div class="store-item__data-bonus-price">{{ item.price_of_bonus }}</div>
-                        <div class="store-item__data-price">{{ item.price }}</div>
+                        <div class="store-item__data-all">В наличии: {{ item.count }} шт</div>
+                        <div class="store-item__data-bonus-price">{{ item.price_of_bonus }} б</div>
+                        <div class="store-item__data-price">{{ item.price }} ₽</div>
                         <div class="store-item__data-count d-flex justify-content-between">
-                            <span>-</span>
-                            <input type="text" value="1">
-                            <span>+</span>
+                            <span onclick="minus(this)">-</span>
+                            <input type="text" name="count" value="1">
+                            <span onclick="plus(this)">+</span>
                         </div>
-                        <button class="cart__btn" style="padding: 10px 20px;">Добавить в корзину</button>
-                    </div>
+                        <input type="text" name="item_id" value="{{ item.id }}" hidden>
+                        <button type="button" onclick="instock('{{item.count}}', this.previousElementSibling.previousElementSibling.getElementsByTagName('input')[0].value, this.parentNode)" class="cart__btn" style="padding: 10px 20px;">Добавить в корзину</button>
+                    </form>
                 </div>
                 {% endfor %}
             </div>
@@ -47,3 +49,26 @@
         </div>
     </div>
 {% endblock content %}
+
+{% block script %} 
+    <script>
+        function minus(element){
+            i = element.nextElementSibling;
+            if (i.value != 0){
+                i.value = Number(i.value) - 1
+            }
+        }
+        function plus(element){
+            i = element.previousElementSibling;
+            i.value = Number(i.value) + 1
+        }
+        function instock(stock, count, form){
+            console.log(stock, count)
+            if (Number(stock) >= Number(count)){
+                form.submit()
+            } else {
+                alert("В наличии " + stock + "шт")
+            }
+        }
+    </script>
+{% endblock script %}

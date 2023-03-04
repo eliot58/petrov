@@ -20,23 +20,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><img src="img/Rectangle 4.png" width="122" height="122" alt=""></td>
-                        <td style="font-size: 22px; font-weight: 600;">Зразок фасадной системы</td>
-                        <td style="font-size: 25px;font-weight: 600;color: #EB6018;">1500</td>
-                        <td style="font-size: 25px;font-weight: 600;color: #EB6018;">1500</td>
-                        <td><div class="store-item__data-count d-flex justify-content-between" style="margin-bottom: 0px;">
-                            <span>-</span>
-                            <input type="text" value="1">
-                            <span>+</span>
-                        </div></td>
-                        <td style="font-size: 25px;font-weight: 600;color: #EB6018;">1500</td>
-                        <td><img src="img/ico/trash.svg" alt=""></td>
-                    </tr>
+                    {% for item in items %}
+                        <tr>
+                            <td><img src="{{ item.1.photo }}" width="122" height="122" alt=""></td>
+                            <td style="font-size: 22px; font-weight: 600;">{{ item.1.title }}</td>
+                            <td style="font-size: 25px;font-weight: 600;color: #EB6018;">{{ item.1.price }} ₽</td>
+                            <td style="font-size: 25px;font-weight: 600;color: #EB6018;">{{ item.1.price_of_bonus }}</td>
+                            <td>
+                                <div class="store-item__data-count d-flex justify-content-between" style="margin-bottom: 0px;">
+                                    <span>-</span>
+                                    <input type="text" value="{{ item.1.count }}">
+                                    <span>+</span>
+                                </div>
+                            </td>
+                            <td style="font-size: 25px;font-weight: 600;color: #EB6018;">{{ item.1.all_price }}</td>
+                            <td><a href="{% url 'cart_item_delete' item.0 %}"><img src="{% static 'img/ico/trash.svg' %}" alt=""></a></td>
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
             <div class="d-flex justify-content-between">
-                <button class="cart__btn" style="padding: 10px 20px;">Вернуться к магазину</button>
+                <a href="{% url 'store' %}" class="cart__btn" style="padding: 10px 20px; color: black;">Вернуться к магазину</a>
                 <button class="cart__btn" style="padding: 10px 20px;">Обновить корзину</button>
             </div>
         </div>
@@ -46,7 +50,7 @@
             <div class="results__title">Итоги корзины</div>
             <div class="price d-flex justify-content-between">
                 <div class="price__key">Промежуточный итог</div>
-                <div class="price__value">1000</div>
+                <div class="price__value">{{ request.user.diler.total_price }}</div>
             </div>
             <div class="price d-flex justify-content-between">
                 <div class="price__key">Доставка</div>
@@ -54,9 +58,10 @@
             </div>
             <div class="price d-flex justify-content-between">
                 <div class="price__key">Итого</div>
-                <div class="price__value">1500</div>
+                <div class="price__value">{{ request.user.diler.total_price }}</div>
             </div>
             <button class="col-xl-3 cart__btn" style="padding: 10px 0px; margin-top: 16px;">Оформить заказ</button>
         </div>
     </div>
 {% endblock content %}
+

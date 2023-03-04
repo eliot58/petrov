@@ -7,6 +7,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.hashers import check_password
 import requests
 import json
+from django.utils import timezone
 
 class SignupForm(forms.Form):
     fullName = forms.CharField(max_length=100,label='',widget=forms.TextInput(attrs={"placeholder": "Введите ФИО"}))
@@ -66,7 +67,7 @@ class LoginForm(forms.Form):
                 new_user.email = username
                 new_user.set_password(password)
                 new_user.save()
-                Diler.objects.create(user=new_user,fullName=data['seller_name'], seller_code=data['seller_code'])
+                Diler.objects.create(user=new_user,fullName=data['seller_name'], seller_code=data['seller_code'], last_login=timezone.now())
                 return password
             else:
                 return password

@@ -6,6 +6,7 @@ from .models import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import requests
 import json
+from django.utils import timezone
 from datetime import datetime
     
 
@@ -43,6 +44,10 @@ def logout_view(request):
 
 @login_required(login_url='/login/')
 def index(request):
+    diler = request.user.diler
+    diler.last_login = timezone.now()
+    diler.save()
+
     return render(request, 'cabinet/main.html', {'bonuses': Bonus.objects.all()[:3], 'news': New.objects.all()[:5]})
 
 @login_required(login_url='/login/')
@@ -51,14 +56,41 @@ def ads(request):
 
 @login_required(login_url='/login/')
 def talon(request):
-    return render(request, 'cabinet/price.html', {'prices': Price.objects.all()})
+    return render(request, 'cabinet/talon.html')
 
 def price(request):
-    return render(request, 'cabinet/price.html', {'prices': Price.objects.all()})
+    return render(request, 'cabinet/price.html', {'prices': Price.objects.all().order_by('zone')})
 
 @login_required(login_url='/login/')
 def cart(request):
-    return render(request, 'cabinet/cart.html')
+    if request.method == 'POST':
+        diler = request.user.diler
+        item = Store.objects.get(id=request.POST["item_id"])
+        if str(item.id) in diler.cart:
+            diler.cart[str(item.id)]['count'] += int(request.POST['count'])
+            diler.cart[str(item.id)]['all_price'] += int(item.price) * int(request.POST['count'])
+        else:
+            diler.cart[item.id] = {
+                'photo': item.photo.url,
+                'title': item.title,
+                'price': item.price,
+                'price_of_bonus': item.price_of_bonus,
+                'count': int(request.POST["count"]),
+                'all_price': int(item.price) * int(request.POST['count'])
+            }
+        for key, value in diler.cart.items():
+            diler.total_price += int(value['all_price'])
+        diler.save()
+        return redirect(store)
+    print(request.user.diler.cart)
+    return render(request, 'cabinet/cart.html', {'items': request.user.diler.cart.items()})
+
+@login_required(login_url='/login/')
+def cart_item_delete(request, id):
+    diler = request.user.diler
+    del diler.cart[str(id)]
+    diler.save()
+    return redirect(cart)
 
 
 def news(request):
@@ -70,6 +102,10 @@ def bonus(request):
 
 def offers(request):
     return render(request, 'cabinet/offers.html', {'offers': Offers.objects.all()})
+
+
+def sample(request):
+    return redirect(Sample.objects.get(id=1).file.url)
 
 
 @login_required(login_url='/login/')

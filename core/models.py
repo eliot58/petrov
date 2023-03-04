@@ -1,8 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django_countries.fields import CountryField
 
-def default_cart():
-    return {"items": []}
 
 class Store(models.Model):
     photo = models.FileField(upload_to='store/img', verbose_name='Фото')
@@ -11,6 +10,9 @@ class Store(models.Model):
     count = models.IntegerField(verbose_name='В наличии')
     price_of_bonus = models.PositiveIntegerField(verbose_name='Цена в бонусах')
     price  = models.PositiveIntegerField(verbose_name='Цена в рублях')
+
+    def __str__(self) -> str:
+        return self.title
 
 
     class Meta:
@@ -21,7 +23,7 @@ class Store(models.Model):
 
 class Diler(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Дилер')
-    fullName = models.CharField(max_length=100, verbose_name='ФИО')
+    fullName = models.CharField(max_length=100, verbose_name='Название компании')
     email = models.EmailField(verbose_name='E-mail', blank=True)
     phone = models.CharField(max_length=12, verbose_name='Телефон', blank=True)
     alert_phone = models.CharField(max_length=12, default='', verbose_name='Телефон для уведомлений')
@@ -30,7 +32,7 @@ class Diler(models.Model):
     accessories_discount = models.IntegerField(default=0, verbose_name='Скидка на аксессуары')
     manager = models.CharField(max_length=100, default='', verbose_name='Территориальный менеджер')
     calculator = models.CharField(max_length=100, default='', verbose_name='Расчетчик')
-    last_login = models.DateTimeField(auto_now=True, verbose_name='Дата последнего входа')
+    last_login = models.DateTimeField(verbose_name='Дата последнего входа')
     bonus = models.FloatField(default=0, verbose_name='Бонусы дилера')
     seller_code = models.CharField(max_length=20)
 
@@ -46,10 +48,12 @@ class Diler(models.Model):
     ads_client = models.BooleanField(default=False, verbose_name='Решение с клиентом')
     ads_me = models.BooleanField(default=False, verbose_name='Решение через меня')
 
-    cart = models.JSONField(default=default_cart)
+    cart = models.JSONField(default=dict())
+
+    total_price = models.PositiveIntegerField(default=0)
 
     def count(self):
-        return len(self.cart["items"])
+        return len(self.cart.items())
 
     
 
@@ -92,6 +96,10 @@ class Shape(models.Model):
     sound_proofing_dc = models.CharField(max_length=10, verbose_name='Шумоизоляция в Дц')
 
 
+    def __str__(self) -> str:
+        return self.name
+
+
     class Meta:
         verbose_name = 'Профильная система'
         verbose_name_plural = 'Профильные системы'
@@ -99,8 +107,12 @@ class Shape(models.Model):
 
 class Implement(models.Model):
     name = models.CharField(max_length=40,unique=True, verbose_name='Название')
-    country = models.CharField(max_length=30, verbose_name='Страна производителя')
+
+    country = CountryField(verbose_name='Страна производителя')
     generator = models.CharField(max_length=30, verbose_name='Производитель')
+
+    def __str__(self) -> str:
+        return self.name
 
     class Meta:
         verbose_name = 'Фурнитура'
@@ -111,7 +123,10 @@ class Implement(models.Model):
 class Glazing(models.Model):
     articul =  models.CharField(max_length=20,unique=True, verbose_name='Артикул')
     name = models.CharField(max_length=40, verbose_name='Название')
-    percent = models.FloatField(verbose_name='Заголовок')
+    percent = models.FloatField(verbose_name='Процент')
+
+    def __str__(self) -> str:
+        return self.name
     
 
 
@@ -121,6 +136,10 @@ class Glazing(models.Model):
 
 class Unit(models.Model):
     unit = models.CharField(max_length=10)
+
+
+    def __str__(self) -> str:
+        return self.unit
 
     class Meta:
         verbose_name = 'Единица измерения'
@@ -150,6 +169,10 @@ class Price(models.Model):
 class Role(models.Model):
     name = models.CharField(max_length=80, verbose_name='Роль')
 
+
+    def __str__(self) -> str:
+        return self.name
+
     class Meta:
         verbose_name = 'Роль'
         verbose_name_plural = 'Роли'
@@ -171,8 +194,8 @@ class New(models.Model):
     date = models.DateField(auto_now_add=True, verbose_name='Дата создания')
 
     class Meta:
-        verbose_name = 'Новинка'
-        verbose_name_plural = 'Новинки'
+        verbose_name = 'Новость'
+        verbose_name_plural = 'Новости'
 
 
 class Instructions(models.Model):
@@ -230,3 +253,11 @@ class Offers(models.Model):
     class Meta:
         verbose_name = 'Коммерческое предложение'
         verbose_name_plural = 'Коммерческие предложения'
+
+
+class Sample(models.Model):
+    file = models.FileField(upload_to="sample")
+
+    class Meta:
+        verbose_name = 'Акт замеров'
+        verbose_name_plural = 'Акт замеров'

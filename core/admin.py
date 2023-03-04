@@ -2,28 +2,81 @@ from django.contrib import admin
 from .models import *
 
 
-admin.site.register(Diler)
-admin.site.register(Shape)
-admin.site.register(Store)
-admin.site.register(Bonus)
+@admin.register(Diler)
+class DilerAdmin(admin.ModelAdmin):
+    list_display = ['user', 'fullName', 'email', 'phone', 'address', 'seller_code', 'last_login']
+
+
+@admin.register(Store)
+class StoreAdmin(admin.ModelAdmin):
+    list_display = ['title', 'description', 'count', 'price', 'price_of_bonus']
+
+
+@admin.register(Shape)
+class ShapeAdmin(admin.ModelAdmin):
+    list_display = ['name', 'warm_proofing', 'sound_proofing', 'camera', 'shape_width', 'shape_height', 'width_glaze', 'warm_proofing_dc', 'sound_proofing_dc']
+
+
+@admin.register(Implement)
+class ImplementAdmin(admin.ModelAdmin):
+    list_display = ['name', 'country', 'generator']
+
+
+@admin.register(Glazing)
+class GlazingAdmin(admin.ModelAdmin):
+    list_display = ['articul', 'name', 'percent']
+
+
+@admin.register(Bonus)
+class BonusAdmin(admin.ModelAdmin):
+    list_display = ['item', 'unit', 'count']
+
+
+@admin.register(Price)
+class PriceAdmin(admin.ModelAdmin):
+    list_display = ['zone', 'region', 'price']
+
+
+
+@admin.register(Employ)
+class EmployAdmin(admin.ModelAdmin):
+    list_display = ['fullName', 'role', 'phone', 'email']
+
+
+@admin.register(Offers)
+class OffersAdmin(admin.ModelAdmin):
+    list_display = ['shape', 'implement', 'glazing', 'size', 'price']
+
+
+@admin.register(New)
+class NewAdmin(admin.ModelAdmin):
+    list_display = ['date', 'title']
+
+
+@admin.register(Instructions)
+class InstructionsAdmin(admin.ModelAdmin):
+    list_display = ['date', 'title']
+
+
+
+@admin.register(Learn)
+class LearnAdmin(admin.ModelAdmin):
+    list_display = ['date', 'title']
+
+
+@admin.register(Certificate)
+class CertificateAdmin(admin.ModelAdmin):
+    list_display = ['date', 'title']
+
+
+
+@admin.register(Video)
+class VideoAdmin(admin.ModelAdmin):
+    list_display = ['date', 'title']
+
+
+admin.site.register(Role)
+
 admin.site.register(Unit)
 
-
-
-admin.site.register(Implement)
-admin.site.register(Glazing)
-admin.site.register(Employ)
-admin.site.register(Price)
-admin.site.register(Role)
-admin.site.register(Instructions)
-
-
-admin.site.register(New)
-admin.site.register(Learn)
-admin.site.register(Certificate)
-
-admin.site.register(Video)
-admin.site.register(Offers)
-
-
-
+admin.site.register(Sample)
