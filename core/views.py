@@ -62,11 +62,9 @@ def ads(request):
 @login_required(login_url='/login/')
 def talon(request):
     if request.method == "POST":
-        os.system('rm -rf render.docx')
         f = []
         r = requests.get(f"http://176.62.187.250/loadpic.php?order_id={request.POST['order_id']}")
         items = json.loads(r.text)
-        os.system('rm -rf render.docx')
         for i in range(len(items)):
             doc = Document("passport.docx")
 
