@@ -258,6 +258,20 @@ class Offers(models.Model):
 class Sample(models.Model):
     file = models.FileField(upload_to="sample")
 
+    def __str__(self) -> str:
+        return "Акт замеров"
+
     class Meta:
         verbose_name = 'Акт замеров'
         verbose_name_plural = 'Акт замеров'
+
+
+class Passports(models.Model):
+    diler = models.ForeignKey(Diler, on_delete=models.CASCADE)
+    file = models.FileField(upload_to="passports")
+
+
+    class Meta:
+        verbose_name = 'Паспорт качества'
+        verbose_name_plural = 'Паспорты качества'
+

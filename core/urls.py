@@ -25,5 +25,6 @@ urlpatterns = [
     path('bonus/', bonus, name='bonus'),
     path('ads/', ads, name='ads'),
     path('talon/', talon, name='talon'),
-    path('cart_item_delete/<int:id>/', cart_item_delete, name="cart_item_delete")
+    path('cart_item_delete/<int:id>/', cart_item_delete, name="cart_item_delete"),
+    path('sample/', sample, name="sample")
 ]

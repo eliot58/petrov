@@ -1,3 +1,4 @@
+from pathlib import Path
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .forms import *
@@ -8,6 +9,10 @@ import requests
 import json
 from django.utils import timezone
 from datetime import datetime
+from python_docx_replace import docx_replace
+from docx import Document
+import os
+from django.core.files import File
     
 
 
@@ -56,6 +61,53 @@ def ads(request):
 
 @login_required(login_url='/login/')
 def talon(request):
+    if request.method == "POST":
+        os.system('rm -rf render.docx')
+        f = []
+        r = requests.get(f"http://176.62.187.250/loadpic.php?order_id={request.POST['order_id']}")
+        items = json.loads(r.text)
+        os.system('rm -rf render.docx')
+        for i in range(len(items)):
+            doc = Document("passport.docx")
+
+            my_dict = {
+                "o_name": items[i]['o_name'],
+                "qu": items[i]['qu'],
+                "p_name": items[i]['p_name'],
+                "f_name": items[i]['f_name'],
+                "c1_name": items[i]['c1_name'],
+                "c2_name": items[i]['c2_name'],
+                "sqr": items[i]['sqr'],
+                "numpos": items[i]['numpos'],
+                "glasses": items[i]['glasses'],
+            }
+
+            docx_replace(doc, **my_dict)
+            
+            doc.save(f"render/replace{i}.docx")
+
+            f.append(f"render/replace{i}.docx")
+            docs = []
+            i = 0
+            for item in f:
+                docs.append(Document(item))
+                if (i != 0):
+                    docs[i].add_page_break()
+                    for element in docs[i].element.body:
+                        docs[0].element.body.append(element)
+                i = i + 1
+            docs[0].save('render.docx')
+
+        passport = Passports()
+        passport.diler = request.user.diler
+        path = Path('render.docx')
+        with path.open(mode='rb') as f:
+            passport.file = File(f,name=path.name)
+            passport.save()
+
+        return redirect(passport.file.url)
+        
+
     return render(request, 'cabinet/talon.html')
 
 def price(request):
