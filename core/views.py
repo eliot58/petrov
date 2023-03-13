@@ -270,3 +270,15 @@ def certificate(request):
 
 def videolearn(request): 
     return render(request, 'cabinet/video.html', {'videos': Video.objects.all()})
+
+def commands(request):
+    items = Employ.objects.all().order_by('id')
+    paginator = Paginator(items, 3)
+    page = request.GET.get('page')
+    try:
+        items = paginator.page(page)
+    except PageNotAnInteger:
+        items = paginator.page(1)
+    except EmptyPage:
+        items = paginator.page(paginator.num_pages)
+    return render(request, 'cabinet/commands.html', {'items': items})

@@ -112,7 +112,7 @@
                 <div class="container">
                     <nav class="menu">
                         <a href="{% url 'index' %}" class="menu__link {% if request.path == '/' %} menu__link-active  {% endif %}">Главная</a>
-                        <a href="{% url 'news' %}" class="menu__link {% if request.path == '/news/' %} menu__link-active  {% endif %}">Новинки</a>
+                        <a href="{% url 'news' %}" class="menu__link {% if request.path == '/news/' %} menu__link-active  {% endif %}">Новости</a>
                         <a href="{% url 'instructions' %}" class="menu__link {% if request.path == '/instructions/' %} menu__link-active  {% endif %}">Инструкции</a>
                         <a href="{% url 'bonus' %}" class="menu__link {% if request.path == '/bonus/' %} menu__link-active  {% endif %}">Бонусы</a>
                         <a href="{% url 'offers' %}" class="menu__link {% if request.path == '/offers/' %} menu__link-active  {% endif %}">Коммерческие предложения</a>

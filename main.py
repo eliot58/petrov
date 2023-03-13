@@ -1,14 +1,15 @@
-from python_docx_replace import docx_replace
 from docx import Document
+from docxcompose.composer import Composer
 
-doc = Document("passport.docx")
+def combine_all_docx(filename_master,files_list):
+    number_of_sections=len(files_list)
+    master = Document(filename_master)
+    composer = Composer(master)
+    for i in range(0, number_of_sections):
+        doc_temp = Document(files_list[i])
+        composer.append(doc_temp)
+    composer.save("combined_file.docx")
 
-my_dict = {
-    "o_name": "Ivan",
-    "qu": "3434"
-}
+items = ["render/replace0.docx", "render/replace7.docx", "render/replace9.docx"]
 
-docx_replace(doc, **my_dict)
-
-
-doc.save("replaced.docx")
+combine_all_docx('template.docx', items)
