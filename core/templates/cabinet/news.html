@@ -7,16 +7,22 @@
 {% block content %}
     <div class="row">
         <div class="new col-xl-10">
-            <div class="new__title">Новинки</div>
-            {% for new in news %}
-            <div class="new__items col-xl-12">
-                <div class="new__item">
-                    <img class="calendar" src="{% static 'img/ico/calendar.svg' %}" alt="">
-                    <div class="new__item-date">{{ new.date }}</div>
-                    <div class="new__item-title">{{ new.title }}</div>
+            <div class="new__title">Новости</div>
+            <div class="upload__items col-xl-12">
+                {% for new in news %}
+                <div class="upload__item">
+                    <div class="d-flex align-items-center">
+                        <img class="calendar" src="{% static 'img/ico/calendar.svg' %}" alt="">
+                        <div class="new__item-date">{{ new.date|date:'d.m.Y' }}</div>
+                        <div class="new__item-title">{{ new.title }}</div>
+                    </div>
+                    <a class="download d-flex align-items-center" href="{{ new.file.url }}">
+                        <div class="download__text">Скачать</div>
+                        <img class="download__img" src="{% static 'img/ico/download.svg' %}" alt="">
+                    </a>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
     </div>
 {% endblock content %}

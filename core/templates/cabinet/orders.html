@@ -66,7 +66,7 @@
                         <tbody>
                             {% for order in items %}
                             <tr>
-                                <td>{{order.order_name}}</td>
+                                <td>{{ order.order_name }}</td>
                                 <td>{% if order.order_date_create %}{{order.order_date_create}}{% else %}отсуствует{% endif %}</td>
                                 <td>{% if order.date_start %}{{order.date_start}}{% else %}отсуствует{% endif %}</td>
                                 <td>{% if order.date_end_plan %}{{order.date_end_plan}}{% else %}отсуствует{% endif %}</td>

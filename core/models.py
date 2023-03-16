@@ -192,6 +192,7 @@ class Employ(models.Model):
 class New(models.Model):
     title = models.CharField(max_length=100, verbose_name='Заголовок')
     date = models.DateField(auto_now_add=True, verbose_name='Дата создания')
+    file = models.FileField(upload_to='news', verbose_name='Файл')
 
     class Meta:
         verbose_name = 'Новость'

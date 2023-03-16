@@ -131,7 +131,7 @@
                                 background: #f35320;
                                 color: #ffffff;
                                 font-size: 8px;
-                                font-weight: 600;">{{ request.user.diler.count }}</span>
+                                font-weight: 600;">{% if request.user.diler %}{{ request.user.diler.count }}{% endif %}</span>
                             </a>
                         </div>
                     </nav>

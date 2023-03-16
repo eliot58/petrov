@@ -13,7 +13,7 @@
                 <div class="upload__item">
                     <div class="d-flex align-items-center">
                         <img class="calendar" src="{% static 'img/ico/calendar.svg' %}" alt="">
-                        <div class="new__item-date">{{ learn.date }}</div>
+                        <div class="new__item-date">{{ learn.date|date:'d.m.Y' }}</div>
                         <div class="new__item-title">{{ learn.title }}</div>
                     </div>
                     <a class="download d-flex align-items-center" href="{{ learn.file.url }}">

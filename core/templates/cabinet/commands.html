@@ -8,12 +8,24 @@
     <div class="row">
         <div class="commands col-xl-9 d-flex justify-content-between">
             {% for command in items %}
-            <div class="commands__person d-flex flex-column">
+            <div class="shape__item m-4">
                 <img src="{{ command.photo.url }}" height="303" width="323" alt="">
-                <div class="commands__person-name"><span>ФИО:</span> {{ command.fullName }}</div>
-                <div class="commands__person-role"><span>Роль:</span> {{ command.role.name }}</div>
-                <div class="commands__person-email"><span>E-mail:</span> {{ command.email }}</div>
-                <div class="commands__person-phone"><span>Телефон:</span> {{ command.phone }}</div>
+                <button class="shape__btn" style="margin-top: 10px;" onclick="this.nextElementSibling.style.display = 'block'; this.style.borderRadius = '0px 0px 50px 50px'">{{ command.role.name }}</button>
+                <div class="shape__popup">
+                    <img class="shape-popup__exit" src="{% static 'img/ico/exit.svg' %}" onclick="this.parentNode.style.display = 'none'; this.parentNode.previousElementSibling.style.borderRadius = '15px'" alt="">
+                    <div class="shape-attr d-flex justify-content-between align-items-center">
+                        <div class="shape-attr__key">ФИО</div>
+                        <div class="shape-attr__value">{{ command.fullName }}</div>
+                    </div>
+                    <div class="shape-attr d-flex justify-content-between align-items-center">
+                        <div class="shape-attr__key">Email</div>
+                        <div class="shape-attr__value">{{ command.email }}</div>
+                    </div>
+                    <div class="shape-attr d-flex justify-content-between align-items-center">
+                        <div class="shape-attr__key">Номер телефона</div>
+                        <div class="shape-attr__value">{{ command.phone }}</div>
+                    </div>
+                </div>
             </div>
             {% endfor %}
         </div>
