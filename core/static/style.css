@@ -916,3 +916,13 @@ textarea {
 .commands__person-role {
     margin-bottom: 16px;
 }
+
+
+.commands__btn {
+    background: #95D5EC;
+    border-radius: 15px;
+    border: none;
+    font-size: 16px;
+    padding: 10px 40px;
+    font-weight: 700;
+}

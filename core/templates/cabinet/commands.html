@@ -6,45 +6,48 @@
 
 {% block content %}
     <div class="row">
-        <div class="commands col-xl-9 d-flex justify-content-between">
-            {% for command in items %}
-            <div class="shape__item m-4">
-                <img src="{{ command.photo.url }}" height="303" width="323" alt="">
-                <button class="shape__btn" style="margin-top: 10px;" onclick="this.nextElementSibling.style.display = 'block'; this.style.borderRadius = '0px 0px 50px 50px'">{{ command.role.name }}</button>
-                <div class="shape__popup">
-                    <img class="shape-popup__exit" src="{% static 'img/ico/exit.svg' %}" onclick="this.parentNode.style.display = 'none'; this.parentNode.previousElementSibling.style.borderRadius = '15px'" alt="">
-                    <div class="shape-attr d-flex justify-content-between align-items-center">
-                        <div class="shape-attr__key">ФИО</div>
-                        <div class="shape-attr__value">{{ command.fullName }}</div>
-                    </div>
-                    <div class="shape-attr d-flex justify-content-between align-items-center">
-                        <div class="shape-attr__key">Email</div>
-                        <div class="shape-attr__value">{{ command.email }}</div>
-                    </div>
-                    <div class="shape-attr d-flex justify-content-between align-items-center">
-                        <div class="shape-attr__key">Номер телефона</div>
-                        <div class="shape-attr__value">{{ command.phone }}</div>
+        <div class="shape col-xl-9">
+            <div class="shape__items d-flex justify-content-between">
+                {% for command in items %}
+                <div class="shape__item m-4 d-flex flex-column">
+                    <img src="{{ command.photo.url }}" height="303" width="323" alt="">
+                    <button class="commands__btn" style="margin-top: 10px;" onclick="this.nextElementSibling.style.display = 'block'; this.style.borderRadius = '0px 0px 50px 50px'">Региноальный менеджер</button>
+                    <div class="shape__popup">
+                        <img class="shape-popup__exit" src="{% static 'img/ico/exit.svg' %}" onclick="this.parentNode.style.display = 'none'; this.parentNode.previousElementSibling.style.borderRadius = '15px'" alt="">
+                        <div class="shape-attr d-flex justify-content-between align-items-center">
+                            <div class="shape-attr__key">ФИО</div>
+                            <div class="shape-attr__value">{{ command.fullName }}</div>
+                        </div>
+                        <div class="shape-attr d-flex justify-content-between align-items-center">
+                            <div class="shape-attr__key">Email</div>
+                            <div class="shape-attr__value">{{ command.email }}</div>
+                        </div>
+                        <div class="shape-attr d-flex justify-content-between align-items-center">
+                            <div class="shape-attr__key">Номер телефона</div>
+                            <div class="shape-attr__value">{{ command.phone }}</div>
+                        </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
-        </div>
-        <div class="custom-pagination d-flex col-xl-4 align-items-center">
-            {% if items.has_previous %}
-                <a class="left-arrow" href="?page={{ items.previous_page_number }}"><img src="{% static 'img/ico/left_arrow.svg' %}" alt=""></a>
-            {% endif %}
-            {% for i in items.paginator.page_range %}
-                {% if i > items.number|add:-4 and i < items.number|add:8 %}
-                    {% if items.number == i %}
-                        <a href="" class="pagination__item pagination__item-active">{{ items.number }}</a>
-                    {% else %}
-                        <a href="?page={{ i }}" class="pagination__item">{{ i }}</a>
-                    {% endif %}
+        
+            <div class="custom-pagination d-flex col-xl-4 align-items-center">
+                {% if items.has_previous %}
+                    <a class="left-arrow" href="?page={{ items.previous_page_number }}"><img src="{% static 'img/ico/left_arrow.svg' %}" alt=""></a>
                 {% endif %}
-            {% endfor %}
-            {% if items.has_next %}
-                <a class="right-arrow" href="?page={{ items.next_page_number }}"><img src="{% static 'img/ico/right_arrow.svg' %}" alt=""></a>
-            {% endif %}
+                {% for i in items.paginator.page_range %}
+                    {% if i > items.number|add:-4 and i < items.number|add:8 %}
+                        {% if items.number == i %}
+                            <a href="" class="pagination__item pagination__item-active">{{ items.number }}</a>
+                        {% else %}
+                            <a href="?page={{ i }}" class="pagination__item">{{ i }}</a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% if items.has_next %}
+                    <a class="right-arrow" href="?page={{ items.next_page_number }}"><img src="{% static 'img/ico/right_arrow.svg' %}" alt=""></a>
+                {% endif %}
+            </div>
         </div>
     </div>
 {% endblock content %}

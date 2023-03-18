@@ -4,7 +4,7 @@ from django_countries.fields import CountryField
 
 
 class Store(models.Model):
-    photo = models.FileField(upload_to='store/img', verbose_name='Фото')
+    photo = models.FileField(upload_to='store/img', verbose_name='Фото 303x323')
     title = models.CharField(max_length=20,unique=True, verbose_name='Заголовок')
     description = models.TextField(verbose_name='Описание')
     count = models.IntegerField(verbose_name='В наличии')
@@ -70,7 +70,7 @@ class Diler(models.Model):
 
 
 class Shape(models.Model):
-    photo =  models.FileField(upload_to='shape/img', verbose_name='Фото')
+    photo =  models.FileField(upload_to='shape/img', verbose_name='Фото 303x323')
     name = models.CharField(max_length=40,unique=True, verbose_name='Название')
     rate = [
         (1, '1'),
@@ -107,7 +107,6 @@ class Shape(models.Model):
 
 class Implement(models.Model):
     name = models.CharField(max_length=40,unique=True, verbose_name='Название')
-
     country = CountryField(verbose_name='Страна производителя')
     generator = models.CharField(max_length=30, verbose_name='Производитель')
 
@@ -182,7 +181,7 @@ class Employ(models.Model):
     role = models.ForeignKey(Role, on_delete=models.CASCADE, verbose_name='Роль')
     phone = models.CharField(max_length=12, verbose_name='Телефон')
     email = models.EmailField(verbose_name='E-mail')
-    photo = models.FileField(upload_to='employ', verbose_name='Фото')
+    photo = models.FileField(upload_to='employ', verbose_name='Фото 303x323')
 
     class Meta:
         verbose_name = 'Сотрудник'

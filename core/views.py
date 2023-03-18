@@ -11,10 +11,7 @@ from django.utils import timezone
 from datetime import datetime
 from python_docx_replace import docx_replace
 from docx import Document
-import os
 from django.core.files import File
-    
-
 
 
 #LOGIN LOGOUT
@@ -50,7 +47,7 @@ def logout_view(request):
 @login_required(login_url='/login/')
 def index(request):
     if request.user.is_superuser:
-        logout(request)
+        logout_view(request)
     diler = request.user.diler
     diler.last_login = timezone.now()
     diler.save()
@@ -60,13 +57,13 @@ def index(request):
 @login_required(login_url='/login/')
 def ads(request):
     if request.user.is_superuser:
-        logout(request)
+        logout_view(request)
     return render(request, 'cabinet/price.html', {'prices': Price.objects.all()})
 
 @login_required(login_url='/login/')
 def talon(request):
     if request.user.is_superuser:
-        logout(request)
+        logout_view(request)
     if request.method == "POST":
         f = []
         r = requests.get(f"http://176.62.187.250/loadpic.php?order_id={request.POST['order_id']}")
@@ -120,7 +117,7 @@ def price(request):
 @login_required(login_url='/login/')
 def cart(request):
     if request.user.is_superuser:
-        logout(request)
+        logout_view(request)
     if request.method == 'POST':
         diler = request.user.diler
         item = Store.objects.get(id=request.POST["item_id"])
@@ -145,7 +142,7 @@ def cart(request):
 @login_required(login_url='/login/')
 def cart_item_delete(request, id):
     if request.user.is_superuser:
-        logout(request)
+        logout_view(request)
     diler = request.user.diler
     del diler.cart[str(id)]
     diler.save()
@@ -170,7 +167,7 @@ def sample(request):
 @login_required(login_url='/login/')
 def profile(request):
     if request.user.is_superuser:
-        logout(request)
+        logout_view(request)
     if request.method == 'POST':
         diler = request.user.diler
         diler.fullName = request.POST['fullName']
@@ -187,7 +184,7 @@ def profile(request):
 @login_required(login_url='/login/')
 def orders(request):
     if request.user.is_superuser:
-        logout(request)
+        logout_view(request)
     if 'create_date_to' in request.GET:
         r = requests.get(f'http://176.62.187.250/loadDataForGridPerSellerCode.php?jsoncallback=jQuery1113010583719635799582_1676741279402&s_code={request.user.diler.seller_code}&create_date_from={request.GET["create_date_from"]}-01-01&create_date_to={request.GET["create_date_to"]}&order_id_from=&order_id_to=&manufacture_date_from=&manufacture_date_to=&ready_date_from=&ready_date_to=&filter_select_state=')
     else:
@@ -234,7 +231,7 @@ def orders(request):
 @login_required(login_url='/login/')
 def store(request):
     if request.user.is_superuser:
-        logout(request)
+        logout_view(request)
     items = Store.objects.all().order_by('id')
     paginator = Paginator(items, 4)
     page = request.GET.get('page')
@@ -249,7 +246,7 @@ def store(request):
 @login_required(login_url='/login/')
 def notifications(request):
     if request.user.is_superuser:
-        logout(request)
+        logout_view(request)
     if request.method == 'POST':
         diler = request.user.diler
         diler.sms_alert = True if 'sms_alert' in request.POST else False

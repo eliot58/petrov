@@ -4,6 +4,8 @@
 
 {% load static %}
 
+{% load custom_tags %}
+
 {% block content %}
     <div class="container">
         <div class="row">
@@ -74,8 +76,8 @@
                                 <td>{% if order.deliverytime %}{{order.deliverytime}}{% else %}отсуствует{% endif %}</td>
                                 <td>{% if order.date_end_fact %}{{order.date_end_fact}}{% else %}отсуствует{% endif %}</td>
                                 <td>{{order.state_name}}</td>
-                                <td>{{order.items_qu}}</td>
-                                <td>{{order.items_sqr}}</td>
+                                <td>{{order.items_qu|intt}}</td>
+                                <td>{{order.items_sqr|roundd}}</td>
                                 <td>{{order.order_sm}}</td>
                                 <td>{{order.sm_pay}}</td>
                                 <td>{{order.prof_name}}</td>
