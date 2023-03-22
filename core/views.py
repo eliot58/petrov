@@ -65,48 +65,8 @@ def talon(request):
     if request.user.is_superuser:
         logout_view(request)
     if request.method == "POST":
-        f = []
-        r = requests.get(f"http://176.62.187.250/loadpic.php?order_id={request.POST['order_id']}")
-        items = json.loads(r.text)
-        for i in range(len(items)):
-            doc = Document("passport.docx")
-
-            my_dict = {
-                "o_name": items[i]['o_name'],
-                "qu": items[i]['qu'],
-                "p_name": items[i]['p_name'],
-                "f_name": items[i]['f_name'],
-                "c1_name": items[i]['c1_name'],
-                "c2_name": items[i]['c2_name'],
-                "sqr": items[i]['sqr'],
-                "numpos": items[i]['numpos'],
-                "glasses": items[i]['glasses'],
-            }
-
-            docx_replace(doc, **my_dict)
-            
-            doc.save(f"render/replace{i}.docx")
-
-            f.append(f"render/replace{i}.docx")
-            docs = []
-            i = 0
-            for item in f:
-                docs.append(Document(item))
-                if (i != 0):
-                    docs[i].add_page_break()
-                    for element in docs[i].element.body:
-                        docs[0].element.body.append(element)
-                i = i + 1
-            docs[0].save('render.docx')
-
-        passport = Passports()
-        passport.diler = request.user.diler
-        path = Path('render.docx')
-        with path.open(mode='rb') as f:
-            passport.file = File(f,name=path.name)
-            passport.save()
-
-        return redirect(passport.file.url)
+        requests.get(f'http://176.62.187.250/loadpic.php?order_id={request.POST["order_id"]}&email={request.user.diler.email}')
+        return redirect(talon)
         
 
     return render(request, 'cabinet/talon.html')

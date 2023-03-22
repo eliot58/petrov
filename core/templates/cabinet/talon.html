@@ -2,7 +2,14 @@
 
 {% block title %} Гарантийный талон {% endblock title %}
 
+{% load static %}
+
 {% block content %}
+    <div class="row">
+        <div class="col-xl-10">
+            <div class="ads-info"><img src="{% static 'img/ico/info.svg' %}" alt=""> Внимание <br> Гарантийный талон будет отправлен на почту указанный в профиле</div>
+        </div>
+    </div>
     <div class="row">
         <form action="{% url 'talon' %}" class="talon col-xl-10" method="post">
             {% csrf_token %}
@@ -12,9 +19,22 @@
                     <div class="auth__input col-xl-10">
                         <input type="text" placeholder="Ввведите номер заказа" name="order_id">
                     </div>
-                    <button class="col-xl-4" type="submit">Распечатать</button>
+                    <button class="col-xl-4" type="button" onclick="checkEmail('{{request.user.diler.email}}', this.parentNode.parentNode.parentNode)">Распечатать</button>
                 </div>
             </div>
         </form>
     </div>
 {% endblock content %}
+
+
+{% block script %} 
+    <script>
+        function checkEmail(email, form){
+            if (email != ""){
+                form.submit()
+            } else {
+                alert("Заполните email на странице профиля")
+            }
+        }
+    </script>
+{% endblock script %}

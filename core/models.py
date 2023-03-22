@@ -36,9 +36,9 @@ class Diler(models.Model):
     bonus = models.FloatField(default=0, verbose_name='Бонусы дилера')
     seller_code = models.CharField(max_length=20)
 
-    sms_alert = models.BooleanField(default=False, verbose_name='E-mail')
-    telegram_alert = models.BooleanField(default=False, verbose_name='SMS')
-    email_alert = models.BooleanField(default=False, verbose_name='Telegram')
+    sms_alert = models.BooleanField(default=False, verbose_name='SMS')
+    telegram_alert = models.BooleanField(default=False, verbose_name='Telegram')
+    email_alert = models.BooleanField(default=False, verbose_name='E-mail')
 
     change_mail = models.BooleanField(default=False, verbose_name='Отправка по почте')
     change_email = models.BooleanField(default=False, verbose_name='Отправка по e-mail')
@@ -264,14 +264,4 @@ class Sample(models.Model):
     class Meta:
         verbose_name = 'Акт замеров'
         verbose_name_plural = 'Акт замеров'
-
-
-class Passports(models.Model):
-    diler = models.ForeignKey(Diler, on_delete=models.CASCADE)
-    file = models.FileField(upload_to="passports")
-
-
-    class Meta:
-        verbose_name = 'Паспорт качества'
-        verbose_name_plural = 'Паспорты качества'
 
