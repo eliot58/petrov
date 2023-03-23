@@ -65,7 +65,8 @@ def talon(request):
     if request.user.is_superuser:
         logout_view(request)
     if request.method == "POST":
-        requests.get(f'http://176.62.187.250/loadpic.php?order_id={request.POST["order_id"].strip()}&email={request.user.diler.email}')
+        t = 1 if request.POST['order_id'].strip().split("\\")[0] == 'О' else 2
+        requests.get(f'http://176.62.187.250/loadpic.php?order_id={request.POST["order_id"].strip()}&email={request.user.diler.email}&type={t}')
         return redirect(talon)
         
 
