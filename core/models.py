@@ -146,8 +146,8 @@ class Unit(models.Model):
 
 
 class Bonus(models.Model):
-    fr = models.DateField()
-    to = models.DateField()
+    fr = models.DateField(verbose_name='Период от')
+    to = models.DateField(verbose_name='Период до')
     ch = [
         ('s', 'Профиль'),
         ('i', 'Фурнитура'),
@@ -155,11 +155,11 @@ class Bonus(models.Model):
     ]
     select = models.CharField(max_length=10, choices=ch)
 
-    shape = models.ForeignKey(Shape, on_delete=models.CASCADE, blank=True, null=True)
-    implement = models.ForeignKey(Implement, on_delete=models.CASCADE, blank=True, null=True)
-    glazing = models.ForeignKey(Glazing, on_delete=models.CASCADE, blank=True, null=True)
+    shape = models.ForeignKey(Shape, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Профильная система')
+    implement = models.ForeignKey(Implement, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Фурнитура')
+    glazing = models.ForeignKey(Glazing, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Стеклопакет')
     
-    unit = models.ForeignKey(Unit,on_delete=models.CASCADE,verbose_name='Единица измерения')
+    unit = models.ForeignKey(Unit,on_delete=models.CASCADE, verbose_name='Единица измерения')
     count = models.FloatField(verbose_name='Бонусы')
 
     class Meta:
