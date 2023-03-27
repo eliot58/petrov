@@ -1,4 +1,3 @@
-from pathlib import Path
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .forms import *
@@ -9,10 +8,7 @@ import requests
 import json
 from django.utils import timezone
 from datetime import datetime
-from python_docx_replace import docx_replace
-from docx import Document
-from django.core.files import File
-
+from rest_framework import views
 
 #LOGIN LOGOUT
 #============================================================================
@@ -258,3 +254,8 @@ def commands(request):
     except EmptyPage:
         items = paginator.page(paginator.num_pages)
     return render(request, 'cabinet/commands.html', {'items': items})
+
+
+class GetBonus(views.APIView):
+    def get(self, **kwargs):
+        pass

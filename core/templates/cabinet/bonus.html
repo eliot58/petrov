@@ -5,18 +5,36 @@
 {% block content %}
     <div class="row">
         <div class="bonus">
-            <div class="results col-xl-8 d-flex flex-column justify-content-start">
-                <div class="results__title">Бонусы</div>
-                <div class="price d-flex justify-content-between">
-                    <div class="price__key" style="font-weight: 600;">Товар</div>
-                    <div class="price__value" style="font-weight: 600;">Количество бонусов</div>
+            <div class="results col-xl-10 d-flex flex-column justify-content-start">
+                <div class="results__title">Акции</div>
+                <div class="table-responsive">
+                    <table class="col-xl-10">
+                        <thead>
+                            <tr>
+                                <th>Период</th>
+                                <th>Товар</th>
+                                <th>Количество бонусов</th>
+                                <th>Ед. изм</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for bonus in bonuses %}
+                            <tr>
+                                <td>{{ bonus.fr|date:'d.m.Y' }}-{{ bonus.to|date:'d.m.Y' }}</td>
+                                {% if bonus.select == 's' %}
+                                    <td>{{ bonus.shape.name }}</td>
+                                {% elif bonus.select == 'g' %}
+                                    <td>{{ bonus.glazing.name }}</td>
+                                {% elif bonus.select == 'i' %}
+                                    <td>{{ bonus.implement.name }}</td>
+                                {% endif %}
+                                <td>{{ bonus.count }}</td>
+                                <td>{{ bonus.unit.unit }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
-                {% for bonus in bonuses %}
-                <div class="price d-flex justify-content-between">
-                    <div class="price__key">{{ bonus.item.title }}</div>
-                    <div class="price__value">{{ bonus.count }}</div>
-                </div>
-                {% endfor %}
             </div>
         </div>
     </div>

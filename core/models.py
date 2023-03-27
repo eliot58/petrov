@@ -146,13 +146,25 @@ class Unit(models.Model):
 
 
 class Bonus(models.Model):
-    item = models.ForeignKey(Store, on_delete=models.CASCADE, verbose_name='Товар')
+    fr = models.DateField()
+    to = models.DateField()
+    ch = [
+        ('s', 'Профиль'),
+        ('i', 'Фурнитура'),
+        ('g', 'Стеклопакет')
+    ]
+    select = models.CharField(max_length=10, choices=ch)
+
+    shape = models.ForeignKey(Shape, on_delete=models.CASCADE, blank=True, null=True)
+    implement = models.ForeignKey(Implement, on_delete=models.CASCADE, blank=True, null=True)
+    glazing = models.ForeignKey(Glazing, on_delete=models.CASCADE, blank=True, null=True)
+    
     unit = models.ForeignKey(Unit,on_delete=models.CASCADE,verbose_name='Единица измерения')
     count = models.FloatField(verbose_name='Бонусы')
 
     class Meta:
-        verbose_name = 'Бонус'
-        verbose_name_plural = 'Бонусы'
+        verbose_name = 'Акция'
+        verbose_name_plural = 'Акции'
 
 
 

@@ -26,5 +26,7 @@ urlpatterns = [
     path('ads/', ads, name='ads'),
     path('talon/', talon, name='talon'),
     path('cart_item_delete/<int:id>/', cart_item_delete, name="cart_item_delete"),
-    path('sample/', sample, name="sample")
+    path('sample/', sample, name="sample"),
+    path('getbonus/<str:s_code>/<str:shape>/<str:impl>/<str:glazing>/', GetBonus.as_view()),
+
 ]

@@ -29,7 +29,7 @@ class GlazingAdmin(admin.ModelAdmin):
 
 @admin.register(Bonus)
 class BonusAdmin(admin.ModelAdmin):
-    list_display = ['item', 'unit', 'count']
+    list_display = ['fr', 'to', 'select','unit','count']
 
 
 @admin.register(Price)
