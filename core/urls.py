@@ -1,6 +1,5 @@
-from django.urls import path, re_path as url
+from django.urls import path
 from .views import *
-from django.contrib.auth import views as auth_views
 from .forms import *
 
 
@@ -26,7 +25,6 @@ urlpatterns = [
     path('ads/', ads, name='ads'),
     path('talon/', talon, name='talon'),
     path('cart_item_delete/<int:id>/', cart_item_delete, name="cart_item_delete"),
-    path('sample/', sample, name="sample"),
-    path('getbonus/<str:s_code>/<str:shape>/<str:impl>/<str:glazing>/', GetBonus.as_view()),
+    path('sample/', sample, name="sample")
 
 ]

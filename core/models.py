@@ -133,17 +133,6 @@ class Glazing(models.Model):
         verbose_name = 'Стеклопакет'
         verbose_name_plural = 'Стеклопакеты'
 
-class Unit(models.Model):
-    unit = models.CharField(max_length=10)
-
-
-    def __str__(self) -> str:
-        return self.unit
-
-    class Meta:
-        verbose_name = 'Единица измерения'
-        verbose_name_plural = 'Единицы измерения'
-
 
 class Bonus(models.Model):
     fr = models.DateField(verbose_name='Период от')
@@ -158,8 +147,13 @@ class Bonus(models.Model):
     shape = models.ForeignKey(Shape, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Профильная система')
     implement = models.ForeignKey(Implement, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Фурнитура')
     glazing = models.ForeignKey(Glazing, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Стеклопакет')
+
+    u = [
+        ('m2', 'm2'),
+        ('шт', 'шт')
+    ]
     
-    unit = models.ForeignKey(Unit,on_delete=models.CASCADE, verbose_name='Единица измерения')
+    unit = models.CharField(max_length=5,choices=u, verbose_name='Единица измерения')
     count = models.FloatField(verbose_name='Бонусы')
 
     class Meta:

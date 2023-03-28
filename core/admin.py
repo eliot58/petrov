@@ -77,6 +77,5 @@ class VideoAdmin(admin.ModelAdmin):
 
 admin.site.register(Role)
 
-admin.site.register(Unit)
 
 admin.site.register(Sample)

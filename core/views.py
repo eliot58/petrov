@@ -43,7 +43,7 @@ def logout_view(request):
 @login_required(login_url='/login/')
 def index(request):
     if request.user.is_superuser:
-        logout_view(request)
+        logout(request)
     diler = request.user.diler
     diler.last_login = timezone.now()
     diler.save()
@@ -254,8 +254,3 @@ def commands(request):
     except EmptyPage:
         items = paginator.page(paginator.num_pages)
     return render(request, 'cabinet/commands.html', {'items': items})
-
-
-class GetBonus(views.APIView):
-    def get(self, **kwargs):
-        pass

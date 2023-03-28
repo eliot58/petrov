@@ -26,7 +26,13 @@
                 {% for bonus in bonuses %}
                 <li class="bonus__item">
                     <img src="{% static 'img/ico/check.svg' %}" alt="">
-                    <div class="bonus__item-title">{{ bonus.item.title }} - {{ bonus.count }} бонус</div>
+                    {% if bonus.select == 's' %}
+                        <div class="bonus__item-title">{{ bonus.shape.name }} - {{ bonus.count }} бонус за {{ bonus.unit }}</div>
+                    {% elif bonus.select == 'i' %}
+                        <div class="bonus__item-title">{{ bonus.implement.name }} - {{ bonus.count }} бонус за {{ bonus.unit }}</div>
+                    {% elif bonus.select == 'g' %}
+                        <div class="bonus__item-title">{{ bonus.glazing.name }} - {{ bonus.count }} бонус за {{ bonus.unit }}</div>
+                    {% endif %}
                 </li>
                 {% endfor %}
             </ul>
