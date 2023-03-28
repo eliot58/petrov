@@ -16,9 +16,6 @@ def bonus(request):
     serializer = BonusSerializer(data = request.data)
     if not serializer.is_valid():
         return Response(serializer.errors, status = HTTP_400_BAD_REQUEST)
-    
-
-
 
 
     
