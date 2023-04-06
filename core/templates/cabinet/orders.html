@@ -26,7 +26,7 @@
             <div class="search col-xl-5">
                 <div class="search__title">Найти заказ</div>
                 <div class="search__input">
-                    <input type="text" name="search" required>
+                    <input type="text" class="search_input" required>
                     <img src="{% static 'img/ico/search.svg' %}" alt="">
                 </div>
                 <div class="search__count">
@@ -97,6 +97,7 @@
 
             const table_length = document.querySelector(".table_length")
             const period_btn = document.querySelector(".period__button")
+            const search_input = document.querySelector(".search_input")
 
 
             function setDate(){
@@ -215,6 +216,15 @@
                 displayList(data, Number(event.target.value), currentPage);
                 displayPagination(data, Number(event.target.value), currentPage);
             });
+
+            search_input.addEventListener("input", search);
+
+            function search(e){
+                const result = data.filter(el => el.order_name.indexOf(e.target.value) != -1);
+                displayList(result, Number(table_length.value), currentPage);
+                displayPagination(result, Number(table_length.value), currentPage);
+            }
+
         }
 
 
