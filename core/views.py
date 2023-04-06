@@ -8,7 +8,6 @@ import requests
 import json
 from django.utils import timezone
 from datetime import datetime
-from rest_framework import views
 
 #LOGIN LOGOUT
 #============================================================================
@@ -24,6 +23,8 @@ def login_view(request):
                     request.session.set_expiry(0)
                     request.session.modified = True
                 login(request, user)
+                user.diler.last_login = timezone.now()
+                user.diler.save()
                 return redirect(index)
             else:
                 return render(request, 'auth/disable.html')
@@ -44,22 +45,22 @@ def logout_view(request):
 def index(request):
     if request.user.is_superuser:
         logout(request)
-    diler = request.user.diler
-    diler.last_login = timezone.now()
-    diler.save()
+        return redirect(login_view)
 
     return render(request, 'cabinet/main.html', {'bonuses': Bonus.objects.all()[:3], 'news': New.objects.all()[:5]})
 
 @login_required(login_url='/login/')
 def ads(request):
     if request.user.is_superuser:
-        logout_view(request)
+        logout(request)
+        return redirect(login_view)
     return render(request, 'cabinet/price.html', {'prices': Price.objects.all()})
 
 @login_required(login_url='/login/')
 def talon(request):
     if request.user.is_superuser:
-        logout_view(request)
+        logout(request)
+        return redirect(login_view)
     if request.method == "POST":
         t = 1 if request.POST['order_id'].strip().split("\\")[0] == 'О' else 2
         order_id = request.POST["order_id"].strip().split('\\')[1]
@@ -75,7 +76,8 @@ def price(request):
 @login_required(login_url='/login/')
 def cart(request):
     if request.user.is_superuser:
-        logout_view(request)
+        logout(request)
+        return redirect(login_view)
     if request.method == 'POST':
         diler = request.user.diler
         item = Store.objects.get(id=request.POST["item_id"])
@@ -100,7 +102,8 @@ def cart(request):
 @login_required(login_url='/login/')
 def cart_item_delete(request, id):
     if request.user.is_superuser:
-        logout_view(request)
+        logout(request)
+        return redirect(login_view)
     diler = request.user.diler
     del diler.cart[str(id)]
     diler.save()
@@ -125,7 +128,8 @@ def sample(request):
 @login_required(login_url='/login/')
 def profile(request):
     if request.user.is_superuser:
-        logout_view(request)
+        logout(request)
+        return redirect(login_view)
     if request.method == 'POST':
         diler = request.user.diler
         diler.fullName = request.POST['fullName']
@@ -135,61 +139,23 @@ def profile(request):
         diler.address = request.POST['address']
         diler.manager = request.POST['manager']
         diler.calculator = request.POST['calculator']
+        diler.region_id  = int(request.POST['region'])
         diler.save()
         return redirect(profile)
-    return render(request, 'cabinet/profile.html')
+    return render(request, 'cabinet/profile.html', {"regions": Region.objects.all()})
 
 @login_required(login_url='/login/')
 def orders(request):
     if request.user.is_superuser:
-        logout_view(request)
-    if 'create_date_to' in request.GET:
-        r = requests.get(f'http://176.62.187.250/loadDataForGridPerSellerCode.php?jsoncallback=jQuery1113010583719635799582_1676741279402&s_code={request.user.diler.seller_code}&create_date_from={request.GET["create_date_from"]}-01-01&create_date_to={request.GET["create_date_to"]}&order_id_from=&order_id_to=&manufacture_date_from=&manufacture_date_to=&ready_date_from=&ready_date_to=&filter_select_state=')
-    else:
-        current_datetime = datetime.now()
-        r = requests.get(f'http://176.62.187.250/loadDataForGridPerSellerCode.php?jsoncallback=jQuery1113010583719635799582_1676741279402&s_code={request.user.diler.seller_code}&create_date_from={current_datetime.year}-01-01&create_date_to={current_datetime.date()}&order_id_from=&order_id_to=&manufacture_date_from=&manufacture_date_to=&ready_date_from=&ready_date_to=&filter_select_state=')
-    s = r.text
-    start = s.index('(')
-    end = s.rindex(')')
-    json_string = s[start+1:end]
-
-
-
-    items = json.loads(json_string)
-
-    if 'search' in request.GET:
-        newitems = []
-        for item in items:
-            if item['order_name'].find(request.GET['search']) != -1:
-                newitems.append(item)
-                continue
-            if item['prof_name'].find(request.GET['search']) != -1:
-                newitems.append(item)
-                continue
-            if item['furn_name'].find(request.GET['search']) != -1:
-                newitems.append(item)
-                continue
-            if item['sp_name'].find(request.GET['search']) != -1:
-                newitems.append(item)
-
-        items = newitems
-
-    paginator = Paginator(items, int(request.GET['table_length']) if 'table_length' in request.GET else 5)
-    page = request.GET.get('page')
-    try:
-        items = paginator.page(page)
-    except PageNotAnInteger:
-        items = paginator.page(1)
-    except EmptyPage:
-        items = paginator.page(paginator.num_pages)
-
-
-    return render(request, 'cabinet/orders.html', {'items': items})
+        logout(request)
+        return redirect(login_view)
+    return render(request, 'cabinet/orders.html')
 
 @login_required(login_url='/login/')
 def store(request):
     if request.user.is_superuser:
-        logout_view(request)
+        logout(request)
+        return redirect(login_view)
     items = Store.objects.all().order_by('id')
     paginator = Paginator(items, 4)
     page = request.GET.get('page')
@@ -204,7 +170,8 @@ def store(request):
 @login_required(login_url='/login/')
 def notifications(request):
     if request.user.is_superuser:
-        logout_view(request)
+        logout(request)
+        return redirect(login_view)
     if request.method == 'POST':
         diler = request.user.diler
         diler.sms_alert = True if 'sms_alert' in request.POST else False
@@ -254,3 +221,7 @@ def commands(request):
     except EmptyPage:
         items = paginator.page(paginator.num_pages)
     return render(request, 'cabinet/commands.html', {'items': items})
+
+
+def notwork(request):
+    return render(request, "cabinet/notwork.html")

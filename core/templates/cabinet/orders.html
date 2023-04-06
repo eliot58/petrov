@@ -4,40 +4,40 @@
 
 {% load static %}
 
-{% load custom_tags %}
-
 {% block content %}
     <div class="container">
         <div class="row">
             <form class="d-flex flex-column align-items-end" method="get" action="{% url 'orders' %}">
                 <div class="period__title">Показать заказы за период</div>
-                <div class="period__form col-xl-5 d-flex justify-content-end">
+                <div class="period__form col-xl-5 d-flex justify-content-end align-items-center">
+                    <span>от</span>
                     <div class="period__input">
-                        <input type="date" name="create_date_from" reguired>
+                        <input type="date" class="date_from" name="create_date_from" reguired>
                     </div>
+                    <span>до</span>
                     <div class="period__input">
-                        <input type="date" name="create_date_to" required>
+                        <input type="date" class="date_to" name="create_date_to" required>
                     </div>
                 </div>
-                <button type="submit" class="period__button">Показать</button>
+                <button type="button" class="period__button">Показать</button>
             </form>
         </div>
         <div class="row">
             <div class="search col-xl-5">
                 <div class="search__title">Найти заказ</div>
-                <form class="search__input" method="get" action="{% url 'orders' %}">
+                <div class="search__input">
                     <input type="text" name="search" required>
-                    <img src="{% static 'img/ico/search.svg' %}" onclick="this.parentNode.submit()" alt="">
-                </form>
-                <form class="search__count" method="get" action="{% url 'orders' %}">
+                    <img src="{% static 'img/ico/search.svg' %}" alt="">
+                </div>
+                <div class="search__count">
                     <span>показать</span>
-                    <select name="table_length" id="" onchange="this.parentNode.submit()">
-                        <option value="5" {% if request.GET.table_length != '10' and request.GET.table_length != '20' %} selected {% endif %}>5</option>
-                        <option value="10" {% if request.GET.table_length == '10' %} selected {% endif %}>10</option>
-                        <option value="20" {% if request.GET.table_length == '20' %} selected {% endif %}>20</option>
+                    <select class="table_length" id="">
+                        <option value="5" selected>5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
                     </select>
                     <span>записей</span>
-                </form>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -65,49 +65,163 @@
                                 <th>Комментарий</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {% for order in items %}
-                            <tr>
-                                <td>{{ order.order_name }}</td>
-                                <td>{% if order.order_date_create %}{{order.order_date_create}}{% else %}отсуствует{% endif %}</td>
-                                <td>{% if order.date_start %}{{order.date_start}}{% else %}отсуствует{% endif %}</td>
-                                <td>{% if order.date_end_plan %}{{order.date_end_plan}}{% else %}отсуствует{% endif %}</td>
-                                <td>{% if order.dop_data %}{{order.dop_data}}{% else %}отсуствует{% endif %}</td>
-                                <td>{% if order.deliverytime %}{{order.deliverytime}}{% else %}отсуствует{% endif %}</td>
-                                <td>{% if order.date_end_fact %}{{order.date_end_fact}}{% else %}отсуствует{% endif %}</td>
-                                <td>{{order.state_name}}</td>
-                                <td>{{order.items_qu|intt}}</td>
-                                <td>{{order.items_sqr|roundd}}</td>
-                                <td>{{order.order_sm}}</td>
-                                <td>{{order.sm_pay}}</td>
-                                <td>{{order.prof_name}}</td>
-                                <td>{{order.furn_name}}</td>
-                                <td>{{order.sp_name}}</td>
-                                <td>{% if order.No_dil %}{{order.No_dil}}{% else %}{% endif %}</td>
-                                <td>{% if order.dop_comment %}{{order.dop_comment}}{% else %}{% endif %}</td>
-                            </tr>
-                            {% endfor %}
+                        <tbody class="table_body">
                         </tbody>
                     </table>
                 </div>
                 <div class="custom-pagination d-flex justify-content-between col-xl-4 align-items-center">
-                    {% if items.has_previous %}
-                        <a class="left-arrow" href="?page={{ items.previous_page_number }}"><img src="{% static 'img/ico/left_arrow.svg' %}" alt=""></a>
-                    {% endif %}
-                    {% for i in items.paginator.page_range %}
-                        {% if i > items.number|add:-4 and i < items.number|add:8 %}
-                            {% if items.number == i %}
-                                <a href="" class="pagination__item pagination__item-active">{{ items.number }}</a>
-                            {% else %}
-                                <a href="?page={{ i }}" class="pagination__item">{{ i }}</a>
-                            {% endif %}
-                        {% endif %}
-                    {% endfor %}
-                    {% if items.has_next %}
-                        <a class="right-arrow" href="?page={{ items.next_page_number }}"><img src="{% static 'img/ico/right_arrow.svg' %}" alt=""></a>
-                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
 {% endblock content %}
+
+{% block script %} 
+    <script src="{% static 'moment.js' %}"></script>
+    <script>
+        async function getData(){
+            const s_code = "{{request.user.diler.seller_code}}";
+            const date_from = document.querySelector(".date_from").value;
+            const date_to = document.querySelector(".date_to").value;
+            const response = await fetch(`http://176.62.187.250/loadDataForGridPerSellerCode.php?jsoncallback=jQuery111309409598933391818_1680728392646&s_code=${s_code}&create_date_from=${date_from}&create_date_to=${date_to}&order_id_from=&order_id_to=&manufacture_date_from=&manufacture_date_to=&ready_date_from=&ready_date_to=&filter_select_state=`);
+            console.log(`http://176.62.187.250/loadDataForGridPerSellerCode.php?jsoncallback=jQuery111309409598933391818_1680728392646&s_code=${s_code}&create_date_from=${date_from}&create_date_to=${date_to}&order_id_from=&order_id_to=&manufacture_date_from=&manufacture_date_to=&ready_date_from=&ready_date_to=&filter_select_state=`)
+            let text = await response.text()
+            const start = text.indexOf('(')
+            const end = text.lastIndexOf(')')
+            const data = JSON.parse(text.slice(start + 1, end))
+            console.log(data)
+            return data;
+        }
+
+        async function main(){
+
+            const table_length = document.querySelector(".table_length")
+            const period_btn = document.querySelector(".period__button")
+
+
+            function setDate(){
+                let nowDate = new Date();
+                let date_from = document.querySelector(".date_from");
+                let date_to = document.querySelector(".date_to");
+                date_to.value = nowDate.toISOString().split('T')[0]
+                nowDate.setMonth(nowDate.getMonth() - 1);
+                date_from.value = nowDate.toISOString().split('T')[0]
+            }
+            setDate()
+
+
+            let data = await getData();
+
+            let currentPage = 1;
+
+            function displayList(arrData, rowPerPage, page) {
+                const t_body = document.querySelector(".table_body");
+                t_body.innerHTML = "";
+                page--;
+
+                const start = rowPerPage * page;
+                const end = start + rowPerPage;
+                const paginatedData = arrData.slice(start, end);
+
+                paginatedData.forEach((el) => {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `<td>${el.order_name}</td>
+                                    <td>${el.order_date_create==null ? 'отсутствует' : moment(el.order_date_create,"MMM D YYYY h:m:s:SSSa").format('DD.MM.YYYY')}</td>
+                                    <td>${el.date_start==null ? 'отсутствует' : moment(el.date_start,"MMM D YYYY h:m:s:SSSa").format('DD.MM.YYYY')}</td>
+                                    <td>${el.date_end_plan==null ? 'отсутствует' : moment(el.date_end_plan,"MMM D YYYY h:m:s:SSSa").format('DD.MM.YYYY')}</td>
+                                    <td>${el.dop_data == null ? 'отсутствует' : moment(el.dop_data,"MMM D YYYY h:m:s:SSSa").format('DD.MM.YYYY')}</td>
+                                    <td>${el.deliverytime == null ? 'отсутствует' : el.deliverytime}</td>
+                                    <td>${el.date_end_fact==null ? 'отсутствует' : moment(el.date_end_fact,"MMM D YYYY h:m:s:SSSa").format('DD.MM.YYYY')}</td>
+                                    <td>${el.state_name}</td>
+                                    <td>${el.items_qu}</td>
+                                    <td>${el.items_sqr}</td>
+                                    <td>${el.order_sm}</td>
+                                    <td>${el.sm_pay}</td>
+                                    <td>${el.prof_name}</td>
+                                    <td>${el.furn_name}</td>
+                                    <td>${el.sp_name}</td>
+                                    <td>${el.No_dil == null ? '' : el.No_dil}</td>
+                                    <td>${el.dop_comment == null ? '' : el.dop_comment}</td>`
+                    t_body.append(tr);
+                })
+            }
+
+            function displayPagination(arrData, rowPerPage, page) {
+                const pagination = document.querySelector('.custom-pagination');
+                pagination.innerHTML = "";
+                const pagesCount = Math.ceil(arrData.length / rowPerPage);
+
+                
+                if (page > 4){
+                    if (page + 4 <= pagesCount){
+                        for (let i = page-3; i < page+5; i++) {
+                            const a = displayPaginationBtn(i);
+                            pagination.appendChild(a)
+                        }
+                    } else {
+                        for (let i = page-3; i < pagesCount+1; i++) {
+                            const a = displayPaginationBtn(i);
+                            pagination.appendChild(a)
+                        }
+                    }
+                } else {
+                    if (pagesCount < 8){
+                        for (let i = 0; i < pagesCount; i++) {
+                            const a = displayPaginationBtn(i + 1);
+                            pagination.appendChild(a)
+                        }
+                    } else {
+                        for (let i = 0; i < 8; i++) {
+                            const a = displayPaginationBtn(i + 1);
+                            pagination.appendChild(a)
+                        }
+                    }
+                }
+                
+            }
+
+            function displayPaginationBtn(page) {
+                const a = document.createElement("a");
+                a.classList.add('pagination__item')
+                a.innerText = page
+
+                if (currentPage == page) a.classList.add('pagination__item-active');
+
+                a.addEventListener('click', () => {
+                    currentPage = page
+                    displayList(data, Number(table_length.value), currentPage)
+
+                    let currentItemLi = document.querySelector('a.pagination__item-active');
+                    currentItemLi.classList.remove('pagination__item-active');
+
+                    a.classList.add('pagination__item-active');
+                })
+
+                return a;
+            }
+
+            
+            displayList(data, Number(table_length.value), currentPage);
+            displayPagination(data, Number(table_length.value), currentPage);
+
+
+            period_btn.addEventListener("click", async function(){
+                data = await getData();
+                displayList(data, Number(table_length.value), currentPage);
+                displayPagination(data, Number(table_length.value), currentPage);
+            })
+
+            table_length.addEventListener("change", (event) => {
+                displayList(data, Number(event.target.value), currentPage);
+                displayPagination(data, Number(event.target.value), currentPage);
+            });
+        }
+
+
+        main()
+
+
+
+
+    </script>
+{% endblock script %}

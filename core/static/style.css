@@ -85,6 +85,11 @@ h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: 400;}
 }
 
 
+.auth__input select {
+    background-color: #fff;
+    width: 100%;
+}
+
 .auth__input input{
     width: 100%;
 }
@@ -472,6 +477,10 @@ header {
     margin-bottom: 18px;
 }
 
+.period__form span{
+    margin-right: 6px;
+}
+
 .period__input {
     border: 1px solid #95D5EC;
     box-shadow: 0px 4px 50px rgba(0, 0, 0, 0.05);
@@ -804,6 +813,7 @@ textarea {
 .pagination__item {
     display: block;
     padding: 5px 8px;
+    cursor: pointer;
 }
 
 .pagination__item-active {

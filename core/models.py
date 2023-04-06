@@ -5,7 +5,7 @@ from django_countries.fields import CountryField
 
 class Store(models.Model):
     photo = models.FileField(upload_to='store/img', verbose_name='Фото 303x323')
-    title = models.CharField(max_length=20,unique=True, verbose_name='Заголовок')
+    title = models.CharField(max_length=20, unique=True, verbose_name='Заголовок')
     description = models.TextField(verbose_name='Описание')
     count = models.IntegerField(verbose_name='В наличии')
     price_of_bonus = models.PositiveIntegerField(verbose_name='Цена в бонусах')
@@ -18,6 +18,22 @@ class Store(models.Model):
     class Meta:
         verbose_name = 'Магазин'
         verbose_name_plural = 'Магазин'
+
+
+class Region(models.Model):
+    name = models.CharField(max_length=40, unique=True, verbose_name='Регион')
+
+
+    def __str__(self) -> str:
+        return self.name
+    
+
+    class Meta:
+        verbose_name = 'Регион'
+        verbose_name_plural = 'Регионы'
+    
+
+
     
 
 
@@ -35,6 +51,8 @@ class Diler(models.Model):
     last_login = models.DateTimeField(verbose_name='Дата последнего входа')
     bonus = models.FloatField(default=0, verbose_name='Бонусы дилера')
     seller_code = models.CharField(max_length=20)
+
+    region = models.ForeignKey(Region, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Регион')
 
     sms_alert = models.BooleanField(default=False, verbose_name='SMS')
     telegram_alert = models.BooleanField(default=False, verbose_name='Telegram')
@@ -106,7 +124,7 @@ class Shape(models.Model):
 
 
 class Implement(models.Model):
-    name = models.CharField(max_length=40,unique=True, verbose_name='Название')
+    name = models.CharField(max_length=40, unique=True, verbose_name='Название')
     country = CountryField(verbose_name='Страна производителя')
     generator = models.CharField(max_length=30, verbose_name='Производитель')
 
@@ -120,7 +138,7 @@ class Implement(models.Model):
 
 
 class Glazing(models.Model):
-    articul =  models.CharField(max_length=20,unique=True, verbose_name='Артикул')
+    articul =  models.CharField(max_length=20, unique=True, verbose_name='Артикул')
     name = models.CharField(max_length=40, verbose_name='Название')
     percent = models.FloatField(verbose_name='Процент')
 
@@ -163,8 +181,8 @@ class Bonus(models.Model):
 
 
 class Price(models.Model):
-    zone = models.PositiveIntegerField()
-    region = models.CharField(max_length=40,unique=True, verbose_name='Регион')
+    zone = models.PositiveIntegerField(unique=True)
+    region = models.OneToOneField(Region, on_delete=models.CASCADE)
     price = models.PositiveIntegerField(verbose_name='Цена')
 
     class Meta:

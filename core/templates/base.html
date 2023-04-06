@@ -44,7 +44,7 @@
                     <li class="navbar__link">
                         <div>
                             <img src="{% static 'img/ico/state.svg' %}" alt="">
-                            <a href="">Статистика</a>
+                            <a href="{% url 'wait' %}">Статистика</a>
                         </div>
                     </li>
                     <li class="navbar__link">
@@ -60,7 +60,7 @@
                                 {% endif %}
                             </li>
                             <li class="sub-navbar__link">
-                                <a href="{% url 'ads' %}">Рекламации</a>
+                                <a href="{% url 'wait' %}">Рекламации</a>
                                 {% if request.path == '/ads/' %} 
                                     <img src="{% static 'img/ico/arrow-right.svg' %}" alt=""> 
                                 {% endif %}
@@ -73,7 +73,7 @@
                     <li class="navbar__link">
                         <div>
                             <img src="{% static 'img/ico/finance.svg' %}" alt="">
-                            <a href="">Финансы</a>
+                            <a href="{% url 'wait' %}">Финансы</a>
                         </div>
                     </li>
                     <li class="navbar__link  {% if request.path == '/commands/' %} navbar__link-active {% endif %}">

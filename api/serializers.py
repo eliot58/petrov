@@ -7,3 +7,4 @@ class BonusSerializer(serializers.Serializer):
     shape = serializers.JSONField()
     implement = serializers.JSONField()
     glazing = serializers.JSONField()
+    bonus_key = serializers.CharField()
