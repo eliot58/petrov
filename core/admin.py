@@ -12,19 +12,24 @@ class StoreAdmin(admin.ModelAdmin):
     list_display = ['title', 'description', 'count', 'price', 'price_of_bonus']
 
 
-@admin.register(Shape)
-class ShapeAdmin(admin.ModelAdmin):
+@admin.register(ShapeSystem)
+class ShapeSystemAdmin(admin.ModelAdmin):
     list_display = ['name', 'warm_proofing', 'sound_proofing', 'camera', 'shape_width', 'shape_height', 'width_glaze', 'warm_proofing_dc', 'sound_proofing_dc']
 
 
 @admin.register(Implement)
 class ImplementAdmin(admin.ModelAdmin):
-    list_display = ['name', 'country', 'generator']
+    list_display = ['name']
 
 
 @admin.register(Glazing)
 class GlazingAdmin(admin.ModelAdmin):
-    list_display = ['articul', 'name', 'percent']
+    list_display = ['articul']
+
+
+@admin.register(Shape)
+class ShapeAdmin(admin.ModelAdmin):
+    list_display = ['name']
 
 
 @admin.register(Bonus)

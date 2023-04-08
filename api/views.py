@@ -76,3 +76,8 @@ def bonus(request):
     return Response({
         'success': True,
     }, status=HTTP_200_OK)
+
+
+
+def register(request):
+    pass
