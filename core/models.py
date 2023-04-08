@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django_countries.fields import CountryField
 
 
 class Store(models.Model):
@@ -76,7 +75,7 @@ class Diler(models.Model):
     
 
     def __str__(self):
-        return self.name
+        return self.fullName
 
 
     class Meta:
@@ -84,12 +83,20 @@ class Diler(models.Model):
         verbose_name_plural = 'Дилеры'
 
 
-
-
-
 class Shape(models.Model):
+    name = models.CharField(max_length=40, unique=True, verbose_name='Название')
+
+    def __str__(self) -> str:
+        return self.name
+
+    class Meta:
+        verbose_name = 'Профиль'
+        verbose_name_plural = 'Профили'
+
+
+class ShapeSystem(models.Model):
     photo =  models.FileField(upload_to='shape/img', verbose_name='Фото 303x323')
-    name = models.CharField(max_length=40,unique=True, verbose_name='Название')
+    name = models.OneToOneField(Shape, on_delete=models.CASCADE)
     rate = [
         (1, '1'),
         (2, '2'),
@@ -123,10 +130,9 @@ class Shape(models.Model):
         verbose_name_plural = 'Профильные системы'
 
 
+
 class Implement(models.Model):
     name = models.CharField(max_length=40, unique=True, verbose_name='Название')
-    country = CountryField(verbose_name='Страна производителя')
-    generator = models.CharField(max_length=30, verbose_name='Производитель')
 
     def __str__(self) -> str:
         return self.name
@@ -139,11 +145,9 @@ class Implement(models.Model):
 
 class Glazing(models.Model):
     articul =  models.CharField(max_length=20, unique=True, verbose_name='Артикул')
-    name = models.CharField(max_length=40, verbose_name='Название')
-    percent = models.FloatField(verbose_name='Процент')
 
     def __str__(self) -> str:
-        return self.name
+        return self.articul
     
 
 
@@ -284,6 +288,12 @@ class Sample(models.Model):
 
     def __str__(self) -> str:
         return "Акт замеров"
+    
+
+    def save(self, *args, **kwargs):
+        if len(Sample.objects.all()) != 0:
+            return
+        return super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Акт замеров'

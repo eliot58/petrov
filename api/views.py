@@ -1,6 +1,5 @@
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAdminUser
+from rest_framework.decorators import api_view
 from api.serializers import BonusSerializer
 from rest_framework.response import Response
 from rest_framework.status import (
@@ -15,7 +14,6 @@ import os
 
 @swagger_auto_schema(method='post',request_body=BonusSerializer)
 @api_view(["POST"])
-@permission_classes((IsAdminUser,))
 def bonus(request):
     serializer = BonusSerializer(data = request.data)
     if not serializer.is_valid():
@@ -31,34 +29,48 @@ def bonus(request):
     except Diler.DoesNotExist:
         return Response(status=HTTP_400_BAD_REQUEST)
     
+    
 
-    date_create = datetime.strptime(serializer.data["date_create"], '%y-%m-%d')
+    date_create = datetime.strptime(serializer.data["date_create"], '%Y-%m-%d').date()
+
 
     shapes = Bonus.objects.filter(select='s')
     for shape in serializer.data['shape']:
-        s = shapes.get(shape__name=shape["name"])
-
+        try:
+            s = shapes.get(shape__name=shape["name"])
+        except Bonus.DoesNotExist:
+            continue
 
         if s.fr <= date_create and s.to >= date_create:
-            diler.bonus = diler.bonus + (s.count * (int(shape["m2"]) // 1))
+            diler.bonus = diler.bonus + (s.count * int(shape["m2"]))
 
 
 
     glazings = Bonus.objects.filter(select='g')
     for glazing in serializer.data['glazing']:
-        s = glazings.get(glazing__name=glazing["name"])
+        try:
+            s = glazings.get(glazing__articul=glazing["name"])
+        except Bonus.DoesNotExist:
+            continue
 
 
         if s.fr <= date_create and s.to >= date_create:
-            diler.bonus = diler.bonus + (s.count * (int(glazing["m2"]) // 1))
+            diler.bonus = diler.bonus + (s.count * int(glazing["m2"]))
 
 
 
     implements = Bonus.objects.filter(select='i')
     for implement in serializer.data['implement']:
-        s = implements.get(implement__name=implement["name"])
+        try:
+            s = implements.get(implement__name=implement["name"])
+        except Bonus.DoesNotExist:
+            continue
+
         if s.fr <= date_create and s.to >= date_create:
-            diler.bonus = diler.bonus + (s.count * (int(glazing["amount"]) // 1))
+            diler.bonus = diler.bonus + (s.count * int(implement["amount"]))
+
+
+    diler.save()
 
 
     return Response({

@@ -4,7 +4,6 @@ from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 from django.contrib.auth.models import User
 from .models import Diler
 from django.core.exceptions import ValidationError
-from django.contrib.auth.hashers import check_password
 import requests
 import json
 from django.utils import timezone
