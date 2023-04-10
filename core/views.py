@@ -7,7 +7,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import requests
 import json
 from django.utils import timezone
-from datetime import datetime
+from datetime import date
+from dateutil.relativedelta import relativedelta
 
 #LOGIN LOGOUT
 #============================================================================
@@ -149,7 +150,22 @@ def orders(request):
     if request.user.is_superuser:
         logout(request)
         return redirect(login_view)
-    return render(request, 'cabinet/orders.html')
+    
+    if 'create_date_to' in request.GET:
+        r = requests.get(f'http://176.62.187.250/loadDataForGridPerSellerCode.php?jsoncallback=jQuery1113010583719635799582_1676741279402&s_code={request.user.diler.seller_code}&create_date_from={request.GET["create_date_from"]}&create_date_to={request.GET["create_date_to"]}&order_id_from=&order_id_to=&manufacture_date_from=&manufacture_date_to=&ready_date_from=&ready_date_to=&filter_select_state=')
+        fr = request.GET["create_date_from"]
+        to = request.GET["create_date_to"]
+    else:
+        current_date = date.today()
+        r = requests.get(f'http://176.62.187.250/loadDataForGridPerSellerCode.php?jsoncallback=jQuery1113010583719635799582_1676741279402&s_code={request.user.diler.seller_code}&create_date_from={current_date}-01-01&create_date_to={current_date - relativedelta(months=1)}&order_id_from=&order_id_to=&manufacture_date_from=&manufacture_date_to=&ready_date_from=&ready_date_to=&filter_select_state=')
+        fr = current_date
+        to = current_date - relativedelta(months=1)
+    s = r.text
+    start = s.index('(')
+    end = s.rindex(')')
+    json_string = s[start+1:end]
+
+    return render(request, 'cabinet/orders.html', {"orders": json_string, "from": fr, "to": to})
 
 @login_required(login_url='/login/')
 def store(request):

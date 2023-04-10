@@ -12,14 +12,14 @@
                 <div class="period__form col-xl-5 d-flex justify-content-end align-items-center">
                     <span>от</span>
                     <div class="period__input">
-                        <input type="date" class="date_from" name="create_date_from" reguired>
+                        <input type="date" class="date_from" value="{{fr}}" name="create_date_from" reguired>
                     </div>
                     <span>до</span>
                     <div class="period__input">
-                        <input type="date" class="date_to" name="create_date_to" required>
+                        <input type="date" class="date_to" value="{{to}}" name="create_date_to" required>
                     </div>
                 </div>
-                <button type="button" class="period__button">Показать</button>
+                <button type="submit" class="period__button">Показать</button>
             </form>
         </div>
         <div class="row">
@@ -79,39 +79,14 @@
 {% block script %} 
     <script src="{% static 'moment.js' %}"></script>
     <script>
-        async function getData(){
-            const s_code = "{{request.user.diler.seller_code}}";
-            const date_from = document.querySelector(".date_from").value;
-            const date_to = document.querySelector(".date_to").value;
-            const response = await fetch(`http://176.62.187.250/loadDataForGridPerSellerCode.php?jsoncallback=jQuery111309409598933391818_1680728392646&s_code=${s_code}&create_date_from=${date_from}&create_date_to=${date_to}&order_id_from=&order_id_to=&manufacture_date_from=&manufacture_date_to=&ready_date_from=&ready_date_to=&filter_select_state=`);
-            console.log(`http://176.62.187.250/loadDataForGridPerSellerCode.php?jsoncallback=jQuery111309409598933391818_1680728392646&s_code=${s_code}&create_date_from=${date_from}&create_date_to=${date_to}&order_id_from=&order_id_to=&manufacture_date_from=&manufacture_date_to=&ready_date_from=&ready_date_to=&filter_select_state=`)
-            let text = await response.text()
-            const start = text.indexOf('(')
-            const end = text.lastIndexOf(')')
-            const data = JSON.parse(text.slice(start + 1, end))
-            console.log(data)
-            return data;
-        }
 
-        async function main(){
+        function main(){
 
             const table_length = document.querySelector(".table_length")
-            const period_btn = document.querySelector(".period__button")
             const search_input = document.querySelector(".search_input")
 
 
-            function setDate(){
-                let nowDate = new Date();
-                let date_from = document.querySelector(".date_from");
-                let date_to = document.querySelector(".date_to");
-                date_to.value = nowDate.toISOString().split('T')[0]
-                nowDate.setMonth(nowDate.getMonth() - 1);
-                date_from.value = nowDate.toISOString().split('T')[0]
-            }
-            setDate()
-
-
-            let data = await getData();
+            let data = JSON.parse("{{orders}}");
 
             let currentPage = 1;
 
@@ -205,12 +180,6 @@
             displayList(data, Number(table_length.value), currentPage);
             displayPagination(data, Number(table_length.value), currentPage);
 
-
-            period_btn.addEventListener("click", async function(){
-                data = await getData();
-                displayList(data, Number(table_length.value), currentPage);
-                displayPagination(data, Number(table_length.value), currentPage);
-            })
 
             table_length.addEventListener("change", (event) => {
                 displayList(data, Number(event.target.value), currentPage);
