@@ -12,11 +12,11 @@
                 <div class="period__form col-xl-5 d-flex justify-content-end align-items-center">
                     <span>от</span>
                     <div class="period__input">
-                        <input type="date" class="date_from" value="{{fr}}" name="create_date_from" reguired>
+                        <input type="date" class="date_from" value="{{from|date:'Y-m-d'}}" name="create_date_from" reguired>
                     </div>
                     <span>до</span>
                     <div class="period__input">
-                        <input type="date" class="date_to" value="{{to}}" name="create_date_to" required>
+                        <input type="date" class="date_to" value="{{to|date:'Y-m-d'}}" name="create_date_to" required>
                     </div>
                 </div>
                 <button type="submit" class="period__button">Показать</button>
