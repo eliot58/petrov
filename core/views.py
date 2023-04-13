@@ -157,7 +157,7 @@ def orders(request):
         to = request.GET["create_date_to"]
     else:
         current_date = date.today()
-        r = requests.get(f'http://176.62.187.250/loadDataForGridPerSellerCode.php?jsoncallback=jQuery1113010583719635799582_1676741279402&s_code={request.user.diler.seller_code}&create_date_from={current_date}-01-01&create_date_to={current_date - relativedelta(months=1)}&order_id_from=&order_id_to=&manufacture_date_from=&manufacture_date_to=&ready_date_from=&ready_date_to=&filter_select_state=')
+        r = requests.get(f'http://176.62.187.250/loadDataForGridPerSellerCode.php?jsoncallback=jQuery1113010583719635799582_1676741279402&s_code={request.user.diler.seller_code}&create_date_from={current_date - relativedelta(months=1)}&create_date_to={current_date}&order_id_from=&order_id_to=&manufacture_date_from=&manufacture_date_to=&ready_date_from=&ready_date_to=&filter_select_state=')
         fr = current_date
         to = current_date - relativedelta(months=1)
     s = r.text

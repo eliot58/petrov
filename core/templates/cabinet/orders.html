@@ -79,6 +79,15 @@
 {% block script %} 
     <script src="{% static 'moment.js' %}"></script>
     <script>
+        function unEscape(htmlStr) {
+            htmlStr = htmlStr.replace(/&lt;/g , "<");	 
+            htmlStr = htmlStr.replace(/&gt;/g , ">");     
+            htmlStr = htmlStr.replace(/&quot;/g , "\"");  
+            htmlStr = htmlStr.replace(/&#39;/g , "\'");   
+            htmlStr = htmlStr.replace(/&amp;/g , "&");
+            htmlStr = htmlStr.replaceAll('\\' , "\\\\");
+            return htmlStr;
+        }
 
         function main(){
 
@@ -86,7 +95,7 @@
             const search_input = document.querySelector(".search_input")
 
 
-            let data = JSON.parse("{{orders}}");
+            let data = JSON.parse(unEscape("{{orders}}"));
 
             let currentPage = 1;
 
