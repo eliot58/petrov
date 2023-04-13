@@ -8,37 +8,6 @@ import requests
 import json
 from django.utils import timezone
 
-class SignupForm(forms.Form):
-    fullName = forms.CharField(max_length=100,label='',widget=forms.TextInput(attrs={"placeholder": "Введите ФИО"}))
-    email = forms.EmailField(label='',widget=forms.TextInput(attrs={"placeholder": "Введите почту"}))
-    phone = forms.CharField(max_length=12,label='',widget=forms.TextInput(attrs={"placeholder": "Введите номер телефона"}))
-
-
-    def clean_email(self):
-        email = self.cleaned_data['email']
-        try:
-            User.objects.get(username=email)
-        except User.DoesNotExist:
-            pass
-        else:
-            raise ValidationError('Пользователь с такой почтой уже есть')
-        return email
-    
-    def clean_phone(self):
-        phone = self.cleaned_data['phone']
-        regx = re.match(r'^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$',phone)
-        try:
-            regx.start()
-        except AttributeError:
-            raise ValidationError('Введите правильный номер (+79855310868)')
-        try:
-            Diler.objects.get(phone=phone)
-        except Diler.DoesNotExist:
-            pass
-        else:
-            raise ValidationError('Пользователь с таким номером уже есть')
-        return phone
-
 class LoginForm(forms.Form):
     username = forms.CharField(label='',widget=forms.TextInput(attrs={"placeholder": "Логин"}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Пароль'}), label='')
@@ -63,7 +32,6 @@ class LoginForm(forms.Form):
             except User.DoesNotExist:
                 new_user = User()
                 new_user.username = username
-                new_user.email = username
                 new_user.set_password(password)
                 new_user.save()
                 Diler.objects.create(user=new_user,fullName=data['seller_name'], seller_code=data['seller_code'], last_login=timezone.now())

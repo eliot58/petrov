@@ -17,21 +17,6 @@ class ShapeSystemAdmin(admin.ModelAdmin):
     list_display = ['name', 'warm_proofing', 'sound_proofing', 'camera', 'shape_width', 'shape_height', 'width_glaze', 'warm_proofing_dc', 'sound_proofing_dc']
 
 
-@admin.register(Implement)
-class ImplementAdmin(admin.ModelAdmin):
-    list_display = ['name']
-
-
-@admin.register(Glazing)
-class GlazingAdmin(admin.ModelAdmin):
-    list_display = ['articul']
-
-
-@admin.register(Shape)
-class ShapeAdmin(admin.ModelAdmin):
-    list_display = ['name']
-
-
 @admin.register(Bonus)
 class BonusAdmin(admin.ModelAdmin):
     list_display = ['fr', 'to', 'select','unit','count']

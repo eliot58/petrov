@@ -1,5 +1,21 @@
+import json
 from django.db import models
 from django.contrib.auth.models import User
+
+
+with open("shape.json", "r") as f:
+    data = json.load(f)
+shapes = [(shape["name"], shape["name"]) for shape in data]
+
+
+with open("implement.json", "r") as f:
+    data = json.load(f)
+implements = [(implement["name"], implement["name"]) for implement in data]
+
+
+with open("glazing.json", "r") as f:
+    data = json.load(f)
+glazings = [(glazing["marking"], glazing["marking"]) for glazing in data]
 
 
 class Store(models.Model):
@@ -83,20 +99,10 @@ class Diler(models.Model):
         verbose_name_plural = 'Дилеры'
 
 
-class Shape(models.Model):
-    name = models.CharField(max_length=40, unique=True, verbose_name='Название')
-
-    def __str__(self) -> str:
-        return self.name
-
-    class Meta:
-        verbose_name = 'Профиль'
-        verbose_name_plural = 'Профили'
-
 
 class ShapeSystem(models.Model):
     photo =  models.FileField(upload_to='shape/img', verbose_name='Фото 303x323')
-    name = models.OneToOneField(Shape, on_delete=models.CASCADE)
+    name = models.CharField(max_length=300, choices=shapes)
     rate = [
         (1, '1'),
         (2, '2'),
@@ -121,6 +127,7 @@ class ShapeSystem(models.Model):
     sound_proofing_dc = models.CharField(max_length=10, verbose_name='Шумоизоляция в Дц')
 
 
+
     def __str__(self) -> str:
         return self.name
 
@@ -131,29 +138,6 @@ class ShapeSystem(models.Model):
 
 
 
-class Implement(models.Model):
-    name = models.CharField(max_length=40, unique=True, verbose_name='Название')
-
-    def __str__(self) -> str:
-        return self.name
-
-    class Meta:
-        verbose_name = 'Фурнитура'
-        verbose_name_plural = 'Фурнитуры'
-
-
-
-class Glazing(models.Model):
-    articul =  models.CharField(max_length=20, unique=True, verbose_name='Артикул')
-
-    def __str__(self) -> str:
-        return self.articul
-    
-
-
-    class Meta:
-        verbose_name = 'Стеклопакет'
-        verbose_name_plural = 'Стеклопакеты'
 
 
 class Bonus(models.Model):
@@ -166,9 +150,9 @@ class Bonus(models.Model):
     ]
     select = models.CharField(max_length=10, choices=ch)
 
-    shape = models.ForeignKey(Shape, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Профильная система')
-    implement = models.ForeignKey(Implement, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Фурнитура')
-    glazing = models.ForeignKey(Glazing, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Стеклопакет')
+    shape = models.CharField(choices=shapes, max_length=300, blank=True, null=True, verbose_name='Профильная система')
+    implement = models.CharField(choices=implements, max_length=300, blank=True, null=True, verbose_name='Фурнитура')
+    glazing = models.CharField(choices=glazings, max_length=300, blank=True, null=True, verbose_name='Стеклопакет')
 
     u = [
         ('m2', 'm2'),
@@ -272,9 +256,9 @@ class Video(models.Model):
 
 
 class Offers(models.Model):
-    shape = models.ForeignKey(Shape, on_delete=models.CASCADE, verbose_name='Профиль')
-    implement = models.ForeignKey(Implement, on_delete=models.CASCADE, verbose_name='Фурнитура')
-    glazing = models.ForeignKey(Glazing, on_delete=models.CASCADE, verbose_name='Стеклопакет')
+    shape = models.CharField(choices=shapes, max_length=300, verbose_name='Профиль')
+    implement = models.CharField(choices=implements, max_length=300, verbose_name='Фурнитура')
+    glazing = models.CharField(choices=glazings, max_length=300, verbose_name='Стеклопакет')
     size = models.CharField(max_length=20, verbose_name='Размер')
     price = models.PositiveIntegerField(verbose_name='Базовая цена')
 

@@ -1,5 +1,5 @@
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from api.serializers import BonusSerializer
 from rest_framework.response import Response
 from rest_framework.status import (
@@ -7,10 +7,12 @@ from rest_framework.status import (
     HTTP_200_OK,
 )
 from core.models import *
-
+from rest_framework.permissions import IsAdminUser
 from datetime import datetime
 
 import os
+
+from update_data import update_choices
 
 @swagger_auto_schema(method='post',request_body=BonusSerializer)
 @api_view(["POST"])
@@ -78,6 +80,10 @@ def bonus(request):
     }, status=HTTP_200_OK)
 
 
-
-def register(request):
-    pass
+@api_view(["POST"])
+@permission_classes((IsAdminUser,))
+def update_data(request):
+    update_choices()
+    return Response({
+        'success': True,
+    }, status=HTTP_200_OK)

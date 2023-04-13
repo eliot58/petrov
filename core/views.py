@@ -203,7 +203,7 @@ def notifications(request):
     return render(request, 'cabinet/notifications.html')
 
 def shapes(request):
-    items = Shape.objects.all().order_by('id')
+    items = ShapeSystem.objects.all().order_by('id')
     paginator = Paginator(items, 3)
     page = request.GET.get('page')
     try:
