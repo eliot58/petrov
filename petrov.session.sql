@@ -1,1 +1,1 @@
-select * from personalaccountreport
+select marking from view_sp
