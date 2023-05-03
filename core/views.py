@@ -55,7 +55,12 @@ def ads(request):
     if request.user.is_superuser:
         logout(request)
         return redirect(login_view)
-    return render(request, 'cabinet/price.html', {'prices': Price.objects.all()})
+    
+    r = requests.get(f"http://176.62.187.250/service.php?s_code=7364-0554")
+
+    data = json.loads(r.text)
+
+    return render(request, 'cabinet/ads.html', {'ads': data})
 
 @login_required(login_url='/login/')
 def talon(request):
@@ -63,13 +68,17 @@ def talon(request):
         logout(request)
         return redirect(login_view)
     if request.method == "POST":
-        t = 1 if request.POST['order_id'].strip().split("\\")[0] == 'О' else 2
-        order_id = request.POST["order_id"].strip().split('\\')[1]
-        requests.get(f'http://176.62.187.250/loadpic.php?order_id={order_id}&email={request.user.diler.email}&type={t}')
-        return redirect(talon)
-        
+        order_name_form = OrderNameForm(request.POST)
+        if order_name_form.is_valid():
+            cd = order_name_form.cleaned_data
+            t = 1 if cd["order_name"].strip().split("\\")[0] == 'О' else 2
+            order_id = cd["order_name"].strip().split('\\')[1]
+            requests.get(f'http://176.62.187.250/loadpic.php?order_id={order_id}&email={request.user.diler.email}&type={t}')
+            return redirect(talon)
+    else:
+        order_name_form = OrderNameForm()
 
-    return render(request, 'cabinet/talon.html')
+    return render(request, 'cabinet/talon.html', {"form": order_name_form})
 
 def price(request):
     return render(request, 'cabinet/price.html', {'prices': Price.objects.all().order_by('zone')})
@@ -241,3 +250,17 @@ def commands(request):
 
 def notwork(request):
     return render(request, "cabinet/notwork.html")
+
+
+def ads_create(request):
+    return render(request, "cabinet/ads-create.html")
+
+
+def ads_id(request):
+    if request.method == 'POST':
+        order_name_form = OrderNameForm(request.POST)
+        if order_name_form.is_valid():
+            return redirect(ads_create)
+    else:
+        order_name_form = OrderNameForm()
+    return render(request, "cabinet/ads-id.html", {"form": order_name_form})

@@ -1,4 +1,5 @@
 import re
+from typing import Any, Dict
 from django import forms
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 from django.contrib.auth.models import User
@@ -49,33 +50,23 @@ class LoginForm(forms.Form):
         # return password
                 
         
+class OrderNameForm(forms.Form):
+    order_name = forms.CharField(label='',widget=forms.TextInput(attrs={"placeholder": "Введите номер заказа в формате О\\000000 или П\\000000"}))
 
-class ResetPassForm(PasswordResetForm):
-    email = forms.EmailField(
-        label='',
-        max_length=254,
-        widget=forms.EmailInput(attrs={"autocomplete": "email", "placeholder": "email"}),
-    )
+    def clean_order_name(self):
+        order_name = self.cleaned_data["order_name"]
 
-class PassSetForm(SetPasswordForm):
-    new_password1 = forms.CharField(
-        label='',
-        widget=forms.PasswordInput(attrs={"autocomplete": "new-password", "placeholder": "новый пароль"}),
-        strip=False
-    )
-    new_password2 = forms.CharField(
-        label='',
-        strip=False,
-        widget=forms.PasswordInput(attrs={"autocomplete": "new-password", "placeholder": "подтверждение пароля"}),
-    )
+        s_code = self.data["s_code"]
 
+        t = 1 if order_name.strip().split("\\")[0] == 'О' else 2
+        order_id = order_name.strip().split('\\')[1]
+        r = requests.get(f'http://176.62.187.250/isorder.php?order_id={order_id}&type={t}')
+        data = json.loads(r.text)
 
-    def clean_new_password2(self):
-        password1 = self.cleaned_data.get("new_password1")
-        password2 = self.cleaned_data.get("new_password2")
-        if password1 and password2:
-            if password1 != password2:
-                raise ValidationError(
-                    'пароли не совпадают'
-                )
-        return password2
+        if len(data) == 0:
+            raise ValidationError('Такого заказа не существует')
+        else:
+            if data[0]["seller_code"] != s_code:
+                raise ValidationError('Это не ваш заказ')
+        
+        return order_name

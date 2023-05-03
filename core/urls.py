@@ -27,4 +27,6 @@ urlpatterns = [
     path('cart_item_delete/<int:id>/', cart_item_delete, name="cart_item_delete"),
     path('sample/', sample, name="sample"),
     path('wait/', notwork, name="wait"),
+    path('ads-id/', ads_id, name='ads-id'),
+    path('ads-create/', ads_create, name='ads-create'),
 ]

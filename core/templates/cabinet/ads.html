@@ -3,7 +3,7 @@
 {% block title %} Рекламации {% endblock title %}
 
 {% load static %}
-
+{% load custom_tags %}
 {% block content %}
     <div class="row">
         <div class="col-xl-10">
@@ -21,19 +21,23 @@
                 <table style="width: 100%;">
                     <thead>
                         <tr>
-                            <th>Ссылка</th>
                             <th>Номер заказа</th>
                             <th>Дата подачи</th>
+                            <th>Комментарий</th>
+                            <th>Резолюция</th>
                             <th>Статус</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {% for add in ads %}
                         <tr>
-                            <td><a href="">перейти к рекламации</a></td>
-                            <td>43435</td>
-                            <td>16.09.2022</td>
-                            <td>Выполнено</td>
+                            <td>{{ add.ordername }}</td>
+                            <td>{{ add.dtdoc|dateFormat }}</td>
+                            <td>{{ add.comment }}</td>
+                            <td>{{ add.resolution }}</td>
+                            <td>{{ add.state }}</td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

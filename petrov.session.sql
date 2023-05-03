@@ -1,1 +1,1 @@
-select marking from view_sp
+select * from f_get_servicedoc_for_lk('7364-0554')
