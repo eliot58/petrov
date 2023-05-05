@@ -164,3 +164,6 @@ media/
 .vscode/
 render/
 
+petrov.session.sql
+
+data.json

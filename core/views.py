@@ -149,7 +149,10 @@ def profile(request):
         diler.address = request.POST['address']
         diler.manager = request.POST['manager']
         diler.calculator = request.POST['calculator']
-        diler.region_id  = int(request.POST['region'])
+        try:
+            diler.region_id  = int(request.POST['region'])
+        except KeyError:
+            pass
         diler.save()
         return redirect(profile)
     return render(request, 'cabinet/profile.html', {"regions": Region.objects.all()})
@@ -252,15 +255,16 @@ def notwork(request):
     return render(request, "cabinet/notwork.html")
 
 
-def ads_create(request):
-    return render(request, "cabinet/ads-create.html")
+def ads_create(request, order_name):
+    return render(request, "cabinet/ads-create.html", {"order_name": order_name})
 
 
 def ads_id(request):
     if request.method == 'POST':
         order_name_form = OrderNameForm(request.POST)
         if order_name_form.is_valid():
-            return redirect(ads_create)
+            cd = order_name_form.cleaned_data
+            return redirect(ads_create, args=(cd["order_name"],))
     else:
         order_name_form = OrderNameForm()
     return render(request, "cabinet/ads-id.html", {"form": order_name_form})

@@ -9,31 +9,29 @@
         <form class="ads-create col-xl-10 d-flex flex-column" method="post" action="">
             <div class="ads-create__title">Рекламации по заказу</div>
             <div class="ads-create__data">Автор рекламации: <span>{{ request.user.diler.fullName }}</span></div>
-            <div class="ads-create__data">Дата подачи рекламации: <span></span></div>
-            <div class="ads-create__data">№ конструкции: <span></span></div>
-            <div class="ads-create__data">Адрес доставки: <span></span></div>
+            <div class="ads-create__data">№ заказа: <span>{{ order_name }}</span></div>
             <div class="ads-create__data">E-mail автора: <span>{{ request.user.diler.email }}</span></div>
             <div class="ads-create__data">Телефон автора: <span>{{ request.user.diler.phone }}</span></div>
             <textarea class="col-xl-10" name="comment" id="" cols="30" rows="10" placeholder="Опишите что произошло в свободной форме"></textarea>
             <div class="upload-files d-flex">
                 <div class="upload-files__title">Прикрепить файлы рекламации</div>
-                <div class="upload-files__btn">
+                <div class="upload-files__btn" onclick="document.querySelector(`input[name='file1']`)">
                     <input type="file" name="file1">
                     <img src="{% static 'img/ico/clip.svg' %}" alt="">
                 </div>
-                <div class="upload-files__btn">
+                <div class="upload-files__btn" onclick="document.querySelector(`input[name='file2']`)">
                     <input type="file" name="file2">
                     <img src="{% static 'img/ico/clip.svg' %}" alt="">
                 </div>
-                <div class="upload-files__btn">
+                <div class="upload-files__btn" onclick="document.querySelector(`input[name='file3']`)">
                     <input type="file" name="file3">
                     <img src="{% static 'img/ico/clip.svg' %}" alt="">
                 </div>
-                <div class="upload-files__btn">
+                <div class="upload-files__btn" onclick="document.querySelector(`input[name='file4']`)">
                     <input type="file" name="file4">
                     <img src="{% static 'img/ico/clip.svg' %}" alt="">
                 </div>
-                <div class="upload-files__btn">
+                <div class="upload-files__btn" onclick="document.querySelector(`input[name='file5']`)">
                     <input type="file" name="file5">
                     <img src="{% static 'img/ico/clip.svg' %}" alt="">
                 </div>
