@@ -27,9 +27,10 @@ def bonus(request):
         return Response(status = HTTP_400_BAD_REQUEST)
     
     try:
-        diler = Diler.objects.get(seller_code=serializer.data["s_code"])
+        diler = DilerBonus.objects.get(seller_code=serializer.data["s_code"])
     except Diler.DoesNotExist:
-        return Response(status=HTTP_400_BAD_REQUEST)
+        diler = DilerBonus()
+        diler.seller_code = serializer.data["s_code"]
     
     
 
@@ -44,7 +45,7 @@ def bonus(request):
             continue
 
         if s.fr <= date_create and s.to >= date_create:
-            diler.bonus = diler.bonus + (s.count * int(shape["m2"]))
+            diler.total_bonus = diler.total_bonus + (s.count * int(shape["m2"]))
 
 
 
@@ -57,7 +58,7 @@ def bonus(request):
 
 
         if s.fr <= date_create and s.to >= date_create:
-            diler.bonus = diler.bonus + (s.count * int(glazing["m2"]))
+            diler.total_bonus = diler.total_bonus + (s.count * int(glazing["m2"]))
 
 
 
@@ -69,7 +70,7 @@ def bonus(request):
             continue
 
         if s.fr <= date_create and s.to >= date_create:
-            diler.bonus = diler.bonus + (s.count * int(implement["amount"]))
+            diler.total_bonus = diler.total_bonus + (s.count * int(implement["amount"]))
 
 
     diler.save()

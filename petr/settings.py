@@ -136,9 +136,9 @@ if DEBUG:
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 else:
-    MEDIA_ROOT = '/var/www/tododo/media'
+    MEDIA_ROOT = '/var/www/petrov/media'
     MEDIA_URL = '/media/'
-    STATIC_ROOT = '/var/www/tododo/static'
+    STATIC_ROOT = '/var/www/petrov/static'
     STATIC_URL = '/static/'
 
 # Default primary key field type

@@ -118,8 +118,8 @@
                                     <td>${el.deliverytime == null ? 'отсутствует' : el.deliverytime}</td>
                                     <td>${el.date_end_fact==null ? 'отсутствует' : moment(el.date_end_fact,"MMM D YYYY h:m:s:SSSa").format('DD.MM.YYYY')}</td>
                                     <td>${el.state_name}</td>
-                                    <td>${el.items_qu}</td>
-                                    <td>${el.items_sqr}</td>
+                                    <td>${parseInt(el.items_qu)}</td>
+                                    <td>${parseFloat(el.items_sqr).toFixed(2)}</td>
                                     <td>${el.order_sm}</td>
                                     <td>${el.sm_pay}</td>
                                     <td>${el.prof_name}</td>

@@ -64,8 +64,7 @@ class Diler(models.Model):
     manager = models.CharField(max_length=100, default='', verbose_name='Территориальный менеджер')
     calculator = models.CharField(max_length=100, default='', verbose_name='Расчетчик')
     last_login = models.DateTimeField(verbose_name='Дата последнего входа')
-    bonus = models.FloatField(default=0, verbose_name='Бонусы дилера')
-    seller_code = models.CharField(max_length=20)
+    seller_code = models.CharField(max_length=20, unique=True)
 
     region = models.ForeignKey(Region, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Регион')
 
@@ -97,6 +96,11 @@ class Diler(models.Model):
     class Meta:
         verbose_name = 'Дилер'
         verbose_name_plural = 'Дилеры'
+
+
+class DilerBonus(models.Model):
+    seller_code = models.CharField(max_length=20, unique=True)
+    total_bonus = models.PositiveIntegerField(default=0)
 
 
 
@@ -283,3 +287,12 @@ class Sample(models.Model):
         verbose_name = 'Акт замеров'
         verbose_name_plural = 'Акт замеров'
 
+class File(models.Model):
+    file = models.FileField(upload_to="service")
+
+    def __str__(self) -> str:
+        return self.id
+    
+    class Meta:
+        verbose_name = 'Файл'
+        verbose_name_plural = 'Файлы'

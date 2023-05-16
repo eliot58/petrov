@@ -6,7 +6,8 @@
 
 {% block content %}
     <div class="row">
-        <form class="ads-create col-xl-10 d-flex flex-column" method="post" action="">
+        <form class="ads-create col-xl-10 d-flex flex-column" method="post" action="{% url 'ads-create' %}">
+            {% csrf_token %}
             <div class="ads-create__title">Рекламации по заказу</div>
             <div class="ads-create__data">Автор рекламации: <span>{{ request.user.diler.fullName }}</span></div>
             <div class="ads-create__data">№ заказа: <span>{{ order_name }}</span></div>
