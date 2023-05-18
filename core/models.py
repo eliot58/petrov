@@ -293,6 +293,9 @@ class File(models.Model):
     def __str__(self) -> str:
         return self.id
     
+    def get_file(self):
+        return self.file.url
+    
     class Meta:
         verbose_name = 'Файл'
         verbose_name_plural = 'Файлы'

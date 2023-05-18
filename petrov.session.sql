@@ -1,1 +1,1 @@
-exec pg_create_servicedoc_for_lk '1456-2704', 'П\056754', 'test', '89251416996', 'test.txt', CONVERT(varbinary(max), '0x9473FBCCBC01AF', 1)
+select * from f_get_servicedoc_for_lk('1456-2704')

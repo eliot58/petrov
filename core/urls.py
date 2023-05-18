@@ -28,5 +28,5 @@ urlpatterns = [
     path('sample/', sample, name="sample"),
     path('wait/', notwork, name="wait"),
     path('ads-id/', ads_id, name='ads-id'),
-    path('ads-create/', ads_create, name='ads-create'),
+    path('ads-create/<str:order_name>', ads_create, name='ads-create'),
 ]

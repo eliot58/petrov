@@ -9,6 +9,10 @@ import json
 from django.utils import timezone
 from datetime import date
 from dateutil.relativedelta import relativedelta
+from django.urls import reverse
+from django.http import HttpResponseRedirect
+import binascii
+from json.decoder import JSONDecodeError
 
 #LOGIN LOGOUT
 #============================================================================
@@ -56,9 +60,13 @@ def ads(request):
         logout(request)
         return redirect(login_view)
     
-    r = requests.get(f"http://176.62.187.250/service.php?s_code=7364-0554")
-
-    data = json.loads(r.text)
+    r = requests.get(f"http://176.62.187.250/service.php?s_code={request.user.diler.seller_code}")
+    
+    try:
+        data = json.loads(r.text)
+    except JSONDecodeError:
+        r = requests.get(f"http://176.62.187.250/service.php?s_code={request.user.diler.seller_code}")
+        data = json.loads(r.text)
 
     return render(request, 'cabinet/ads.html', {'ads': data})
 
@@ -257,16 +265,46 @@ def notwork(request):
 
 def ads_create(request, order_name):
     if request.method == 'POST':
-        print(request.POST)
+        comment = request.POST["comment"]
+        order_name = request.POST["order_name"]
+        file_urls = []
+        query = f"exec pg_create_servicedoc_for_lk_filevarchar '{request.user.diler.seller_code}', '{order_name}', '{comment}', '{request.user.username}'"
+        if "file1" in request.FILES:
+            file_urls.append("'" + request.FILES["file1"].name + "'")
+            file_urls.append("'0x" + binascii.hexlify(request.FILES["file1"].read()).decode() + "'")
+        if "file2" in request.FILES:
+            file_urls.append("'" + request.FILES["file2"].name + "'")
+            file_urls.append("'0x" + binascii.hexlify(request.FILES["file2"].read()).decode() + "'")
+        if "file3" in request.FILES:
+            file_urls.append("'" + request.FILES["file3"].name + "'")
+            file_urls.append("'0x" + binascii.hexlify(request.FILES["file3"].read()).decode() + "'")
+        if "file4" in request.FILES:
+            file_urls.append("'" + request.FILES["file4"].name + "'")
+            file_urls.append("'0x" + binascii.hexlify(request.FILES["file4"].read()).decode() + "'")
+        if "file5" in request.FILES:
+            file_urls.append("'" + request.FILES["file5"].name + "'")
+            file_urls.append("'0x" + binascii.hexlify(request.FILES["file5"].read()).decode() + "'")
+        
+        requests.post(f'http://176.62.187.250/createService.php', data={"query": query + ", " + ", ".join(file_urls)})
+
+        with open("text.txt", "w") as f:
+            f.write(query + ", " + ", ".join(file_urls))
+        
+        return redirect(ads)
     return render(request, "cabinet/ads-create.html", {"order_name": order_name})
 
 
 def ads_id(request):
     if request.method == 'POST':
         order_name_form = OrderNameForm(request.POST)
-        if order_name_form.is_valid():
-            cd = order_name_form.cleaned_data
-            return redirect(ads_create, args=(cd["order_name"],))
+        try:
+            if order_name_form.is_valid():
+                cd = order_name_form.cleaned_data
+                return HttpResponseRedirect(reverse("ads-create", args=[cd["order_name"]]))
+        except JSONDecodeError:
+            if order_name_form.is_valid():
+                cd = order_name_form.cleaned_data
+                return HttpResponseRedirect(reverse("ads-create", args=[cd["order_name"]]))
     else:
         order_name_form = OrderNameForm()
     return render(request, "cabinet/ads-id.html", {"form": order_name_form})
