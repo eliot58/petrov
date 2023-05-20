@@ -1,1 +1,0 @@
-select * from f_get_servicedoc_for_lk('1456-2704')
