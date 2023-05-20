@@ -1,7 +1,8 @@
 import json
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.forms import ValidationError
+from django.core.files.images import get_image_dimensions
 
 with open("shape.json", "r") as f:
     data = json.load(f)
@@ -19,12 +20,23 @@ glazings = [(glazing["marking"], glazing["marking"]) for glazing in data]
 
 
 class Store(models.Model):
-    photo = models.FileField(upload_to='store/img', verbose_name='Фото 303x323')
+    photo = models.ImageField(upload_to='store/img', verbose_name='Фото 303x323')
     title = models.CharField(max_length=20, unique=True, verbose_name='Заголовок')
     description = models.TextField(verbose_name='Описание')
     count = models.IntegerField(verbose_name='В наличии')
     price_of_bonus = models.PositiveIntegerField(verbose_name='Цена в бонусах')
     price  = models.PositiveIntegerField(verbose_name='Цена в рублях')
+
+    def clean(self):
+
+        if not self.photo:
+            raise ValidationError("No image!")
+        else:
+            w, h = get_image_dimensions(self.photo)
+            if w != 303:
+                raise ValidationError("Изображение имеет ширину %i пикселей. Должно быть 303px" % w)
+            if h != 323:
+                raise ValidationError("Изображение имеет высоту %i пикселей. Должно быть 323px" % h)
 
     def __str__(self) -> str:
         return self.title
@@ -65,7 +77,18 @@ class Employ(models.Model):
     role = models.ForeignKey(Role, on_delete=models.CASCADE, verbose_name='Роль')
     phone = models.CharField(max_length=12, verbose_name='Телефон')
     email = models.EmailField(verbose_name='E-mail')
-    photo = models.FileField(upload_to='employ', verbose_name='Фото 303x323')
+    photo = models.ImageField(upload_to='employ', verbose_name='Фото 303x323')
+
+    def clean(self):
+
+        if not self.photo:
+            raise ValidationError("No image!")
+        else:
+            w, h = get_image_dimensions(self.photo)
+            if w != 303:
+                raise ValidationError("Изображение имеет ширину %i пикселей. Должно быть 303px" % w)
+            if h != 323:
+                raise ValidationError("Изображение имеет высоту %i пикселей. Должно быть 323px" % h)
 
     class Meta:
         verbose_name = 'Сотрудник'
@@ -125,7 +148,7 @@ class DilerBonus(models.Model):
 
 
 class ShapeSystem(models.Model):
-    photo =  models.FileField(upload_to='shape/img', verbose_name='Фото 303x323')
+    photo =  models.ImageField(upload_to='shape/img', verbose_name='Фото 303x323')
     name = models.CharField(max_length=300, choices=shapes)
     rate = [
         (1, '1'),
@@ -149,6 +172,17 @@ class ShapeSystem(models.Model):
 
     warm_proofing_dc = models.CharField(max_length=10, verbose_name='Сопротивление теплопередачи в Дц')
     sound_proofing_dc = models.CharField(max_length=10, verbose_name='Шумоизоляция в Дц')
+
+    def clean(self):
+
+        if not self.photo:
+            raise ValidationError("No image!")
+        else:
+            w, h = get_image_dimensions(self.photo)
+            if w != 303:
+                raise ValidationError("Изображение имеет ширину %i пикселей. Должно быть 303px" % w)
+            if h != 303:
+                raise ValidationError("Изображение имеет высоту %i пикселей. Должно быть 303px" % h)
 
 
 
