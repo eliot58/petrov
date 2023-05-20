@@ -49,7 +49,27 @@ class Region(models.Model):
     
 
 
-    
+class Role(models.Model):
+    name = models.CharField(max_length=80, verbose_name='Роль')
+
+
+    def __str__(self) -> str:
+        return self.name
+
+    class Meta:
+        verbose_name = 'Роль'
+        verbose_name_plural = 'Роли'
+
+class Employ(models.Model):
+    fullName = models.CharField(max_length=100, verbose_name='ФИО')
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, verbose_name='Роль')
+    phone = models.CharField(max_length=12, verbose_name='Телефон')
+    email = models.EmailField(verbose_name='E-mail')
+    photo = models.FileField(upload_to='employ', verbose_name='Фото 303x323')
+
+    class Meta:
+        verbose_name = 'Сотрудник'
+        verbose_name_plural = 'Сотрудники'
 
 
 class Diler(models.Model):
@@ -61,8 +81,8 @@ class Diler(models.Model):
     address = models.CharField(max_length=200, default='', verbose_name='Адрес')
     discount_window = models.IntegerField(default=0, verbose_name='Скидка на окна')
     accessories_discount = models.IntegerField(default=0, verbose_name='Скидка на аксессуары')
-    manager = models.CharField(max_length=100, default='', verbose_name='Территориальный менеджер')
-    calculator = models.CharField(max_length=100, default='', verbose_name='Расчетчик')
+    manager = models.ForeignKey(Employ, null=True, on_delete=models.SET_NULL,related_name="manager", verbose_name='Территориальный менеджер')
+    calculator = models.ForeignKey(Employ, null=True, on_delete=models.SET_NULL,related_name="calculator", verbose_name='Расчетчик')
     last_login = models.DateTimeField(verbose_name='Дата последнего входа')
     seller_code = models.CharField(max_length=20, unique=True)
 
@@ -181,33 +201,11 @@ class Price(models.Model):
         verbose_name = 'Логистика'
         verbose_name_plural = 'Логистика'
 
-class Role(models.Model):
-    name = models.CharField(max_length=80, verbose_name='Роль')
-
-
-    def __str__(self) -> str:
-        return self.name
-
-    class Meta:
-        verbose_name = 'Роль'
-        verbose_name_plural = 'Роли'
-
-class Employ(models.Model):
-    fullName = models.CharField(max_length=100, verbose_name='ФИО')
-    role = models.ForeignKey(Role, on_delete=models.CASCADE, verbose_name='Роль')
-    phone = models.CharField(max_length=12, verbose_name='Телефон')
-    email = models.EmailField(verbose_name='E-mail')
-    photo = models.FileField(upload_to='employ', verbose_name='Фото 303x323')
-
-    class Meta:
-        verbose_name = 'Сотрудник'
-        verbose_name_plural = 'Сотрудники'
-
 
 class New(models.Model):
     title = models.CharField(max_length=100, verbose_name='Заголовок')
     date = models.DateField(auto_now_add=True, verbose_name='Дата создания')
-    file = models.FileField(upload_to='news', verbose_name='Файл')
+    file = models.FileField(upload_to='news', null=True, blank=True, verbose_name='Файл')
 
     class Meta:
         verbose_name = 'Новость'
@@ -286,16 +284,3 @@ class Sample(models.Model):
     class Meta:
         verbose_name = 'Акт замеров'
         verbose_name_plural = 'Акт замеров'
-
-class File(models.Model):
-    file = models.FileField(upload_to="service")
-
-    def __str__(self) -> str:
-        return self.id
-    
-    def get_file(self):
-        return self.file.url
-    
-    class Meta:
-        verbose_name = 'Файл'
-        verbose_name_plural = 'Файлы'
