@@ -220,13 +220,13 @@
 
             function orders_filter(e){
                 console.log(e.target.value)
-                if (e.targer.value == "sklad") {
+                if (e.target.value == "sklad") {
                     const result = data.filter(el => el.state_name == "На складе");
-                } else if (e.targer.value == "work"){
+                } else if (e.target.value == "work"){
                     const result = data.filter(el => el.state_name == "В производстве");
-                } else if (e.targer.value == "loaded"){
+                } else if (e.target.value == "loaded"){
                     const result = data.filter(el => el.state_name == "Отгружен");
-                } else if (e.targer.value == "finish"){
+                } else if (e.target.value == "finish"){
                     const result = data.filter(el => el.state_name == "Завершен");
                 }
                 displayList(result, Number(table_length.value), currentPage);
