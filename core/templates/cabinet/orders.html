@@ -39,10 +39,11 @@
                         </select>
                         <span>записей</span>
                     </div>
-                    <select class="table_length">
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
+                    <select class="table_length" id="filter" style="margin-left: 20px;">
+                        <option value="work" selected>В производстве</option>
+                        <option value="sklad">На складе</option>
+                        <option value="loaded">Отгружен</option>
+                        <option value="finish">Завершен</option>
                     </select>
                 </div>
             </div>
@@ -100,6 +101,7 @@
 
             const table_length = document.querySelector(".table_length")
             const search_input = document.querySelector(".search_input")
+            const filter_select = document.querySelector("#filter")
 
 
             let data = JSON.parse(unEscape("{{orders}}"));
@@ -204,8 +206,19 @@
 
             search_input.addEventListener("input", search);
 
+            filter_select.addEventListener("change", orders_filter)
+
+
+
             function search(e){
                 const result = data.filter(el => el.order_name.indexOf(e.target.value) != -1);
+                displayList(result, Number(table_length.value), currentPage);
+                displayPagination(result, Number(table_length.value), currentPage);
+            }
+
+
+            function orders_filter(e){
+                console.log(e.target.value)
                 displayList(result, Number(table_length.value), currentPage);
                 displayPagination(result, Number(table_length.value), currentPage);
             }
