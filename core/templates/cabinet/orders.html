@@ -29,14 +29,21 @@
                     <input type="text" class="search_input" required>
                     <img src="{% static 'img/ico/search.svg' %}" alt="">
                 </div>
-                <div class="search__count">
-                    <span>показать</span>
-                    <select class="table_length" id="">
+                <div class="d-flex">
+                    <div class="search__count">
+                        <span>показать</span>
+                        <select class="table_length" id="">
+                            <option value="5" selected>5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                        </select>
+                        <span>записей</span>
+                    </div>
+                    <select name="" id="">
                         <option value="5" selected>5</option>
                         <option value="10">10</option>
                         <option value="20">20</option>
                     </select>
-                    <span>записей</span>
                 </div>
             </div>
         </div>
