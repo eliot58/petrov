@@ -40,7 +40,8 @@
                         <span>записей</span>
                     </div>
                     <select class="table_length" id="filter" style="margin-left: 20px;">
-                        <option value="work" selected>В производстве</option>
+                        <option value="" selected></option>
+                        <option value="work">В производстве</option>
                         <option value="sklad">На складе</option>
                         <option value="loaded">Отгружен</option>
                         <option value="finish">Завершен</option>
@@ -219,6 +220,15 @@
 
             function orders_filter(e){
                 console.log(e.target.value)
+                if (e.targer.value == "sklad") {
+                    const result = data.filter(el => el.state_name == "На складе");
+                } else if (e.targer.value == "work"){
+                    const result = data.filter(el => el.state_name == "В производстве");
+                } else if (e.targer.value == "loaded"){
+                    const result = data.filter(el => el.state_name == "Отгружен");
+                } else if (e.targer.value == "finish"){
+                    const result = data.filter(el => el.state_name == "Завершен");
+                }
                 displayList(result, Number(table_length.value), currentPage);
                 displayPagination(result, Number(table_length.value), currentPage);
             }
