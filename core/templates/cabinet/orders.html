@@ -219,15 +219,15 @@
 
 
             function orders_filter(e){
-                console.log(e.target.value)
+                let result = data;
                 if (e.target.value == "sklad") {
-                    const result = data.filter(el => el.state_name == "На складе");
+                    result = data.filter(el => el.state_name == "На складе");
                 } else if (e.target.value == "work"){
-                    const result = data.filter(el => el.state_name == "В производстве");
+                    result = data.filter(el => el.state_name == "В производстве");
                 } else if (e.target.value == "loaded"){
-                    const result = data.filter(el => el.state_name == "Отгружен");
+                    result = data.filter(el => el.state_name == "Отгружен");
                 } else if (e.target.value == "finish"){
-                    const result = data.filter(el => el.state_name == "Завершен");
+                    result = data.filter(el => el.state_name == "Завершен");
                 }
                 displayList(result, Number(table_length.value), currentPage);
                 displayPagination(result, Number(table_length.value), currentPage);
