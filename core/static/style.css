@@ -529,7 +529,7 @@ header {
     font-size: 17px;
 }
 
-.search__count select {
+.table_length {
     border: 1px solid #95D5EC;
     box-shadow: 0px 4px 50px rgba(0, 0, 0, 0.05);
     border-radius: 15px;
