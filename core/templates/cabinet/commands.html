@@ -4,49 +4,100 @@
 
 {% load static %}
 
+{% block style %}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
+
+<style>
+    .body_inner {
+        background: url('../static/img/football_1.jpg') 0 0/cover no-repeat;
+    }
+
+    .menu__link {
+        color: white;
+    }
+</style>
+
+{% endblock %}
+
 {% block content %}
     <div class="row">
-        <div class="shape col-xl-9">
-            <div class="shape__items d-flex justify-content-between">
-                {% for command in items %}
-                <div class="shape__item m-4 d-flex flex-column">
-                    <img src="{{ command.photo.url }}" height="303" width="323" alt="">
-                    <button class="commands__btn" style="margin-top: 10px;" onclick="this.nextElementSibling.style.display = 'block'; this.style.borderRadius = '0px 0px 50px 50px'">Региноальный менеджер</button>
-                    <div class="shape__popup">
-                        <img class="shape-popup__exit" src="{% static 'img/ico/exit.svg' %}" onclick="this.parentNode.style.display = 'none'; this.parentNode.previousElementSibling.style.borderRadius = '15px'" alt="">
-                        <div class="shape-attr d-flex justify-content-between align-items-center">
-                            <div class="shape-attr__key">ФИО</div>
-                            <div class="shape-attr__value">{{ command.fullName }}</div>
-                        </div>
-                        <div class="shape-attr d-flex justify-content-between align-items-center">
-                            <div class="shape-attr__key">Email</div>
-                            <div class="shape-attr__value">{{ command.email }}</div>
-                        </div>
-                        <div class="shape-attr d-flex justify-content-between align-items-center">
-                            <div class="shape-attr__key">Номер телефона</div>
-                            <div class="shape-attr__value">{{ command.phone }}</div>
+        <div class="team col-xl-9" style="margin-left: 180px; margin-top: 20px;">
+            <div class="d-flex justify-content-between">
+                <div class="employ" style="margin-top: 60px; margin-bottom: 60px;">
+                    <div class="employ__inner">
+                        <img src="{{ service.photo.url }}" height="200" width="200" alt="">
+                        <div class="role">{{ service.get_role_display }}</div>
+                        <div class="full_name">{{ service.fullName }}</div>
+                        <div class="description">{{ service.description }}</div>
+                        <div class="social d-flex">
+                            <img src="{% static 'img/ico/mail.svg' %}" style="margin-right: 10px;" alt="">
+                            <img src="{% static 'img/ico/telegram.svg' %}" alt="">
                         </div>
                     </div>
                 </div>
-                {% endfor %}
+                <div class="employ" >
+                    <div class="employ__inner">
+                        <img src="{{ director.photo.url }}" height="200" width="200" alt="">
+                        <div class="role">{{ director.get_role_display }}</div>
+                        <div class="full_name">{{ director.fullName }}</div>
+                        <div class="description">{{ director.description }}</div>
+                        <div class="social d-flex">
+                            <img src="{% static 'img/ico/mail.svg' %}" style="margin-right: 10px;" alt="">
+                            <img src="{% static 'img/ico/telegram.svg' %}" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="employ" style="margin-top: 60px; margin-bottom: 60px;">
+                    <div class="employ__inner">
+                        <img src="{{ pricer.photo.url }}" height="200" width="200" alt="">
+                        <div class="role">{{ pricer.get_role_display }}</div>
+                        <div class="full_name">{{ pricer.fullName }}</div>
+                        <div class="description">{{ pricer.description }}</div>
+                        <div class="social d-flex">
+                            <img src="{% static 'img/ico/mail.svg' %}" style="margin-right: 10px;" alt="">
+                            <img src="{% static 'img/ico/telegram.svg' %}" alt="">
+                        </div>
+                    </div>
+                </div>
             </div>
-        
-            <div class="custom-pagination d-flex col-xl-4 align-items-center">
-                {% if items.has_previous %}
-                    <a class="left-arrow" href="?page={{ items.previous_page_number }}"><img src="{% static 'img/ico/left_arrow.svg' %}" alt=""></a>
-                {% endif %}
-                {% for i in items.paginator.page_range %}
-                    {% if i > items.number|add:-4 and i < items.number|add:8 %}
-                        {% if items.number == i %}
-                            <a href="" class="pagination__item pagination__item-active">{{ items.number }}</a>
-                        {% else %}
-                            <a href="?page={{ i }}" class="pagination__item">{{ i }}</a>
-                        {% endif %}
-                    {% endif %}
-                {% endfor %}
-                {% if items.has_next %}
-                    <a class="right-arrow" href="?page={{ items.next_page_number }}"><img src="{% static 'img/ico/right_arrow.svg' %}" alt=""></a>
-                {% endif %}
+            <div class="d-flex justify-content-between">
+                <div class="employ" style="margin-top: 60px; margin-bottom: 60px;">
+                    <div class="employ__inner">
+                        <img src="{{ request.user.diler.calculator.photo.url }}" height="200" width="200" alt="">
+                        <div class="role">Менеджер по расчетам</div>
+                        <div class="full_name">{{ request.user.diler.calculator.fullName }}</div>
+                        <div class="description">{{ request.user.diler.calculator.description }}</div>
+                        <div class="social d-flex">
+                            <img src="{% static 'img/ico/mail.svg' %}" style="margin-right: 10px;" alt="">
+                            <img src="{% static 'img/ico/telegram.svg' %}" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="employ">
+                    <div class="employ__inner">
+                        <img src="{{ dev.photo.url }}" height="200" width="200" alt="">
+                        <div class="role">{{ dev.get_role_display }}</div>
+                        <div class="full_name">{{ dev.fullName }}</div>
+                        <div class="description">{{ dev.description }}</div>
+                        <div class="social d-flex">
+                            <img src="{% static 'img/ico/mail.svg' %}" style="margin-right: 10px;" alt="">
+                            <img src="{% static 'img/ico/telegram.svg' %}" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="employ" style="margin-top: 60px; margin-bottom: 60px;">
+                    <div class="employ__inner">
+                        <img src="{{ request.user.diler.manager.photo.url }}" height="200" width="200" alt="">
+                        <div class="role">Менеджер отдела развития</div>
+                        <div class="full_name">{{ request.user.diler.manager.fullName }}</div>
+                        <div class="description">{{ request.user.diler.manager.description }}</div>
+                        <div class="social d-flex">
+                            <img src="{% static 'img/ico/mail.svg' %}" style="margin-right: 10px;" alt="">
+                            <img src="{% static 'img/ico/telegram.svg' %}" alt="">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

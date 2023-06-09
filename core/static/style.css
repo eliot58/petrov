@@ -263,6 +263,7 @@ header {
 .menu__link {
     font-size: 17px;
     color: #1F2428;
+    font-weight: 600;
 }
 
 .menu__icon {
@@ -275,7 +276,8 @@ header {
 
 
 .menu__link-active {
-    font-weight: 600;
+    font-size: 20px;
+    font-weight: 900;
     text-decoration: underline;
 }
 
@@ -814,6 +816,7 @@ textarea {
     display: block;
     padding: 5px 8px;
     cursor: pointer;
+    margin: 0px 10px;
 }
 
 .pagination__item-active {
@@ -824,6 +827,8 @@ textarea {
 
 .shape__item {
     position: relative;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .shape__item img{
@@ -906,33 +911,37 @@ textarea {
     font-weight: 700;
 }
 
-.commands__person {
-    font-size: 18px;
-}
-
-.commands__person span{
-    font-weight: 600;
-}
-
-.commands__person-name {
-    margin: 16px 0px
-}
-
-.commands__person-email {
-    margin-bottom: 16px;
+.employ {
+    background-color: white;
+    padding: 20px;
+    margin: 0px 20px;
+    border-radius: 20px;
+    width: 240px;
+    height: 370px;
 }
 
 
-.commands__person-role {
-    margin-bottom: 16px;
+.employ__inner img {
+    border-radius: 20px;
+}
+
+.role {
+    font-size: 12px;
+    color: #b3b3b3;
+    margin: 5px 0px;
+}
+
+.full_name {
+    font-size: 14px;
+    color: #95D5EC;
+    margin: 5px 0px;
 }
 
 
-.commands__btn {
-    background: #95D5EC;
-    border-radius: 15px;
-    border: none;
-    font-size: 16px;
-    padding: 10px 40px;
-    font-weight: 700;
+.employ__inner .description {
+    font-size: 10px;
+    line-height: 1.8;
+    border-radius: 20px;
+    color: #111111;
+    margin: 5px 0px;
 }

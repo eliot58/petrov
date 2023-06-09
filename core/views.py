@@ -155,8 +155,6 @@ def profile(request):
         diler.phone = request.POST['phone']
         diler.alert_phone = request.POST['alert_phone']
         diler.address = request.POST['address']
-        diler.manager = request.POST['manager']
-        diler.calculator = request.POST['calculator']
         try:
             diler.region_id  = int(request.POST['region'])
         except KeyError:
@@ -247,16 +245,7 @@ def videolearn(request):
     return render(request, 'cabinet/video.html', {'videos': Video.objects.all()})
 
 def commands(request):
-    items = Employ.objects.all().order_by('id')
-    paginator = Paginator(items, 3)
-    page = request.GET.get('page')
-    try:
-        items = paginator.page(page)
-    except PageNotAnInteger:
-        items = paginator.page(1)
-    except EmptyPage:
-        items = paginator.page(paginator.num_pages)
-    return render(request, 'cabinet/commands.html', {'items': items})
+    return render(request, 'cabinet/commands.html', {'director': Employ.objects.get(role="director"), 'dev': Employ.objects.get(role="development"), 'service': Employ.objects.get(role="service"), 'pricer': Employ.objects.get(role="pricer")})
 
 
 def notwork(request):

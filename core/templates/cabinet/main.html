@@ -43,7 +43,7 @@
                 {% for new in news %}
                 <div class="new__item">
                     <img class="calendar" src="{% static 'img/ico/calendar.svg' %}" alt="">
-                    <div class="new__item-date">{{ new.date }}</div>
+                    <div class="new__item-date">{{ new.date|date:'d.m.Y' }}</div>
                     <div class="new__item-title">{{ new.title }}</div>
                 </div>
                 {% endfor %}

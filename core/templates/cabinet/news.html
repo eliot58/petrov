@@ -16,7 +16,7 @@
                         <div class="new__item-date">{{ new.date|date:'d.m.Y' }}</div>
                         <div class="new__item-title">{{ new.title }}</div>
                     </div>
-                    <a class="download d-flex align-items-center" href="{{ new.file.url }}">
+                    <a class="download d-flex align-items-center" href="{% if new.file.url != None %}{% else %}{{ new.file.url }}{% endif %}">
                         <div class="download__text">Скачать</div>
                         <img class="download__img" src="{% static 'img/ico/download.svg' %}" alt="">
                     </a>

@@ -60,24 +60,19 @@ class Region(models.Model):
         verbose_name_plural = 'Регионы'
     
 
-
-class Role(models.Model):
-    name = models.CharField(max_length=80, verbose_name='Роль')
-
-
-    def __str__(self) -> str:
-        return self.name
-
-    class Meta:
-        verbose_name = 'Роль'
-        verbose_name_plural = 'Роли'
-
 class Employ(models.Model):
-    fullName = models.CharField(max_length=100, verbose_name='ФИО')
-    role = models.ForeignKey(Role, on_delete=models.CASCADE, verbose_name='Роль')
-    phone = models.CharField(max_length=12, verbose_name='Телефон')
-    email = models.EmailField(verbose_name='E-mail')
-    photo = models.ImageField(upload_to='employ', verbose_name='Фото 303x323')
+    fullName = models.CharField(max_length=80, verbose_name='ФИО')
+    ch = [
+        ('director', 'Собственник'),
+        ('development', 'Руководитель отдела развития'),
+        ('service', 'Руководитель отдела качества'),
+        ('pricer', 'Руководитель отдела логистики')
+    ]
+    role = models.CharField(max_length=60, choices=ch)
+    description = models.CharField(max_length=120)
+    phone = models.CharField(max_length=12, verbose_name='Телефон', null=True, blank=True)
+    email = models.EmailField(verbose_name='E-mail', null=True, blank=True)
+    photo = models.ImageField(upload_to='employ', verbose_name='Фото 200x200')
 
     def clean(self):
 
@@ -85,14 +80,67 @@ class Employ(models.Model):
             raise ValidationError("No image!")
         else:
             w, h = get_image_dimensions(self.photo)
-            if w != 303:
-                raise ValidationError("Изображение имеет ширину %i пикселей. Должно быть 303px" % w)
-            if h != 323:
-                raise ValidationError("Изображение имеет высоту %i пикселей. Должно быть 323px" % h)
+            if w != 200:
+                raise ValidationError("Изображение имеет ширину %i пикселей. Должно быть 200px" % w)
+            if h != 200:
+                raise ValidationError("Изображение имеет высоту %i пикселей. Должно быть 200px" % h)
 
     class Meta:
         verbose_name = 'Сотрудник'
         verbose_name_plural = 'Сотрудники'
+
+
+class TerritoryManager(models.Model):
+    fullName = models.CharField(max_length=80, verbose_name='ФИО')
+    description = models.CharField(max_length=120)
+    phone = models.CharField(max_length=12, verbose_name='Телефон', null=True, blank=True)
+    email = models.EmailField(verbose_name='E-mail', null=True, blank=True)
+    photo = models.ImageField(upload_to='employ', verbose_name='Фото 200x200')
+
+    def clean(self):
+
+        if not self.photo:
+            raise ValidationError("No image!")
+        else:
+            w, h = get_image_dimensions(self.photo)
+            if w != 200:
+                raise ValidationError("Изображение имеет ширину %i пикселей. Должно быть 200px" % w)
+            if h != 200:
+                raise ValidationError("Изображение имеет высоту %i пикселей. Должно быть 200px" % h)
+
+    def __str__(self) -> str:
+        return self.fullName
+
+
+    class Meta:
+        verbose_name = 'Менеджер отдела развития'
+        verbose_name_plural = 'Менеджер отдела развития'
+
+
+class CalculateManager(models.Model):
+    fullName = models.CharField(max_length=80, verbose_name='ФИО')
+    description = models.CharField(max_length=120)
+    phone = models.CharField(max_length=12, verbose_name='Телефон')
+    email = models.EmailField(verbose_name='E-mail', null=True, blank=True)
+    photo = models.ImageField(upload_to='employ', verbose_name='Фото 200x200', null=True, blank=True)
+
+    def clean(self):
+
+        if not self.photo:
+            raise ValidationError("No image!")
+        else:
+            w, h = get_image_dimensions(self.photo)
+            if w != 200:
+                raise ValidationError("Изображение имеет ширину %i пикселей. Должно быть 200px" % w)
+            if h != 200:
+                raise ValidationError("Изображение имеет высоту %i пикселей. Должно быть 200px" % h)
+
+    def __str__(self) -> str:
+        return self.fullName
+
+    class Meta:
+        verbose_name = 'Менеджер по расчетам'
+        verbose_name_plural = 'Менеджер по расчетам'
 
 
 class Diler(models.Model):
@@ -100,12 +148,12 @@ class Diler(models.Model):
     fullName = models.CharField(max_length=100, verbose_name='Название компании')
     email = models.EmailField(verbose_name='E-mail', blank=True)
     phone = models.CharField(max_length=12, verbose_name='Телефон', blank=True)
-    alert_phone = models.CharField(max_length=12, default='', verbose_name='Телефон для уведомлений')
-    address = models.CharField(max_length=200, default='', verbose_name='Адрес')
+    alert_phone = models.CharField(max_length=12, default='', blank=True, verbose_name='Телефон для уведомлений')
+    address = models.CharField(max_length=200, default='', blank=True, verbose_name='Адрес')
     discount_window = models.IntegerField(default=0, verbose_name='Скидка на окна')
     accessories_discount = models.IntegerField(default=0, verbose_name='Скидка на аксессуары')
-    manager = models.ForeignKey(Employ, null=True, on_delete=models.SET_NULL,related_name="manager", verbose_name='Территориальный менеджер')
-    calculator = models.ForeignKey(Employ, null=True, on_delete=models.SET_NULL,related_name="calculator", verbose_name='Расчетчик')
+    manager = models.ForeignKey(TerritoryManager, null=True, on_delete=models.SET_NULL,related_name="manager", verbose_name='Территориальный менеджер')
+    calculator = models.ForeignKey(CalculateManager, null=True, on_delete=models.SET_NULL,related_name="calculator", verbose_name='Расчетчик')
     last_login = models.DateTimeField(verbose_name='Дата последнего входа')
     seller_code = models.CharField(max_length=20, unique=True)
 
@@ -123,7 +171,7 @@ class Diler(models.Model):
     ads_client = models.BooleanField(default=False, verbose_name='Решение с клиентом')
     ads_me = models.BooleanField(default=False, verbose_name='Решение через меня')
 
-    cart = models.JSONField(default=dict())
+    cart = models.JSONField(default=dict(), blank=True)
 
     total_price = models.PositiveIntegerField(default=0)
 

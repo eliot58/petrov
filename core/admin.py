@@ -65,7 +65,13 @@ class VideoAdmin(admin.ModelAdmin):
     list_display = ['date', 'title']
 
 
-admin.site.register(Role)
+@admin.register(TerritoryManager)
+class TerritoryManagerAdmin(admin.ModelAdmin):
+    list_display = ['fullName']
 
+
+@admin.register(CalculateManager)
+class CalculateManagerAdmin(admin.ModelAdmin):
+    list_display = ['fullName']
 
 admin.site.register(Sample)
