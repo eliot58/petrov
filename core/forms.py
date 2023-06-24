@@ -17,10 +17,10 @@ class LoginForm(forms.Form):
         password = self.cleaned_data['password']
         username = self.cleaned_data['username']
 
-        password = password.replace("+", "%252B")
-        username = username.replace("+", "%252B")
+        epassword = password.replace("+", "%252B")
+        eusername = username.replace("+", "%252B")
 
-        r = requests.get(f'http://176.62.187.250/auth.php?jsoncallback=jQuery1113007469605505475574_1676738570680&login={username}&passwd={password}')
+        r = requests.get(f'http://176.62.187.250/auth.php?jsoncallback=jQuery1113007469605505475574_1676738570680&login={eusername}&passwd={epassword}')
         s = r.text
         start = s.index('(')
         end = s.rindex(')')
