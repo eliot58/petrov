@@ -22,11 +22,11 @@
                             <tr>
                                 <td>{{ bonus.fr|date:'d.m.Y' }}-{{ bonus.to|date:'d.m.Y' }}</td>
                                 {% if bonus.select == 's' %}
-                                    <td>{{ bonus.shape.name }}</td>
+                                    <td>{{ bonus.shape }}</td>
                                 {% elif bonus.select == 'g' %}
-                                    <td>{{ bonus.glazing.name }}</td>
+                                    <td>{{ bonus.glazing }}</td>
                                 {% elif bonus.select == 'i' %}
-                                    <td>{{ bonus.implement.name }}</td>
+                                    <td>{{ bonus.implement }}</td>
                                 {% endif %}
                                 <td>{{ bonus.count }}</td>
                                 <td>{{ bonus.unit }}</td>
