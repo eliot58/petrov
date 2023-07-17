@@ -28,9 +28,9 @@
                             <td style="font-size: 25px;font-weight: 600;color: #EB6018;">{{ item.1.price_of_bonus }}</td>
                             <td>
                                 <div class="store-item__data-count d-flex justify-content-between" style="margin-bottom: 0px;">
-                                    <span>-</span>
+                                    <span onclick="minus(this, '{{item.1.price}}', '{{item.0}}')">-</span>
                                     <input type="text" value="{{ item.1.count }}">
-                                    <span>+</span>
+                                    <span onclick="plus(this, '{{item.1.price}}', '{{item.0}}')">+</span>
                                 </div>
                             </td>
                             <td style="font-size: 25px;font-weight: 600;color: #EB6018;">{{ item.1.all_price }}</td>
@@ -41,7 +41,7 @@
             </table>
             <div class="d-flex justify-content-between">
                 <a href="{% url 'store' %}" class="cart__btn" style="padding: 10px 20px; color: black;">Вернуться к магазину</a>
-                <button class="cart__btn" style="padding: 10px 20px;">Обновить корзину</button>
+                <!-- <button class="cart__btn" style="padding: 10px 20px;">Обновить корзину</button> -->
             </div>
         </div>
     </div>
@@ -49,19 +49,64 @@
         <div class="results col-xl-8 d-flex flex-column justify-content-start">
             <div class="results__title">Итоги корзины</div>
             <div class="price d-flex justify-content-between">
-                <div class="price__key">Промежуточный итог</div>
-                <div class="price__value">{{ request.user.diler.total_price }}</div>
-            </div>
-            <div class="price d-flex justify-content-between">
-                <div class="price__key">Доставка</div>
-                <div class="price__value">0</div>
-            </div>
-            <div class="price d-flex justify-content-between">
                 <div class="price__key">Итого</div>
-                <div class="price__value">{{ request.user.diler.total_price }}</div>
+                <div class="price__value total_price">{{ request.user.diler.total_price }}</div>
             </div>
             <button class="col-xl-3 cart__btn" style="padding: 10px 0px; margin-top: 16px;">Оформить заказ</button>
         </div>
     </div>
 {% endblock content %}
+
+{% block script %} 
+    <script>
+        function minus(element, price, id){
+            i = element.nextElementSibling;
+            if (i.value != 1){
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET", "/minus/" + id + "/");
+                xhr.responseType = 'json';
+                xhr.send();
+                xhr.onload = () => {
+                    if (xhr.status == 200) {
+                        if (xhr.response['success']) {
+                            all_price = element.parentNode.parentNode.nextElementSibling
+                            all_price.textContent = Number(all_price.textContent) - Number(price)
+                            total_price = document.querySelector(".total_price")
+                            total_price.textContent = Number(total_price.textContent) - Number(price)
+                            i.value = Number(i.value) - 1
+                        }
+                    }
+                }
+            }
+        }
+
+        function plus(element, price, id){
+            i = element.previousElementSibling;
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "/plus/" + id + "/");
+            xhr.responseType = 'json';
+            xhr.send();
+            xhr.onload = () => {
+                if (xhr.status == 200) {
+                    if (xhr.response['success']) {
+                        all_price = element.parentNode.parentNode.nextElementSibling
+                        all_price.textContent = Number(all_price.textContent) + Number(price)
+                        total_price = document.querySelector(".total_price")
+                        total_price.textContent = Number(total_price.textContent) + Number(price)
+                        i.value = Number(i.value) + 1
+                    }
+                }
+            }
+        }
+
+        function instock(stock, count, form){
+            console.log(stock, count)
+            if (Number(stock) >= Number(count)){
+                form.submit()
+            } else {
+                alert("В наличии " + stock + "шт")
+            }
+        }
+    </script>
+{% endblock script %}
 

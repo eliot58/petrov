@@ -13,7 +13,8 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 import binascii
 from json.decoder import JSONDecodeError
-
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseForbidden, JsonResponse
 #LOGIN LOGOUT
 #============================================================================
 def login_view(request):
@@ -123,9 +124,30 @@ def cart_item_delete(request, id):
         logout(request)
         return redirect(login_view)
     diler = request.user.diler
+    diler.total_price -= int(diler.cart[str(id)]["all_price"])
     del diler.cart[str(id)]
     diler.save()
     return redirect(cart)
+
+@login_required(login_url='/login/')
+@csrf_exempt
+def cart_item_minus(request, id):
+    diler = request.user.diler
+    diler.cart[str(id)]["all_price"] -= diler.cart[str(id)]["price"]
+    diler.cart[str(id)]["count"] -= 1
+    diler.total_price -= diler.cart[str(id)]["price"]
+    diler.save()
+    return JsonResponse({"success": True})
+
+@login_required(login_url='/login/')
+@csrf_exempt
+def cart_item_plus(request, id):
+    diler = request.user.diler
+    diler.cart[str(id)]["all_price"] += diler.cart[str(id)]["price"]
+    diler.cart[str(id)]["count"] += 1
+    diler.total_price += diler.cart[str(id)]["price"]
+    diler.save()
+    return JsonResponse({"success": True})
 
 
 def news(request):

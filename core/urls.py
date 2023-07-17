@@ -29,4 +29,6 @@ urlpatterns = [
     path('wait/', notwork, name="wait"),
     path('ads-id/', ads_id, name='ads-id'),
     path('ads-create/<str:order_name>', ads_create, name='ads-create'),
+    path('minus/<int:id>/', cart_item_minus),
+    path('plus/<int:id>/', cart_item_plus)
 ]
