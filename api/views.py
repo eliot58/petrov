@@ -21,14 +21,10 @@ def bonus(request):
     if not serializer.is_valid():
         return Response(serializer.errors, status = HTTP_400_BAD_REQUEST)
     
-    bonus_key = os.getenv("bonus_key")
-
-    if bonus_key != serializer.data["bonus_key"]:
-        return Response(status = HTTP_400_BAD_REQUEST)
     
     try:
         diler = DilerBonus.objects.get(seller_code=serializer.data["s_code"])
-    except Diler.DoesNotExist:
+    except DilerBonus.DoesNotExist:
         diler = DilerBonus()
         diler.seller_code = serializer.data["s_code"]
     

@@ -53,7 +53,7 @@ def index(request):
         logout(request)
         return redirect(login_view)
 
-    return render(request, 'cabinet/main.html', {'bonuses': Bonus.objects.all()[:3], 'news': New.objects.all()[:5]})
+    return render(request, 'cabinet/main.html', {'bonuses': Bonus.objects.all()[:3], 'news': New.objects.all()[:5], 'bonus': DilerBonus.objects.get(seller_code=request.user.diler.seller_code)})
 
 @login_required(login_url='/login/')
 def ads(request):
