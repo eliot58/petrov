@@ -36,7 +36,7 @@ def bonus(request):
     shapes = Bonus.objects.filter(select='s')
     for shape in serializer.data['shape']:
         try:
-            s = shapes.get(shape__name=shape["name"])
+            s = shapes.get(shape=shape["name"])
         except Bonus.DoesNotExist:
             continue
 
@@ -48,7 +48,7 @@ def bonus(request):
     glazings = Bonus.objects.filter(select='g')
     for glazing in serializer.data['glazing']:
         try:
-            s = glazings.get(glazing__articul=glazing["name"])
+            s = glazings.get(glazing=glazing["name"])
         except Bonus.DoesNotExist:
             continue
 
@@ -61,7 +61,7 @@ def bonus(request):
     implements = Bonus.objects.filter(select='i')
     for implement in serializer.data['implement']:
         try:
-            s = implements.get(implement__name=implement["name"])
+            s = implements.get(implement=implement["name"])
         except Bonus.DoesNotExist:
             continue
 

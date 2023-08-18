@@ -52,8 +52,13 @@ def index(request):
     if request.user.is_superuser:
         logout(request)
         return redirect(login_view)
+    
+    try:
+        bonus = DilerBonus.objects.get(seller_code=request.user.diler.seller_code)
+    except DilerBonus.DoesNotExist:
+        bonus = DilerBonus.objects.create(seller_code=request.user.diler.seller_code)
 
-    return render(request, 'cabinet/main.html', {'bonuses': Bonus.objects.all()[:3], 'news': New.objects.all()[:5], 'bonus': DilerBonus.objects.get(seller_code=request.user.diler.seller_code)})
+    return render(request, 'cabinet/main.html', {'bonuses': Bonus.objects.all()[:3], 'news': New.objects.all()[:5], 'bonus': bonus})
 
 @login_required(login_url='/login/')
 def ads(request):
