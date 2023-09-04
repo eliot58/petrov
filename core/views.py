@@ -327,13 +327,21 @@ def ads_id(request):
 
 
 def buy(request):
+    m = f'Дилер {diler.fullName}\nСделал заказ из магазина товаров:\n'
+
     diler = request.user.diler
     for key, value in diler.cart.items():
+        m = m + value["title"] + value["count"] + "шт" + "\n"
         item = Store.objects.get(id=key)
         diler.total_price -= int(value["all_price"])
         item.count -= int(value["count"])
         item.save()
     diler.save()
+
+    try:
+        requests.post('https://api.telegram.org/bot5852658863:AAHezP9l75ukvpQHSD3Bt5x24kMETAeqDfY/sendMessage', json={'chat_id': '222189723', 'text': m})
+    except Exception as e:
+        print(e)
     return redirect(cart)
 
 def clear_cart(request):
