@@ -15,6 +15,7 @@ import binascii
 from json.decoder import JSONDecodeError
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseForbidden, JsonResponse
+
 #LOGIN LOGOUT
 #============================================================================
 def login_view(request):
@@ -117,7 +118,7 @@ def cart(request):
                 'count': int(request.POST["count"]),
                 'all_price': int(item.price) * int(request.POST['count'])
             }
-        for key, value in diler.cart.items():
+        for _, value in diler.cart.items():
             diler.total_price += int(value['all_price'])
         diler.save()
         return redirect(store)
@@ -324,3 +325,21 @@ def ads_id(request):
     else:
         order_name_form = OrderNameForm()
     return render(request, "cabinet/ads-id.html", {"form": order_name_form})
+
+
+def buy(request):
+    diler = request.user.diler
+    for key, value in diler.cart.items():
+        item = Store.objects.get(id=key)
+        diler.total_price -= int(value["all_price"])
+        item.count -= int(value["count"])
+        item.save()
+    diler.save()
+    return redirect(cart)
+
+def clear_cart(request):
+    diler = request.user.diler
+    diler.cart = {}
+    diler.total_price = 0
+    diler.save()
+    return redirect(cart)

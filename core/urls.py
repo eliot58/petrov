@@ -30,5 +30,7 @@ urlpatterns = [
     path('ads-id/', ads_id, name='ads-id'),
     path('ads-create/<str:order_name>', ads_create, name='ads-create'),
     path('minus/<int:id>/', cart_item_minus),
-    path('plus/<int:id>/', cart_item_plus)
+    path('plus/<int:id>/', cart_item_plus),
+    path('clear-cart/', clear_cart, name='clear_cart'),
+    path('buy/', buy, name='buy'),
 ]
