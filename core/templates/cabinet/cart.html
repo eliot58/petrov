@@ -12,7 +12,6 @@
                     <tr>
                         <th style="font-weight: 500; font-size: 18px;">Продукт</th>
                         <th style="font-weight: 500; font-size: 18px;">Наименование</th>
-                        <th style="font-weight: 500; font-size: 18px;">Цена</th>
                         <th style="font-weight: 500; font-size: 18px;">Цена в бонусах</th>
                         <th style="font-weight: 500; font-size: 18px;">Количество</th>
                         <th style="font-weight: 500; font-size: 18px;">К оплате</th>
@@ -24,7 +23,6 @@
                         <tr>
                             <td><img src="{{ item.1.photo }}" width="122" height="122" alt=""></td>
                             <td style="font-size: 22px; font-weight: 600;">{{ item.1.title }}</td>
-                            <td style="font-size: 25px; font-weight: 600; color: #EB6018;">{{ item.1.price }} ₽</td>
                             <td style="font-size: 25px; font-weight: 600; color: #EB6018;">{{ item.1.price_of_bonus }}</td>
                             <td>
                                 <div class="store-item__data-count d-flex justify-content-between" style="margin-bottom: 0px;">
@@ -41,7 +39,7 @@
             </table>
             <div class="d-flex justify-content-between">
                 <a href="{% url 'store' %}" class="cart__btn" style="padding: 10px 20px; color: black;">Вернуться к магазину</a>
-                <a href="{% url 'clear_cart' %}" class="cart__btn" style="padding: 10px 20px;">Очистить корзину</a>
+                <a href="{% url 'clear_cart' %}" class="cart__btn" style="padding: 10px 20px; color: black;">Очистить корзину</a>
             </div>
         </div>
     </div>

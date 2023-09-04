@@ -108,7 +108,7 @@ def cart(request):
         item = Store.objects.get(id=request.POST["item_id"])
         if str(item.id) in diler.cart:
             diler.cart[str(item.id)]['count'] += int(request.POST['count'])
-            diler.cart[str(item.id)]['all_price'] += int(item.price) * int(request.POST['count'])
+            diler.cart[str(item.id)]['all_price'] += int(item.price_of_bonus) * int(request.POST['count'])
         else:
             diler.cart[item.id] = {
                 'photo': item.photo.url,
@@ -116,10 +116,9 @@ def cart(request):
                 'price': item.price,
                 'price_of_bonus': item.price_of_bonus,
                 'count': int(request.POST["count"]),
-                'all_price': int(item.price) * int(request.POST['count'])
+                'all_price': int(item.price_of_bonus) * int(request.POST['count'])
             }
-        for _, value in diler.cart.items():
-            diler.total_price += int(value['all_price'])
+        diler.total_price += int(item.price_of_bonus) * int(request.POST['count'])
         diler.save()
         return redirect(store)
     return render(request, 'cabinet/cart.html', {'items': request.user.diler.cart.items()})
