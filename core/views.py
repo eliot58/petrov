@@ -331,7 +331,7 @@ def buy(request):
 
     diler = request.user.diler
     for key, value in diler.cart.items():
-        m = m + value["title"] + value["count"] + "шт" + "\n"
+        m = m + value["title"] + str(value["count"]) + "шт" + "\n"
         item = Store.objects.get(id=key)
         diler.total_price -= int(value["all_price"])
         item.count -= int(value["count"])
