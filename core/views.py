@@ -336,6 +336,8 @@ def buy(request):
             item = Store.objects.get(id=key)
             if item.count >= value["count"]:
                 c += 1
+            else:
+                return render(request, "cabinet/no-count.html", {"tittle": item.title, "count": item.count})
         if c == len(diler.cart.items()):
             bonus.total_bonus -= diler.total_price
             bonus.save()
@@ -354,8 +356,11 @@ def buy(request):
 
             try:
                 requests.post('https://api.telegram.org/bot5852658863:AAHezP9l75ukvpQHSD3Bt5x24kMETAeqDfY/sendMessage', json={'chat_id': '222189723', 'text': m})
+                requests.post('https://api.telegram.org/bot5852658863:AAHezP9l75ukvpQHSD3Bt5x24kMETAeqDfY/sendMessage', json={'chat_id': '222189723', 'text': m})
             except Exception as e:
                 print(e)
+    else:
+        return render(request, "cabinet/no-balance.html")
     return redirect(cart)
 
 def clear_cart(request):
