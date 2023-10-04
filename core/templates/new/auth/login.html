@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1440">
+    <link rel="shortcut icon" href="{% static 'img/favicon.png' %}" type="image/x-icon"/>
+    <link rel="stylesheet" href="{% static 'new/style.css' %}">
+    <title>Авторизация</title>
+</head>
+<body style="background-color: #fff;">
+    <section style="display: flex; flex-wrap: nowrap;">
+        <div>
+            <img src="{% static 'new/img/welcome.png' %}" alt="" style="height: 100vh;">
+        </div>
+        <form action="{% url 'login_view' %}" method="post" style="margin: auto;">
+            {% csrf_token %}
+            <h1 style="font-size: 32px; font-weight: 600; color: #4369EF; margin-bottom: 60px; text-align: center;">Авторизация</h1>
+            <div class="form__input" style="width: 443px;">
+                {{ form.username }}
+            </div>
+            {{ form.username.errors }}
+            <div class="form__input" style="width: 443px;">
+                {{ form.password }}
+            </div>
+            {{ form.password.errors }}
+            <button class="auth__button" type="submit">Войти</button>
+        </form>
+    </section>
+</body>
+</html>

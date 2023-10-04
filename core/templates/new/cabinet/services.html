@@ -1,0 +1,61 @@
+{% extends 'new/base.html' %}
+
+{% block title %} Сервисы {% endblock title %}
+
+{% load static %}
+
+{% block content %}
+<section class="d-flex flex-column" style="width: 100%; padding: 0px 20px;">
+    <h1 style="font-weight: 600; font-size: 56px;">Сервисы</h1>
+    <div class="talon" style="background-color: #4369EF; border-radius: 24px;">
+        <div class="talon__inner" style="width: 420px; margin: 40px auto;">
+            <h2 style="font-size: 24px; font-weight: 500; color: #fff; margin-bottom: 20px;">Распечатать гарантийный талон</h2>
+            <div class="d-flex">
+                <div style="padding: 5px 15px; border: 1px solid #fff; border-radius: 12px; margin-right: 20px;">
+                    <input type="text" style="background-color: inherit;" placeholder="Введите номер заказа">
+                </div>
+                <button style="background-color: inherit; color: #fff; padding: 5px 15px; border: 1px solid #fff; border-radius: 12px;">Распечатать</button>
+            </div>
+        </div>
+    </div>
+    <div class="ads d-flex justify-content-between align-items-end" style="margin-top: 20px; padding: 20px; background-color: #fff; border-radius: 24px;">
+        <div>
+            <h2 style="font-weight: 500; font-size: 32px; color: #333;">Рекламации</h2>
+            <p style="line-height: 24px; margin: 20px 0px;">Уважаемые дилеры, перед созданием рекламации просьба ознакомиться с инструкцией, чтобы не получить авто-отказ</p>
+            <button style="background-color: inherit; color: #4369EF; padding: 5px 15px; border: 1px solid #4369EF; border-radius: 12px;">Инструкция</button>
+        </div>
+        <div>
+            <p style="font-weight: 500;">Создать рекламации</p>
+            <div style="padding: 10px 10px; background-color: #f6f6f6; border-radius: 12px; margin-bottom: 10px;">
+                <input type="text" style="background-color: #f6f6f6;" placeholder="Введите номер заказа">
+            </div>
+            <button style="background-color: #4369EF; color: #fff; padding: 5px 15px; border: 1px solid #4369EF; border-radius: 12px;">Подтвердить</button>
+        </div>
+    </div>
+    <div class="ads-list" style="margin-top: 10px;">
+        <table style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>Номер заказа</th>
+                    <th>Дата подачи</th>
+                    <th>Комментарий</th>
+                    <th>Резолюция</th>
+                    <th>Статус</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for add in ads %}
+                    <tr>
+                        <td>{{ add.ordername }}</td>
+                        <td>{{ add.dtdoc|dateFormat }}</td>
+                        <td>{{ add.comment }}</td>
+                        <td>{{ add.resolution }}</td>
+                        <td>{{ add.state }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+{% endblock content %}

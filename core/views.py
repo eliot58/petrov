@@ -34,12 +34,12 @@ def login_view(request):
                 user.diler.save()
                 return redirect(index)
             else:
-                return render(request, 'auth/disable.html')
+                return render(request, 'new/auth/disable.html')
     else:
         if request.user.is_authenticated:
             return redirect(index)
         login_form = LoginForm()
-    return render(request, 'auth/login.html', {'form': login_form})
+    return render(request, 'new/auth/login.html', {'form': login_form})
 
 
 def logout_view(request):
@@ -59,7 +59,7 @@ def index(request):
     except DilerBonus.DoesNotExist:
         bonus = DilerBonus.objects.create(seller_code=request.user.diler.seller_code)
 
-    return render(request, 'cabinet/main.html', {'bonuses': Bonus.objects.all()[:3], 'news': New.objects.all()[:5], 'bonus': bonus})
+    return render(request, 'new/cabinet/main.html', {'bonuses': Bonus.objects.all(), 'news': New.objects.all(), 'bonus': bonus})
 
 @login_required(login_url='/login/')
 def ads(request):
@@ -75,7 +75,7 @@ def ads(request):
         r = requests.get(f"http://176.62.187.250/service.php?s_code={request.user.diler.seller_code}")
         data = json.loads(r.text)
 
-    return render(request, 'cabinet/ads.html', {'ads': data})
+    return render(request, 'new/cabinet/services.html', {'ads': data})
 
 @login_required(login_url='/login/')
 def talon(request):
@@ -155,13 +155,6 @@ def cart_item_plus(request, id):
     return JsonResponse({"success": True})
 
 
-def news(request):
-    return render(request, 'cabinet/news.html', {'news': New.objects.all()})
-
-def bonus(request):
-    return render(request, 'cabinet/bonus.html', {'bonuses': Bonus.objects.all()})
-
-
 def offers(request):
     return render(request, 'cabinet/offers.html', {'offers': Offers.objects.all()})
 
@@ -210,7 +203,7 @@ def orders(request):
     end = s.rindex(')')
     json_string = s[start+1:end]
 
-    return render(request, 'cabinet/orders.html', {"orders": json_string, "from": fr, "to": to})
+    return render(request, 'new/cabinet/orders.html', {"orders": json_string, "from": fr, "to": to})
 
 @login_required(login_url='/login/')
 def store(request):
@@ -218,15 +211,7 @@ def store(request):
         logout(request)
         return redirect(login_view)
     items = Store.objects.all().order_by('id')
-    paginator = Paginator(items, 4)
-    page = request.GET.get('page')
-    try:
-        items = paginator.page(page)
-    except PageNotAnInteger:
-        items = paginator.page(1)
-    except EmptyPage:
-        items = paginator.page(paginator.num_pages)
-    return render(request, 'cabinet/store.html', {'items': items})
+    return render(request, 'new/cabinet/store.html', {'items': items})
 
 @login_required(login_url='/login/')
 def notifications(request):
@@ -260,19 +245,19 @@ def shapes(request):
     return render(request, 'cabinet/shapes.html', {'items': items, 'range': range(1,11)})
 
 def instructions(request):
-    return render(request, 'cabinet/instructions.html', {'instructions': Instructions.objects.all()})
+    return render(request, 'new/cabinet/instructions.html', {'instructions': Instructions.objects.all()})
 
 def learn(request):
-    return render(request, 'cabinet/learn.html', {'learns': Learn.objects.all()})
+    return render(request, 'new/cabinet/learn.html', {'learns': Learn.objects.all()})
 
 def certificate(request):
-    return render(request, 'cabinet/certificate.html', {'certificates': Certificate.objects.all()})
+    return render(request, 'new/cabinet/certificate.html', {'certificates': Certificate.objects.all()})
 
 def videolearn(request): 
-    return render(request, 'cabinet/video.html', {'videos': Video.objects.all()})
+    return render(request, 'new/cabinet/video.html', {'videos': Video.objects.all()})
 
 def commands(request):
-    return render(request, 'cabinet/commands.html', {'director': Employ.objects.get(role="director"), 'dev': Employ.objects.get(role="development"), 'service': Employ.objects.get(role="service"), 'pricer': Employ.objects.get(role="pricer")})
+    return render(request, 'new/cabinet/contacts.html', {'director': Employ.objects.get(role="director"), 'dev': Employ.objects.get(role="development"), 'service': Employ.objects.get(role="service"), 'pricer': Employ.objects.get(role="pricer")})
 
 
 def notwork(request):

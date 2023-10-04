@@ -1,0 +1,27 @@
+{% extends 'new/base.html' %}
+
+{% block title %} Видео материалы {% endblock title %}
+
+{% load static %}
+
+{% block content %}
+<section class="d-flex flex-column" style="width: 100%; padding: 0px 20px;">
+    <h1 style="font-weight: 600; font-size: 56px;">Видео материалы</h1>
+    <div class="d-flex flex-column flex-wrap" style="max-height: 600px; width: 100%;">
+        {% for video in videos %}
+        <div class="d-flex align-items-center justify-content-between" style="width: 50%; padding: 6px 10px; background-color: #fff; border-radius: 12px; margin-bottom: 15px; margin-right: 15px;">
+            <div class="d-flex align-items-center">
+                <img src="{% static 'new/img/calendar.svg' %}" alt="">
+                <p style="font-size: 12px; margin-left: 8px; color: #939393;">{{ video.date|date:'d.m.Y' }}</p>
+            </div>
+            <p>{{ video.title }}</p>
+            <a href="{{ video.file.url }}">
+                <img src="{% static 'new/img/download.svg' %}" alt="">
+            </a>
+        </div>
+        {% endfor %}
+        
+    </div>
+</section>
+
+{% endblock content %}

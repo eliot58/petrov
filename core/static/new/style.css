@@ -1,0 +1,238 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap');
+
+/*Обнуление*/
+*{
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+*,*:before,*:after{
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+:focus,:active{outline: none;}
+a:focus,a:active{outline: none;}
+
+nav,footer,header,aside{display: block;}
+
+html,body{
+	height: 100%;
+	width: 100%;
+	line-height: 1;
+	font-size: 16px;
+	-ms-text-size-adjust: 100%;
+	-moz-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+	font-family: 'Montserrat', sans-serif;
+	font-weight: 400;
+
+}
+input,button,textarea{font-family:inherit;}
+
+input::-ms-clear{display: none;}
+button{cursor: pointer;}
+button::-moz-focus-inner {padding:0;border:0;}
+a, a:visited{text-decoration: none;}
+a:hover{text-decoration: none;}
+ul li{list-style: none;}
+img{vertical-align: top;}
+
+p{margin-bottom: 0px;}
+
+h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: 400;}
+/*--------------------*/
+
+body {
+	background-color: #F6F6F6;
+}
+
+.form__input {
+	background-color: #f6f6f6;
+	padding: 15px;
+	margin: 20px 0px;
+	border-radius: 12px;
+}
+
+
+.form__input input {
+	background-color: #f6f6f6;
+}
+
+.auth__button {
+    width: 100%;
+    border: none;
+    border-radius: 12px;
+    background: #4369EF;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0px;
+    font-weight: 600;
+    font-size: 20px;
+	margin-top: 30px;
+}
+
+header {
+	display: flex;
+	justify-content: space-between;
+	padding: 20px 40px;
+}
+
+.navbar__links{
+    padding: 0px;
+}
+
+.navbar__link {
+    padding: 10px;
+	width: 208px;
+	margin: 10px 20px;
+}
+
+.navbar__link div{
+    display: flex;
+    align-items: center;
+}
+
+
+
+.navbar__link a{
+    margin-left: 10px;
+    color: #000;
+}
+
+.navbar__link-active{
+    background-color: #4369EF;
+    border-radius: 12px;
+}
+
+.navbar__link.navbar__link-active a {
+	color: #fff;
+}
+
+.navbar__link a {
+    vertical-align: middle;
+}
+
+.bonus {
+	display: flex;
+	justify-content: space-between;
+	background-color: #4369EF;
+	max-height: 168px;
+	width: 100%;
+	border-radius: 24px;
+	padding: 10px 20px 0px 20px;
+}
+
+.bonus-scroll::-webkit-scrollbar {
+	width: 5px;
+}
+
+.bonus-scroll::-webkit-scrollbar-thumb {
+	background-color: #bebebe;
+	border-radius: 5px;
+}
+
+.bonus-scroll::-webkit-scrollbar-track {
+	background-color: #565656;
+}
+
+.talon input::placeholder{
+	color: #fff;
+}
+
+
+thead {
+    background: #fff;
+}
+
+
+th:first-child {
+    border-radius: 26px 0px 0px 26px;
+    -moz-border-radius: 26px 0px 0px 26px;
+    -webkit-border-radius: 26px 0px 0px 26px;
+}
+
+th:last-child {
+    border-radius: 0px 26px 26px 0px;
+    -moz-border-radius: 0px 26px 26px 0px;
+    -webkit-border-radius: 0px 26px 26px 0px;
+}
+
+th, td {
+    padding: 20px 30px;
+}
+
+.table-responsive::-webkit-scrollbar{
+	width: 5px;
+}
+
+
+.table-responsive::-webkit-scrollbar-thumb {
+	background-color: #4369EF;
+	border-radius: 5px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+	background-color: #fff;
+}
+
+.count-toggle label.active{
+	background-color: #4369EF;
+	border-radius: 12px;
+	font-weight: 600;
+	color: #fff;
+}
+
+.orders__filter {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 6px 10px;
+}
+
+.search__input {
+    border-radius: 12px;
+    padding: 6px 12px;
+    display: flex;
+    flex-wrap: nowrap;
+	background-color: #fff;
+}
+
+.search__input input{
+    width: 100%;
+	background-color: #fff;
+}
+
+.pagination__item {
+    display: block;
+    padding: 8px 12px;
+    cursor: pointer;
+    margin: 0px 10px;
+	background-color: #fff;
+	border-radius: 8px;
+	color: #000;
+}
+
+.pagination__item-active {
+    background-color: #4369EF;
+    color: #fff;
+}
+
+.store-item__data-count {
+    border: 1px solid #4369EF;
+    border-radius: 12px;
+    padding: 5px 5px;
+    max-width: 100px;
+    min-width: 100px;
+    font-size: 16px;
+}
+
+.store-item__data-count span{
+    font-weight: 600;
+    padding: 5px;
+}
+
+
+.store-item__data-count input{
+    width: 100%;
+    text-align: center;
+}

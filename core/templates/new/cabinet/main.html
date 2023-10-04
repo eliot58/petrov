@@ -1,0 +1,77 @@
+{% extends 'new/base.html' %}
+
+{% block title %} Главная {% endblock title %}
+
+{% load static %}
+
+{% block content %}
+<section class="d-flex flex-column" style="width: 100%; padding: 0px 20px;">
+    <div class="bonus" style="margin-bottom: 50px;">
+        <div class="bonus_info" style="margin: auto 0; font-size: 24px; font-weight: 600; color: #fff;">
+            <p>Ваши бонусы</p>
+            <p>{{ bonus.total_bonus }}</p>
+        </div>
+        <img src="{% static 'new/img/bonus.png' %}" alt="">
+        <div class="d-flex flex-column align-items-center" style="position: relative;">
+            <button style="width: 25px; height: 25px; background-color: #fff; border-radius: 16px; margin-bottom: 5px; font-weight: 500;" type="button" onclick="if (this.nextElementSibling.style.display == 'none') {this.nextElementSibling.style.display = 'block'} else {this.nextElementSibling.style.display = 'none'}">?</button>
+            <div class="bonus-scroll" style="display: none; position: absolute; top: 40px; left: -240px; background-color: #fff; width: 270px; max-height: 170px; padding: 10px; border-radius: 24px 8px 24px 24px; overflow: auto;">
+                <p style="font-weight: 500; font-size: 12px; line-height: 16px;">За продажу данных продуктов вам будут начислены бонусы, которые, Вы можете потратить в магазине.</p>
+                {% for bonus in bonuses %}
+                    <p style="font-size: 12px; background-color: #FF00C7;padding: 2px; border-radius: 8px;">
+                        <span style="font-weight: 500;">
+                            {% if bonus.select == 's' %}
+                                {{ bonus.shape }}
+                            {% elif bonus.select == 'g' %}
+                                {{ bonus.glazing }}
+                            {% elif bonus.select == 'i' %}
+                                {{ bonus.implement }}
+                            {% endif %}
+                        </span> {{ bonus.count }} бонусов {{ bonus.fr|date:'d.m.Y' }}-{{ bonus.to|date:'d.m.Y' }}
+                    </p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="stats">
+        <h1 style="font-size: 56px; font-weight: 600; color: #333333; margin-bottom: 30px;">Статистика</h1>
+        <div class="d-flex flex-column" style="background-color: #fff; padding: 40px; border-radius: 24px;">
+            <div>
+                <button style="width: 130px; padding: 10px 0px; border-radius: 12px; background-color: #4369EF; color: #fff; margin-right: 10px;">За этот год</button>
+                <button style="width: 210px; padding: 10px 0px; border-radius: 12px; background-color: #fff; color: #4369EF; border: 1px solid #4369EF;">За предыдущий год</button>
+            </div>
+            <div class="d-flex" style="margin-top: 20px;">
+                <ul style="padding: 0px;">
+                    <li style="margin: 27px 5px 27px 0px;">1 млн.</li>
+                    <li style="margin: 27px 5px 27px 0px;">800 тыс.</li>
+                    <li style="margin: 27px 5px 27px 0px;">500 тыс.</li>
+                    <li style="margin: 27px 5px 27px 0px;">200 тыс.</li>
+                    <li style="margin: 27px 5px 27px 0px;">100 тыс.</li>
+                </ul>
+                <div>
+                    <img src="{% static 'new/img/stats.png' %}" alt="">
+                    <ul class="d-flex" style="padding: 0px;">
+                        <li style="margin: 5px 35px 0px 10px;">Янв.</li>
+                        <li style="margin: 5px 35px 0px 10px;">Фев.</li>
+                        <li style="margin: 5px 30px 0px 10px;">Мар.</li>
+                        <li style="margin: 5px 30px 0px 8px;">Апр.</li>
+                        <li style="margin: 5px 35px 0px 8px;">Май.</li>
+                        <li style="margin: 5px 30px 0px 8px;">Июнь</li>
+                        <li style="margin: 5px 25px 0px 8px;">Июль</li>
+                        <li style="margin: 5px 40px 0px 8px;">Авг.</li>
+                        <li style="margin: 5px 35px 0px 8px;">Сен.</li>
+                        <li style="margin: 5px 40px 0px 8px;">Окт.</li>
+                        <li style="margin: 5px 45px 0px 8px;">Ноя.</li>
+                        <li style="margin-top: 5px;">Дек</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="news">
+        <h1>Новости</h1>
+        
+    </div> -->
+</section>
+{% endblock content %}
