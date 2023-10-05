@@ -13,9 +13,9 @@
             <div class="d-flex" style="position: relative; background-color: #fff; border-radius: 24px; padding: 5px; margin-bottom: 20px;">
                 <a style="position: absolute; top: 10px; right: 10px" href="{% url 'cart_item_delete' item.0 %}"><img src="{% static 'new/img/close.svg' %}" alt=""></a>
                 <img src="{{ item.1.photo }}" width="154" height="154" style="border-radius: 24px;" alt="">
-                <div class="d-flex flex-column justify-content-between" style="margin-left: 20px;">
+                <div class="d-flex flex-column justify-content-between" style="margin-left: 20px; width: 100%;">
                     <p style="font-size: 24px; font-weight: 500; margin-top: 20px;">{{ item.1.title }}</p>
-                    <div class="d-flex align-items-center justify-content-between" style="width: 100%;">
+                    <div class="d-flex align-items-center justify-content-between">
                         <div class="store-item__data-count d-flex justify-content-between" style="margin: 0px 5px;">
                             <span onclick="minus(this, '{{item.1.price}}', '{{item.0}}')">-</span>
                             <input type="text" value="{{ item.1.count }}">
