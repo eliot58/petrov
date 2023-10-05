@@ -182,7 +182,7 @@ def profile(request):
             pass
         diler.save()
         return redirect(profile)
-    return render(request, 'cabinet/profile.html', {"regions": Region.objects.all()})
+    return render(request, 'new/cabinet/profile.html', {"regions": Region.objects.all()})
 
 @login_required(login_url='/login/')
 def orders(request):
