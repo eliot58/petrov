@@ -62,7 +62,7 @@ def index(request):
     return render(request, 'new/cabinet/main.html', {'bonuses': Bonus.objects.all(), 'news': New.objects.all(), 'bonus': bonus})
 
 @login_required(login_url='/login/')
-def ads(request):
+def services(request):
     if request.user.is_superuser:
         logout(request)
         return redirect(login_view)
@@ -78,22 +78,15 @@ def ads(request):
     return render(request, 'new/cabinet/services.html', {'ads': data})
 
 @login_required(login_url='/login/')
+@require_POST
 def talon(request):
-    if request.user.is_superuser:
-        logout(request)
-        return redirect(login_view)
-    if request.method == "POST":
-        order_name_form = OrderNameForm(request.POST)
-        if order_name_form.is_valid():
-            cd = order_name_form.cleaned_data
-            t = 1 if cd["order_name"].strip().split("\\")[0] == 'О' else 2
-            order_id = cd["order_name"].strip().split('\\')[1]
-            requests.get(f'http://176.62.187.250/loadpic.php?order_id={order_id}&email={request.user.diler.email}&type={t}')
-            return redirect(talon)
-    else:
-        order_name_form = OrderNameForm()
-
-    return render(request, 'cabinet/talon.html', {"form": order_name_form})
+    order_name_form = OrderNameForm(request.POST)
+    if order_name_form.is_valid():
+        cd = order_name_form.cleaned_data
+        t = 1 if cd["order_name"].strip().split("\\")[0] == 'О' else 2
+        order_id = cd["order_name"].strip().split('\\')[1]
+        requests.get(f'http://176.62.187.250/loadpic.php?order_id={order_id}&email={request.user.diler.email}&type={t}')
+        return redirect(services)
 
 def price(request):
     return render(request, 'cabinet/price.html', {'prices': Price.objects.all().order_by('zone')})
@@ -250,52 +243,35 @@ def commands(request):
 def notwork(request):
     return render(request, "cabinet/notwork.html")
 
-
+@require_POST
 def ads_create(request, order_name):
-    if request.method == 'POST':
-        comment = request.POST["comment"]
-        order_name = request.POST["order_name"]
-        file_urls = []
-        query = f"exec pg_create_servicedoc_for_lk_filevarchar '{request.user.diler.seller_code}', '{order_name}', '{comment}', '{request.user.username}'"
-        if "file1" in request.FILES:
-            file_urls.append("'" + request.FILES["file1"].name + "'")
-            file_urls.append("'0x" + binascii.hexlify(request.FILES["file1"].read()).decode() + "'")
-        if "file2" in request.FILES:
-            file_urls.append("'" + request.FILES["file2"].name + "'")
-            file_urls.append("'0x" + binascii.hexlify(request.FILES["file2"].read()).decode() + "'")
-        if "file3" in request.FILES:
-            file_urls.append("'" + request.FILES["file3"].name + "'")
-            file_urls.append("'0x" + binascii.hexlify(request.FILES["file3"].read()).decode() + "'")
-        if "file4" in request.FILES:
-            file_urls.append("'" + request.FILES["file4"].name + "'")
-            file_urls.append("'0x" + binascii.hexlify(request.FILES["file4"].read()).decode() + "'")
-        if "file5" in request.FILES:
-            file_urls.append("'" + request.FILES["file5"].name + "'")
-            file_urls.append("'0x" + binascii.hexlify(request.FILES["file5"].read()).decode() + "'")
-        
-        requests.post(f'http://176.62.187.250/createService.php', data={"query": query + ", " + ", ".join(file_urls)})
+    comment = request.POST["comment"]
+    order_name = request.POST["order_name"]
+    file_urls = []
+    query = f"exec pg_create_servicedoc_for_lk_filevarchar '{request.user.diler.seller_code}', '{order_name}', '{comment}', '{request.user.username}'"
+    if "file1" in request.FILES:
+        file_urls.append("'" + request.FILES["file1"].name + "'")
+        file_urls.append("'0x" + binascii.hexlify(request.FILES["file1"].read()).decode() + "'")
+    if "file2" in request.FILES:
+        file_urls.append("'" + request.FILES["file2"].name + "'")
+        file_urls.append("'0x" + binascii.hexlify(request.FILES["file2"].read()).decode() + "'")
+    if "file3" in request.FILES:
+        file_urls.append("'" + request.FILES["file3"].name + "'")
+        file_urls.append("'0x" + binascii.hexlify(request.FILES["file3"].read()).decode() + "'")
+    if "file4" in request.FILES:
+        file_urls.append("'" + request.FILES["file4"].name + "'")
+        file_urls.append("'0x" + binascii.hexlify(request.FILES["file4"].read()).decode() + "'")
+    if "file5" in request.FILES:
+        file_urls.append("'" + request.FILES["file5"].name + "'")
+        file_urls.append("'0x" + binascii.hexlify(request.FILES["file5"].read()).decode() + "'")
+    
+    requests.post(f'http://176.62.187.250/createService.php', data={"query": query + ", " + ", ".join(file_urls)})
 
-        with open("text.txt", "w") as f:
-            f.write(query + ", " + ", ".join(file_urls))
-        
-        return redirect(ads)
-    return render(request, "cabinet/ads-create.html", {"order_name": order_name})
+    with open("text.txt", "w") as f:
+        f.write(query + ", " + ", ".join(file_urls))
+    
+    return redirect(services)
 
-
-def ads_id(request):
-    if request.method == 'POST':
-        order_name_form = OrderNameForm(request.POST)
-        try:
-            if order_name_form.is_valid():
-                cd = order_name_form.cleaned_data
-                return HttpResponseRedirect(reverse("ads-create", args=[cd["order_name"]]))
-        except JSONDecodeError:
-            if order_name_form.is_valid():
-                cd = order_name_form.cleaned_data
-                return HttpResponseRedirect(reverse("ads-create", args=[cd["order_name"]]))
-    else:
-        order_name_form = OrderNameForm()
-    return render(request, "cabinet/ads-id.html", {"form": order_name_form})
 
 
 def buy(request):
