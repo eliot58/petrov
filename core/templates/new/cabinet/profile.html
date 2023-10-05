@@ -70,7 +70,7 @@
                         <input name="change_mail" {% if request.user.diler.change_mail %} checked {% endif %} style="position: absolute; display: none;" type="checkbox"><span style="padding: 12px 18px; text-align: center; display: block;">Отправка по почте</span>
                      </label>
                      <label class="checkbox-label">
-                        <input type="checkbox" name="email_alert" {% if request.user.diler.email_alert %} checked {% endif %}> style="position: absolute; display: none;" type="checkbox"><span style="padding: 12px 18px; text-align: center; display: block;">Отправка по E-mail</span>
+                        <input name="email_alert" {% if request.user.diler.email_alert %} checked {% endif %} type="checkbox" style="position: absolute; display: none;" type="checkbox"><span style="padding: 12px 18px; text-align: center; display: block;">Отправка по E-mail</span>
                      </label>
                      <label class="checkbox-label">
                         <input name="change_manager" {% if request.user.diler.change_manager %} checked {% endif %} style="position: absolute; display: none;" type="checkbox"><span style="padding: 12px 18px; text-align: center; display: block;">Менеджером в руки</span>
