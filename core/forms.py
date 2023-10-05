@@ -54,7 +54,7 @@ class LoginForm(forms.Form):
                 
         
 class OrderNameForm(forms.Form):
-    order_name = forms.CharField(label='',widget=forms.TextInput(attrs={"placeholder": "Введите номер заказа в формате", "style": "background-color: inherit;"}))
+    order_name = forms.CharField(label='',widget=forms.TextInput(attrs={"placeholder": "Введите номер заказа", "style": "background-color: inherit;"}))
 
     def clean_order_name(self):
         order_name = self.cleaned_data["order_name"]
