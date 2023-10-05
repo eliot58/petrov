@@ -3,7 +3,6 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import *
 from django.contrib.auth.decorators import login_required
 from .models import *
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import requests
 import json
 from django.utils import timezone
@@ -14,7 +13,9 @@ from django.http import HttpResponseRedirect
 import binascii
 from json.decoder import JSONDecodeError
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponseForbidden, JsonResponse
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+import redis
 
 #LOGIN LOGOUT
 #============================================================================
@@ -121,7 +122,7 @@ def cart(request):
         diler.total_price += int(item.price_of_bonus) * int(request.POST['count'])
         diler.save()
         return redirect(store)
-    return render(request, 'cabinet/cart.html', {'items': request.user.diler.cart.items()})
+    return render(request, 'new/cabinet/cart.html', {'items': request.user.diler.cart.items()})
 
 @login_required(login_url='/login/')
 def cart_item_delete(request, id):
@@ -189,19 +190,31 @@ def orders(request):
         logout(request)
         return redirect(login_view)
     
+    re = redis.StrictRedis(
+        host='127.0.0.1',
+        port=6379
+    )
+    
     if 'create_date_to' in request.GET:
         r = requests.get(f'http://176.62.187.250/loadDataForGridPerSellerCode.php?jsoncallback=jQuery1113010583719635799582_1676741279402&s_code={request.user.diler.seller_code}&create_date_from={request.GET["create_date_from"]}&create_date_to={request.GET["create_date_to"]}&order_id_from=&order_id_to=&manufacture_date_from=&manufacture_date_to=&ready_date_from=&ready_date_to=&filter_select_state=')
         fr = request.GET["create_date_from"]
         to = request.GET["create_date_to"]
+        s = r.text
+        start = s.index('(')
+        end = s.rindex(')')
+        json_string = s[start+1:end]
     else:
         current_date = date.today()
-        r = requests.get(f'http://176.62.187.250/loadDataForGridPerSellerCode.php?jsoncallback=jQuery1113010583719635799582_1676741279402&s_code={request.user.diler.seller_code}&create_date_from={current_date - relativedelta(months=1)}&create_date_to={current_date}&order_id_from=&order_id_to=&manufacture_date_from=&manufacture_date_to=&ready_date_from=&ready_date_to=&filter_select_state=')
+        json_string = re.get(f"orders_{request.user.diler.seller_code}").decode()
         fr = current_date
         to = current_date - relativedelta(months=1)
-    s = r.text
-    start = s.index('(')
-    end = s.rindex(')')
-    json_string = s[start+1:end]
+        if not json_string:
+            r = requests.get(f'http://176.62.187.250/loadDataForGridPerSellerCode.php?jsoncallback=jQuery1113010583719635799582_1676741279402&s_code={request.user.diler.seller_code}&create_date_from={current_date - relativedelta(months=1)}&create_date_to={current_date}&order_id_from=&order_id_to=&manufacture_date_from=&manufacture_date_to=&ready_date_from=&ready_date_to=&filter_select_state=')
+            s = r.text
+            start = s.index('(')
+            end = s.rindex(')')
+            json_string = s[start+1:end]
+            re.set(f"orders_{request.user.diler.seller_code}", json_string, 60*60*24)
 
     return render(request, 'new/cabinet/orders.html', {"orders": json_string, "from": fr, "to": to})
 
@@ -214,35 +227,22 @@ def store(request):
     return render(request, 'new/cabinet/store.html', {'items': items})
 
 @login_required(login_url='/login/')
+@require_POST
 def notifications(request):
-    if request.user.is_superuser:
-        logout(request)
-        return redirect(login_view)
-    if request.method == 'POST':
-        diler = request.user.diler
-        diler.sms_alert = True if 'sms_alert' in request.POST else False
-        diler.telegram_alert = True if 'telegram_alert' in request.POST else False
-        diler.email_alert = True if 'email_alert' in request.POST else False
-        diler.change_mail = True if 'change_mail' in request.POST else False
-        diler.change_email = True if 'change_email' in request.POST else False
-        diler.change_manager = True if 'change_manager' in request.POST else False
-        diler.ads_client = True if 'ads_client' in request.POST else False
-        diler.ads_me = True if 'ads_me' in request.POST else False
-        diler.save()
-        return redirect(notifications)
-    return render(request, 'cabinet/notifications.html')
+    diler = request.user.diler
+    diler.sms_alert = True if 'sms_alert' in request.POST else False
+    diler.telegram_alert = True if 'telegram_alert' in request.POST else False
+    diler.email_alert = True if 'email_alert' in request.POST else False
+    diler.change_mail = True if 'change_mail' in request.POST else False
+    diler.change_email = True if 'change_email' in request.POST else False
+    diler.change_manager = True if 'change_manager' in request.POST else False
+    diler.ads_client = True if 'ads_client' in request.POST else False
+    diler.ads_me = True if 'ads_me' in request.POST else False
+    diler.save()
+    return redirect(notifications)
 
 def shapes(request):
-    items = ShapeSystem.objects.all().order_by('id')
-    paginator = Paginator(items, 3)
-    page = request.GET.get('page')
-    try:
-        items = paginator.page(page)
-    except PageNotAnInteger:
-        items = paginator.page(1)
-    except EmptyPage:
-        items = paginator.page(paginator.num_pages)
-    return render(request, 'cabinet/shapes.html', {'items': items, 'range': range(1,11)})
+    return render(request, 'new/cabinet/shapes.html', {'shapes': ShapeSystem.objects.all().order_by('id')})
 
 def instructions(request):
     return render(request, 'new/cabinet/instructions.html', {'instructions': Instructions.objects.all()})
@@ -322,7 +322,7 @@ def buy(request):
             if item.count >= value["count"]:
                 c += 1
             else:
-                return render(request, "cabinet/no-count.html", {"tittle": item.title, "count": item.count})
+                return render(request, "new/cabinet/no-count.html")
         if c == len(diler.cart.items()):
             bonus.total_bonus -= diler.total_price
             bonus.save()
@@ -341,11 +341,10 @@ def buy(request):
 
             try:
                 requests.post('https://api.telegram.org/bot5852658863:AAHezP9l75ukvpQHSD3Bt5x24kMETAeqDfY/sendMessage', json={'chat_id': '222189723', 'text': m})
-                requests.post('https://api.telegram.org/bot5852658863:AAHezP9l75ukvpQHSD3Bt5x24kMETAeqDfY/sendMessage', json={'chat_id': '222189723', 'text': m})
             except Exception as e:
                 print(e)
     else:
-        return render(request, "cabinet/no-balance.html")
+        return render(request, "new/cabinet/no-balance.html")
     return redirect(cart)
 
 def clear_cart(request):

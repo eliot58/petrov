@@ -236,3 +236,61 @@ th, td {
     width: 100%;
     text-align: center;
 }
+
+.checkbox-label input:checked + span {
+	background-color: #4369EF;
+	color: #fff;
+	font-weight: 600;
+}
+
+
+.change .checkbox-label:last-child input:checked + span {
+	background-color: #4369EF;
+	color: #fff;
+	border-radius: 0px 12px 12px 0px;
+	font-weight: 600;
+}
+
+
+.change .checkbox-label:first-child input:checked + span {
+	background-color: #4369EF;
+	color: #fff;
+	border-radius: 12px 0px 0px 12px;
+	font-weight: 600;
+}
+
+
+.notification .checkbox-label:last-child input:checked + span {
+	background-color: #4369EF;
+	color: #fff;
+	border-radius: 0px 12px 12px 0px;
+	font-weight: 600;
+}
+
+
+.notification .checkbox-label:first-child input:checked + span {
+	background-color: #4369EF;
+	color: #fff;
+	border-radius: 12px 0px 0px 12px;
+	font-weight: 600;
+}
+
+.ads .checkbox-label:last-child input:checked + span {
+	background-color: #4369EF;
+	color: #fff;
+	border-radius: 0px 12px 12px 0px;
+	font-weight: 600;
+}
+
+
+.ads .checkbox-label:first-child input:checked + span {
+	background-color: #4369EF;
+	color: #fff;
+	border-radius: 12px 0px 0px 12px;
+	font-weight: 600;
+}
+
+.tab-button__active {
+	border: 1px solid #4369EF; 
+	color: #4369EF;
+}

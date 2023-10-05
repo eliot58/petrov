@@ -1,0 +1,134 @@
+{% extends 'new/base.html' %}
+
+{% block title %} Профиль {% endblock title %}
+
+{% load static %}
+
+{% block content %}
+<section class="d-flex flex-column" style="width: 100%; padding: 0px 20px;">
+    <h1 style="font-weight: 600; font-size: 56px;">Мой профиль</h1>
+    <div class="d-flex align-items-center" style="background-color: #fff; border-radius: 24px; padding: 30px 20px; margin: 40px 0px;">
+        <img src="{% static 'new/img/avatar.png' %}" height="72" width="72" alt="">
+        <div style="margin-left: 20px;">
+            <h3 style="font-size: 24px; font-weight: 500;">{{request.user.diler.fullName}}</h3>
+            <p style="font-size: 13px; color: #939393;">{{request.user.diler.email}}</p>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between">
+        <h2 style="font-size: 32px; font-weight: 500;">Личные данные</h2>
+        <div class="d-flex">
+            <button class="tab-button__active" style="background-color: inherit; padding: 6px 16px; border-radius: 12px;" onclick="openTab(this)">Основное</button>
+            <button class="tab-button__active" style="background-color: inherit; padding: 6px 16px; border-radius: 12px;" onclick="openTab(this)">Уведомления</button>
+        </div>
+    </div>
+    <form action="{% url 'profile' %}" method="post" class="d-flex" id="main">
+        {% csrf_token %}
+        <div style="width: 50%;">
+            <div style="margin-bottom: 20px; margin-right: 20px;">
+                <p style="font-size: 12px; font-weight: 500; color: #525252; margin-bottom: 5px;">Название торговой точки</p>
+                <input name="fullName" value="{{request.user.diler.fullName}}" style="padding: 8px 20px; border-radius: 8px; width: 100%;" type="text">
+            </div>
+            <div style="margin-bottom: 20px; margin-right: 20px;">
+                <p style="font-size: 12px; font-weight: 500; color: #525252; margin-bottom: 5px;">Адрес</p>
+                <input name="address" value="{{request.user.diler.address}}" style="padding: 8px 20px; border-radius: 8px; width: 100%;" type="text">
+            </div>
+            <div style="margin-bottom: 20px; margin-right: 20px;">
+                <p style="font-size: 12px; font-weight: 500; color: #525252; margin-bottom: 5px;">Телефон</p>
+                <input name="phone" value="{{request.user.diler.phone}}" style="padding: 8px 20px; border-radius: 8px; width: 100%;" type="text">
+            </div>
+        </div>
+        <div style="width: 50%;">
+            <div style="margin-bottom: 20px; margin-right: 20px;">
+                <p style="font-size: 12px; font-weight: 500; color: #525252; margin-bottom: 5px;">E-mail</p>
+                <input name="email" value="{{request.user.diler.email}}" style="padding: 8px 20px; border-radius: 8px; width: 100%;" type="text">
+            </div>
+            <div style="margin-bottom: 20px; margin-right: 20px;">
+                <p style="font-size: 12px; font-weight: 500; color: #525252; margin-bottom: 5px;">Телефон оповещений</p>
+                <input name="alert_phone" value="{{request.user.diler.alert_phone}}" style="padding: 8px 20px; border-radius: 8px; width: 100%;" type="text">
+            </div>
+            <div>
+                <p style="font-size: 12px; font-weight: 500; color: #525252; margin-bottom: 5px;">Регион</p>
+                <div>
+                    <select name="" id="" style="padding: 8px 20px; border-radius: 8px; width: 70%; background-color: #fff; margin-right: 10px;">
+                        <option value="" disabled {% if request.user.profile.diler.region == null %} selected {% endif %}>Регион</option>
+                        {% for region in regions %}
+                        <option value="{{ region.id }}" {% if region.id == request.user.diler.region_id %} selected {% endif %}>{{ region.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <button style="width: 25%; padding: 8px 0px; background-color: #4369EF; color: #fff; font-weight: 600; border-radius: 8px;" type="submit">Сохранить</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form id="notification" style="display: none;" action="{% url 'notifications' %}" method="post">
+        {% csrf_token %}
+        <div class="d-flex" style="margin-bottom: 20px;">
+            <div class="d-flex flex-column" style="margin-right: 20px;">
+                <p style="font-weight: 500; margin-bottom: 5px;">Обмен накладными</p>
+                <div class="d-flex change" style="background-color: #fff; border-radius: 12px;">
+                    <label class="checkbox-label">
+                        <input name="change_mail" {% if request.user.diler.change_mail %} checked {% endif %} style="position: absolute; display: none;" type="checkbox"><span style="padding: 12px 18px; text-align: center; display: block;">Отправка по почте</span>
+                     </label>
+                     <label class="checkbox-label">
+                        <input type="checkbox" name="email_alert" {% if request.user.diler.email_alert %} checked {% endif %}> style="position: absolute; display: none;" type="checkbox"><span style="padding: 12px 18px; text-align: center; display: block;">Отправка по E-mail</span>
+                     </label>
+                     <label class="checkbox-label">
+                        <input name="change_manager" {% if request.user.diler.change_manager %} checked {% endif %} style="position: absolute; display: none;" type="checkbox"><span style="padding: 12px 18px; text-align: center; display: block;">Менеджером в руки</span>
+                     </label>
+                </div>
+            </div>
+            <div class="d-flex flex-column">
+                <p style="font-weight: 500; margin-bottom: 5px;">Получение уведомлений</p>
+                <div class="d-flex notification" style="background-color: #fff; border-radius: 12px;">
+                    <label class="checkbox-label">
+                        <input name="telegram_alert" {% if request.user.diler.telegram_alert %} checked {% endif %} style="position: absolute; display: none;" type="checkbox"><span style="padding: 12px 18px; text-align: center; display: block;">Telegram</span>
+                     </label>
+                     <label class="checkbox-label">
+                        <input name="sms_alert" {% if request.user.diler.sms_alert %} checked {% endif %} style="position: absolute; display: none;" type="checkbox"><span style="padding: 12px 18px; text-align: center; display: block;">SMS</span>
+                     </label>
+                     <label class="checkbox-label">
+                        <input name="change_email" {% if request.user.diler.change_email %} checked {% endif %} style="position: absolute; display: none;" type="checkbox"><span style="padding: 12px 18px; text-align: center; display: block;">E-mail</span>
+                     </label>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex align-items-end">
+            <div class="d-flex flex-column" style="margin-right: 20px;">
+                <p style="font-weight: 500; margin-bottom: 5px;">Решение рекламаций</p>
+                <div class="d-flex ads" style="background-color: #fff; border-radius: 12px;">
+                    <label class="checkbox-label">
+                        <input name="ads_client" {% if request.user.diler.ads_client %} checked {% endif %} style="position: absolute; display: none;" type="checkbox"><span style="padding: 12px 18px; text-align: center; display: block;">Решение с клиентом</span>
+                     </label>
+                     <label class="checkbox-label">
+                        <input name="ads_me" {% if request.user.diler.ads_me %} checked {% endif %} style="position: absolute; display: none;" type="checkbox"><span style="padding: 12px 18px; text-align: center; display: block;">Решение через меня</span>
+                     </label>
+                </div>
+            </div>
+            <button style="padding: 10px 14px; background-color: #4369EF; color: #fff; font-weight: 600; border-radius: 8px;" type="submit">Сохранить</button>
+        </div>
+    </form>
+</section>
+{% endblock content %}
+
+{% block script %} 
+<script>
+    function openTab(element) {
+        if (element.textContent == 'Основное') {
+            element.classList.add("tab-button__active")
+            element.nextElementSibling.classList.remove("tab-button__active")
+            document.getElementById("main").classList.add("d-flex")
+            document.getElementById("notification").classList.remove("d-flex")
+            document.getElementById("notification").classList.remove("flex-column")
+            document.getElementById("notification").style.display = "none"
+        } else {
+            element.classList.add("tab-button__active")
+            element.previousElementSibling.classList.remove("tab-button__active")
+            document.getElementById("notification").classList.add("d-flex")
+            document.getElementById("notification").classList.add("flex-column")
+            document.getElementById("main").classList.remove("d-flex")
+            document.getElementById("main").style.display = "none"
+        }
+    }
+</script>
+
+{% endblock script %}

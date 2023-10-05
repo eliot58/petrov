@@ -14,13 +14,13 @@
                 <div class="d-flex">
                     <img src="{{ item.photo.url }}" width="232" height="232" style="padding: 5px; border-radius: 24px;" alt="">
                     <div style="margin: auto 0; margin-left: 10px;">
-                        <p style="font-size: 20px; font-weight: 500;">Ручка Pexay</p>
-                        <p style="font-size: 13px; margin: 10px 0px;">Шариковая ручка с логотипом Pexay</p>
-                        <p style="font-size: 13px; font-weight: 500; color: #4369EF;">В наличии 1000 шт</p>
+                        <p style="font-size: 20px; font-weight: 500;">{{ item.title }}</p>
+                        <p style="font-size: 13px; margin: 10px 0px;">{{ item.description }}</p>
+                        <p style="font-size: 13px; font-weight: 500; color: #4369EF;">В наличии {{ item.count }} шт</p>
                     </div>
                 </div>
-                <form method="post" action="{% url 'cart' %}" class="d-flex" style="background-color: #fff; border-radius: 24px; padding: 5px;">
-                    <button style="background-color: #4369EF; color: #fff; padding: 5px 15px; border: 1px solid #fff; border-radius: 12px;" type="button" onclick="instock('{{item.count}}', this.previousElementSibling.previousElementSibling.getElementsByTagName('input')[0].value, this.parentNode)">Добавить в корзину</button>
+                <form method="post" action="{% url 'cart' %}" class="d-flex" style="background-color: #fff; border-radius: 24px; padding: 5px; margin-top: 10px;">
+                    <button style="background-color: #4369EF; color: #fff; padding: 5px 15px; border: 1px solid #fff; border-radius: 12px; width: 230px;" type="button" onclick="instock('{{item.count}}', this.previousElementSibling.previousElementSibling.getElementsByTagName('input')[0].value, this.parentNode)">Добавить в корзину</button>
                     <div class="store-item__data-count d-flex justify-content-between" style="margin: 0px 5px;">
                         <span onclick="minus(this)">-</span>
                         <input type="text" name="count" value="1">
@@ -28,8 +28,8 @@
                     </div>
                     <input type="text" name="item_id" value="{{ item.id }}" hidden>
                     <div style="margin-left: 5px;">
-                        <p style="font-size: 12px; color: #939393;">+500000 Б</p>
-                        <p style="font-size: 24px; font-weight: 500; color: #4369EF;">500 000 Б</p>
+                        <p style="font-size: 12px; color: #939393;">+{{ item.price_of_bonus }} Б</p>
+                        <p style="font-size: 24px; font-weight: 500; color: #4369EF;">{{ item.price_of_bonus }} Б</p>
                     </div>
                 </form>
             </div>

@@ -42,8 +42,11 @@
             <option value="loaded">Отгружен</option>
             <option value="finish">Завершен</option>
         </select>
-        <input style="border-radius: 12px;
-        padding: 6px 10px; background-color: #fff;" type="date">
+        <form method="get" action="{% url 'orders' %}" class="d-flex">
+            <input style="border-radius: 12px; padding: 6px 10px; background-color: #fff; margin-right: 10px;" type="date" value="{{from|date:'Y-m-d'}}" name="create_date_from" reguired>
+            <input style="border-radius: 12px; padding: 6px 10px; background-color: #fff; margin-right: 10px;" type="date" value="{{to|date:'Y-m-d'}}" name="create_date_to" reguired>
+            <button style="width: 130px; padding: 10px 0px; border-radius: 12px; background-color: #4369EF; color: #fff; margin-right: 10px;">Показать</button>
+        </form>
     </div>
     <div class="ads-list" style="margin-top: 10px;">
         <div class="table-responsive">
@@ -232,31 +235,37 @@
                 displayPagination(result, table_length, currentPage);
             }
 
+            const labels = document.querySelectorAll("label")
+            labels[0].addEventListener("click", function(){
+                labels[0].classList.add("active")
+                labels[1].classList.remove("active")
+                labels[2].classList.remove("active")
+                table_length = 5
+                displayList(data, table_length, currentPage);
+                displayPagination(data, table_length, currentPage);
+            })
+            labels[1].addEventListener("click", function(){
+                labels[1].classList.add("active")
+                labels[0].classList.remove("active")
+                labels[2].classList.remove("active")
+                table_length = 10
+                displayList(data, table_length, currentPage);
+                displayPagination(data, table_length, currentPage);
+            })
+            labels[2].addEventListener("click", function(){
+                labels[2].classList.add("active")
+                labels[1].classList.remove("active")
+                labels[0].classList.remove("active")
+                table_length = 20
+                displayList(data, table_length, currentPage);
+                displayPagination(data, table_length, currentPage);
+            })
+
+
         }
 
 
         main()
-
-
-        const labels = document.querySelectorAll("label")
-        labels[0].addEventListener("click", function(){
-            labels[0].classList.add("active")
-            labels[1].classList.remove("active")
-            labels[2].classList.remove("active")
-            table_length = 5
-        })
-        labels[1].addEventListener("click", function(){
-            labels[1].classList.add("active")
-            labels[0].classList.remove("active")
-            labels[2].classList.remove("active")
-            table_length = 10
-        })
-        labels[2].addEventListener("click", function(){
-            labels[2].classList.add("active")
-            labels[1].classList.remove("active")
-            labels[0].classList.remove("active")
-            table_length = 20
-        })
 
 
 

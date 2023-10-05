@@ -1,0 +1,70 @@
+{% extends 'new/base.html' %}
+
+{% block title %} Магазин {% endblock title %}
+
+{% load static %}
+
+{% block content %}
+<section class="d-flex flex-column" style="width: 100%; padding: 0px 20px;">
+    <h1 style="font-weight: 600; font-size: 56px;">Корзина</h1>
+    <div class="d-flex">
+        <div style="width: 60%;" class="d-flex flex-column">
+            <div class="d-flex" style="position: relative; background-color: #fff; border-radius: 24px; padding: 5px; margin-bottom: 20px;">
+                <a style="position: absolute; top: 10px; right: 10px" href=""><img src="img/close.svg" alt=""></a>
+                <img src="img/photo.png" style="border-radius: 24px;" alt="">
+                <div class="d-flex flex-column justify-content-between" style="margin-left: 20px;">
+                    <p style="font-size: 24px; font-weight: 500; margin-top: 20px;">Шариковая ручка с логотипом Рехау</p>
+                    <p>Шариковая ручка с логотипом Pexay</p>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="store-item__data-count d-flex justify-content-between" style="margin: 0px 5px;">
+                            <span onclick="minus(this)">-</span>
+                            <input type="text" name="count" value="1">
+                            <span onclick="plus(this)">+</span>
+                        </div>
+                        <p style="font-size: 24px; font-weight: 500; color: #4369EF;">500 Б</p>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex" style="position: relative; background-color: #fff; border-radius: 24px; padding: 5px; margin-bottom: 20px;">
+                <a style="position: absolute; top: 10px; right: 10px" href=""><img src="img/close.svg" alt=""></a>
+                <img src="img/photo.png" style="border-radius: 24px;" alt="">
+                <div class="d-flex flex-column justify-content-between" style="margin-left: 20px;">
+                    <p style="font-size: 24px; font-weight: 500; margin-top: 20px;">Шариковая ручка с логотипом Рехау</p>
+                    <p>Шариковая ручка с логотипом Pexay</p>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="store-item__data-count d-flex justify-content-between" style="margin: 0px 5px;">
+                            <span onclick="minus(this)">-</span>
+                            <input type="text" name="count" value="1">
+                            <span onclick="plus(this)">+</span>
+                        </div>
+                        <p style="font-size: 24px; font-weight: 500; color: #4369EF;">500 Б</p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="d-flex flex-column justify-content-between" style="width: 40%; max-height: 270px; padding: 20px; background-color: #fff; margin: 0px 20px; border-radius: 24px;">
+            <p style="font-weight: 500;">Ваш заказ</p>
+            <div class="d-flex flex-column" style="color: #939393;">
+                <div class="d-flex justify-content-between" style="margin-bottom: 20px;">
+                    <p>Товары (2):</p>
+                    <p>1000 Б</p>
+                </div>
+                <div class="d-flex justify-content-between" style="margin-bottom: 20px;">
+                    <p>Товары (2):</p>
+                    <p>1000 Б</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p>Товары (2):</p>
+                    <p>1000 Б</p>
+                </div>
+            </div>
+            <button style="padding: 10px 0px; color: #fff; background-color: #4369EF; font-weight: 600; border-radius: 12px;">Оплатить</button>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+{% block script %} 
+    
+{% endblock script %}
