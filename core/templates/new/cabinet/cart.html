@@ -1,6 +1,6 @@
 {% extends 'new/base.html' %}
 
-{% block title %} Магазин {% endblock title %}
+{% block title %} Корзина {% endblock title %}
 
 {% load static %}
 
@@ -9,54 +9,34 @@
     <h1 style="font-weight: 600; font-size: 56px;">Корзина</h1>
     <div class="d-flex">
         <div style="width: 60%;" class="d-flex flex-column">
+            {% for item in items %}
             <div class="d-flex" style="position: relative; background-color: #fff; border-radius: 24px; padding: 5px; margin-bottom: 20px;">
-                <a style="position: absolute; top: 10px; right: 10px" href=""><img src="img/close.svg" alt=""></a>
-                <img src="img/photo.png" style="border-radius: 24px;" alt="">
+                <a style="position: absolute; top: 10px; right: 10px" href="{% url 'cart_item_delete' item.0 %}"><img src="{% static 'new/img/close.svg' %}" alt=""></a>
+                <img src="{{ item.1.photo }}" style="border-radius: 24px;" alt="">
                 <div class="d-flex flex-column justify-content-between" style="margin-left: 20px;">
-                    <p style="font-size: 24px; font-weight: 500; margin-top: 20px;">Шариковая ручка с логотипом Рехау</p>
-                    <p>Шариковая ручка с логотипом Pexay</p>
+                    <p style="font-size: 24px; font-weight: 500; margin-top: 20px;">{{ item.1.title }}</p>
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="store-item__data-count d-flex justify-content-between" style="margin: 0px 5px;">
-                            <span onclick="minus(this)">-</span>
-                            <input type="text" name="count" value="1">
-                            <span onclick="plus(this)">+</span>
+                            <span onclick="minus(this, '{{item.1.price}}', '{{item.0}}')">-</span>
+                            <input type="text" value="{{ item.1.count }}">
+                            <span onclick="plus(this, '{{item.1.price}}', '{{item.0}}')">+</span>
                         </div>
-                        <p style="font-size: 24px; font-weight: 500; color: #4369EF;">500 Б</p>
+                        <p style="font-size: 24px; font-weight: 500; color: #4369EF;">{{ item.1.price_of_bonus }} Б</p>
                     </div>
                 </div>
             </div>
-            <div class="d-flex" style="position: relative; background-color: #fff; border-radius: 24px; padding: 5px; margin-bottom: 20px;">
-                <a style="position: absolute; top: 10px; right: 10px" href=""><img src="img/close.svg" alt=""></a>
-                <img src="img/photo.png" style="border-radius: 24px;" alt="">
-                <div class="d-flex flex-column justify-content-between" style="margin-left: 20px;">
-                    <p style="font-size: 24px; font-weight: 500; margin-top: 20px;">Шариковая ручка с логотипом Рехау</p>
-                    <p>Шариковая ручка с логотипом Pexay</p>
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div class="store-item__data-count d-flex justify-content-between" style="margin: 0px 5px;">
-                            <span onclick="minus(this)">-</span>
-                            <input type="text" name="count" value="1">
-                            <span onclick="plus(this)">+</span>
-                        </div>
-                        <p style="font-size: 24px; font-weight: 500; color: #4369EF;">500 Б</p>
-                    </div>
-                </div>
-            </div>
-            
+            {% endfor %}
         </div>
         <div class="d-flex flex-column justify-content-between" style="width: 40%; max-height: 270px; padding: 20px; background-color: #fff; margin: 0px 20px; border-radius: 24px;">
             <p style="font-weight: 500;">Ваш заказ</p>
             <div class="d-flex flex-column" style="color: #939393;">
                 <div class="d-flex justify-content-between" style="margin-bottom: 20px;">
-                    <p>Товары (2):</p>
-                    <p>1000 Б</p>
-                </div>
-                <div class="d-flex justify-content-between" style="margin-bottom: 20px;">
-                    <p>Товары (2):</p>
-                    <p>1000 Б</p>
+                    <p>Товары ({{ request.user.diler.count }}):</p>
+                    <p>{{ request.user.diler.total_price }} Б</p>
                 </div>
                 <div class="d-flex justify-content-between">
-                    <p>Товары (2):</p>
-                    <p>1000 Б</p>
+                    <p>Итого:</p>
+                    <p>{{ request.user.diler.total_price }} Б</p>
                 </div>
             </div>
             <button style="padding: 10px 0px; color: #fff; background-color: #4369EF; font-weight: 600; border-radius: 12px;">Оплатить</button>
@@ -66,5 +46,54 @@
 {% endblock content %}
 
 {% block script %} 
-    
+<script>
+    function minus(element, price, id){
+        i = element.nextElementSibling;
+        if (i.value != 1){
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "/minus/" + id + "/");
+            xhr.responseType = 'json';
+            xhr.send();
+            xhr.onload = () => {
+                if (xhr.status == 200) {
+                    if (xhr.response['success']) {
+                        all_price = element.parentNode.parentNode.nextElementSibling
+                        all_price.textContent = Number(all_price.textContent) - Number(price)
+                        total_price = document.querySelector(".total_price")
+                        total_price.textContent = Number(total_price.textContent) - Number(price)
+                        i.value = Number(i.value) - 1
+                    }
+                }
+            }
+        }
+    }
+
+    function plus(element, price, id){
+        i = element.previousElementSibling;
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "/plus/" + id + "/");
+        xhr.responseType = 'json';
+        xhr.send();
+        xhr.onload = () => {
+            if (xhr.status == 200) {
+                if (xhr.response['success']) {
+                    all_price = element.parentNode.parentNode.nextElementSibling
+                    all_price.textContent = Number(all_price.textContent) + Number(price)
+                    total_price = document.querySelector(".total_price")
+                    total_price.textContent = Number(total_price.textContent) + Number(price)
+                    i.value = Number(i.value) + 1
+                }
+            }
+        }
+    }
+
+    function instock(stock, count, form){
+        console.log(stock, count)
+        if (Number(stock) >= Number(count)){
+            form.submit()
+        } else {
+            alert("В наличии " + stock + "шт")
+        }
+    }
+</script>
 {% endblock script %}

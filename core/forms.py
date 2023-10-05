@@ -42,15 +42,6 @@ class LoginForm(forms.Form):
                 return password
             else:
                 return password
-        
-        # try:
-        #     user = User.objects.get(username=username)
-        # except User.DoesNotExist:
-        #     raise ValidationError('Неверный email или пароль')
-        # else:
-        #     if not(check_password(password, user.password)):
-        #         raise ValidationError('Неверный email или пароль')
-        # return password
                 
         
 class OrderNameForm(forms.Form):

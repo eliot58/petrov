@@ -16,7 +16,9 @@
     <header>
         <img src="{% static 'new/img/logo.png' %}" alt="">
         <div style="display: flex;">
-            <img src="{% static 'new/img/cart.svg' %}" alt="">
+            <a href="{% url 'cart' %}">
+                <img src="{% if request.path == '/cart/' %} {% static 'new/img/cart-active.svg' %} {% else %} {% static 'new/img/cart.svg' %} {% endif %}" alt="">
+            </a>
             <img src="{% static 'new/img/phone.svg' %}" style="margin-left: 20px;" alt="">
             <div style="position: relative;">
                 <button class="d-flex align-items-center btn dropdown-toggle" type="button" onclick="if (this.nextElementSibling.style.display == 'none') {this.nextElementSibling.style.display = 'block'} else {this.nextElementSibling.style.display = 'none'}" style="margin-left: 20px;">
