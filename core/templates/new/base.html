@@ -48,7 +48,7 @@
             <li class="navbar__link {% if request.path == '/services/' %} navbar__link-active {% endif %}">
                 <div>
                     <img src="{% static 'new/img/services.svg' %}" alt="">
-                    <a href="">Сервисы</a>
+                    <a href="{% url 'services' %}">Сервисы</a>
                 </div>
             </li>
             <li class="navbar__link {% if request.path == '/store/' %} navbar__link-active {% endif %}">

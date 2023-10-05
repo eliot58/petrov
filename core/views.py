@@ -15,7 +15,6 @@ from json.decoder import JSONDecodeError
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
-import redis
 
 #LOGIN LOGOUT
 #============================================================================
@@ -190,31 +189,19 @@ def orders(request):
         logout(request)
         return redirect(login_view)
     
-    re = redis.StrictRedis(
-        host='127.0.0.1',
-        port=6379
-    )
-    
     if 'create_date_to' in request.GET:
         r = requests.get(f'http://176.62.187.250/loadDataForGridPerSellerCode.php?jsoncallback=jQuery1113010583719635799582_1676741279402&s_code={request.user.diler.seller_code}&create_date_from={request.GET["create_date_from"]}&create_date_to={request.GET["create_date_to"]}&order_id_from=&order_id_to=&manufacture_date_from=&manufacture_date_to=&ready_date_from=&ready_date_to=&filter_select_state=')
         fr = request.GET["create_date_from"]
         to = request.GET["create_date_to"]
-        s = r.text
-        start = s.index('(')
-        end = s.rindex(')')
-        json_string = s[start+1:end]
     else:
         current_date = date.today()
-        json_string = re.get(f"orders_{request.user.diler.seller_code}").decode()
+        r = requests.get(f'http://176.62.187.250/loadDataForGridPerSellerCode.php?jsoncallback=jQuery1113010583719635799582_1676741279402&s_code={request.user.diler.seller_code}&create_date_from={current_date - relativedelta(months=1)}&create_date_to={current_date}&order_id_from=&order_id_to=&manufacture_date_from=&manufacture_date_to=&ready_date_from=&ready_date_to=&filter_select_state=')
         fr = current_date
         to = current_date - relativedelta(months=1)
-        if not json_string:
-            r = requests.get(f'http://176.62.187.250/loadDataForGridPerSellerCode.php?jsoncallback=jQuery1113010583719635799582_1676741279402&s_code={request.user.diler.seller_code}&create_date_from={current_date - relativedelta(months=1)}&create_date_to={current_date}&order_id_from=&order_id_to=&manufacture_date_from=&manufacture_date_to=&ready_date_from=&ready_date_to=&filter_select_state=')
-            s = r.text
-            start = s.index('(')
-            end = s.rindex(')')
-            json_string = s[start+1:end]
-            re.set(f"orders_{request.user.diler.seller_code}", json_string, 60*60*24)
+    s = r.text
+    start = s.index('(')
+    end = s.rindex(')')
+    json_string = s[start+1:end]
 
     return render(request, 'new/cabinet/orders.html', {"orders": json_string, "from": fr, "to": to})
 
@@ -239,7 +226,7 @@ def notifications(request):
     diler.ads_client = True if 'ads_client' in request.POST else False
     diler.ads_me = True if 'ads_me' in request.POST else False
     diler.save()
-    return redirect(notifications)
+    return redirect(profile)
 
 def shapes(request):
     return render(request, 'new/cabinet/shapes.html', {'shapes': ShapeSystem.objects.all().order_by('id')})
