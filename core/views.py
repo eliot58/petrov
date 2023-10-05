@@ -75,7 +75,7 @@ def services(request):
         r = requests.get(f"http://176.62.187.250/service.php?s_code={request.user.diler.seller_code}")
         data = json.loads(r.text)
 
-    return render(request, 'new/cabinet/services.html', {'ads': data})
+    return render(request, 'new/cabinet/services.html', {'ads': data, 'form': OrderNameForm()})
 
 @login_required(login_url='/login/')
 @require_POST
