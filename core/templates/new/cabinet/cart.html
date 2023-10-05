@@ -12,7 +12,7 @@
             {% for item in items %}
             <div class="d-flex" style="position: relative; background-color: #fff; border-radius: 24px; padding: 5px; margin-bottom: 20px;">
                 <a style="position: absolute; top: 10px; right: 10px" href="{% url 'cart_item_delete' item.0 %}"><img src="{% static 'new/img/close.svg' %}" alt=""></a>
-                <img src="{{ item.1.photo }}" style="border-radius: 24px;" alt="">
+                <img src="{{ item.1.photo }}" width="154" height="154" style="border-radius: 24px;" alt="">
                 <div class="d-flex flex-column justify-content-between" style="margin-left: 20px;">
                     <p style="font-size: 24px; font-weight: 500; margin-top: 20px;">{{ item.1.title }}</p>
                     <div class="d-flex align-items-center justify-content-between">
