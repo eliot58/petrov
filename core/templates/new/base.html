@@ -15,7 +15,7 @@
 <body>
     <header>
         <img src="{% static 'new/img/logo.png' %}" alt="">
-        <div style="display: flex;">
+        <div class="d-flex align-items-center">
             <a href="{% url 'cart' %}">
                 <img src="{% if request.path == '/cart/' %} {% static 'new/img/cart-active.svg' %} {% else %} {% static 'new/img/cart.svg' %} {% endif %}" alt="">
             </a>
