@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <form method="post" action="{% url 'cart' %}" class="d-flex" style="background-color: #fff; border-radius: 24px; padding: 5px; margin-top: 10px;">
-                    <button style="background-color: #4369EF; color: #fff; padding: 5px 15px; border: 1px solid #fff; border-radius: 12px; width: 230px;" type="button" onclick="instock('{{item.count}}', this.previousElementSibling.previousElementSibling.getElementsByTagName('input')[0].value, this.parentNode)">Добавить в корзину</button>
+                    <button style="background-color: #4369EF; color: #fff; padding: 5px 15px; border: 1px solid #fff; border-radius: 12px; width: 230px;" type="button" onclick="instock('{{item.count}}', this.nextElementSibling.getElementsByTagName('input')[0].value, this.parentNode)">Добавить в корзину</button>
                     <div class="store-item__data-count d-flex justify-content-between" style="margin: 0px 5px;">
                         <span onclick="minus(this)">-</span>
                         <input type="text" name="count" value="1">
