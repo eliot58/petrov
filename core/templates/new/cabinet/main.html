@@ -4,6 +4,8 @@
 
 {% load static %}
 
+{% load custom_tags %}
+
 {% block content %}
 <section class="d-flex flex-column" style="width: 100%; padding: 0px 20px;">
     <div class="bonus" style="margin-bottom: 50px;">
@@ -17,7 +19,7 @@
             <div class="bonus-scroll" style="display: none; position: absolute; top: 40px; left: -240px; background-color: #fff; width: 270px; max-height: 170px; padding: 10px; border-radius: 24px 8px 24px 24px; overflow: auto;">
                 <p style="font-weight: 500; font-size: 12px; line-height: 16px;">За продажу данных продуктов вам будут начислены бонусы, которые, Вы можете потратить в магазине.</p>
                 {% for bonus in bonuses %}
-                    <p style="font-size: 12px; background-color: #FF00C7;padding: 2px; border-radius: 8px;">
+                    <p style="font-size: 12px; background-color: {{ 1 | color }};padding: 2px; border-radius: 8px;">
                         <span style="font-weight: 500;">
                             {% if bonus.select == 's' %}
                                 {{ bonus.shape }}
@@ -69,9 +71,60 @@
         </div>
     </div>
 
-    <!-- <div class="news">
-        <h1>Новости</h1>
-        
-    </div> -->
+    <div class="news" style="margin: 40px 0px 100px 0px;">
+        <h1 style="font-size: 56px; font-weight: 600; color: #333333; margin-bottom: 30px;">Новости</h1>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                {% for new in news %}
+                <div class="swiper-slide d-flex flex-column" style="{{1 | gradient}}">
+                    <h3 style="font-size: 20px; font-weight: 500; color: #fff; margin-bottom: 40px;">{{ new.title }}</h3>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p style="font-size: 12px; color: #fff;">{{ new.date|date:'d.m.Y' }}</p>
+                        <a href="{% if not new.file %}{% else %}{{ new.file.url }}{% endif %}" style="display: block; padding: 10px 24px; border: 1px solid #fff; color: #fff; border-radius: 12px;">Скачать</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 </section>
 {% endblock content %}
+
+
+{% block script %}
+<script>
+    const swiperWrapper = document.querySelector('.swiper-wrapper');
+    let startX = 0;
+    let currentTranslate = 0;
+
+    swiperWrapper.addEventListener('mousedown', (e) => {
+        startX = e.clientX;
+        swiperWrapper.style.transition = 'none';
+    });
+
+    swiperWrapper.addEventListener('mousemove', (e) => {
+        if (startX !== 0) {
+            const offsetX = e.clientX - startX;
+            swiperWrapper.style.transform = `translateX(${currentTranslate + offsetX}px)`;
+        }
+    });
+
+    swiperWrapper.addEventListener('mouseup', (e) => {
+        const offsetX = e.clientX - startX;
+        currentTranslate += offsetX;
+        swiperWrapper.style.transition = 'transform 0.3s ease';
+        swiperWrapper.style.transform = `translateX(${currentTranslate}px)`;
+        startX = 0;
+    });
+
+    swiperWrapper.addEventListener('transitionend', () => {
+        const slideWidth = swiperWrapper.clientWidth;
+        const slideIndex = -currentTranslate / slideWidth;
+        const roundedIndex = Math.round(slideIndex);
+        currentTranslate = -roundedIndex * slideWidth;
+        swiperWrapper.style.transition = 'none';
+        swiperWrapper.style.transform = `translateX(${currentTranslate}px)`;
+    });
+
+</script>
+{% endblock script %}

@@ -266,9 +266,6 @@ def ads_create(request, order_name):
         file_urls.append("'0x" + binascii.hexlify(request.FILES["file5"].read()).decode() + "'")
     
     requests.post(f'http://176.62.187.250/createService.php', data={"query": query + ", " + ", ".join(file_urls)})
-
-    with open("text.txt", "w") as f:
-        f.write(query + ", " + ", ".join(file_urls))
     
     return redirect(services)
 
