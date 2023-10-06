@@ -59,7 +59,7 @@ def index(request):
     except DilerBonus.DoesNotExist:
         bonus = DilerBonus.objects.create(seller_code=request.user.diler.seller_code)
 
-    return render(request, 'new/cabinet/main.html', {'bonuses': Bonus.objects.all(), 'news': New.objects.all(), 'bonus': bonus})
+    return render(request, 'new/cabinet/main.html', {'bonuses': Bonus.objects.all().order_by("-id"), 'news': New.objects.all().order_by("-id"), 'bonus': bonus})
 
 @login_required(login_url='/login/')
 def services(request):
