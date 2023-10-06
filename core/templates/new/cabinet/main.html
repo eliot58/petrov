@@ -19,7 +19,7 @@
             <div class="bonus-scroll" style="display: none; position: absolute; top: 40px; left: -240px; background-color: #fff; width: 270px; max-height: 170px; padding: 10px; border-radius: 24px 8px 24px 24px; overflow: auto;">
                 <p style="font-weight: 500; font-size: 12px; line-height: 16px;">За продажу данных продуктов вам будут начислены бонусы, которые, Вы можете потратить в магазине.</p>
                 {% for bonus in bonuses %}
-                    <p style="font-size: 12px; background-color: {{ bonus.id | color }};padding: 2px; border-radius: 8px;">
+                    <p style="font-size: 12px; background-color: {{ bonus.id | color }};padding: 2px; border-radius: 8px; margin-top: 10px;">
                         <span style="font-weight: 500;">
                             {% if bonus.select == 's' %}
                                 {{ bonus.shape }}
