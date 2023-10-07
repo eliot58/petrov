@@ -19,25 +19,55 @@
                         {{ form.order_name }}
                         <input type="text" value="{{ request.user.diler.seller_code }}" name="s_code" hidden>
                     </div>
+                    {{ form.order_name.errors }}
                     <button type="button" onclick="checkEmail('{{request.user.diler.email}}', this.parentNode)" style="background-color: inherit; color: #fff; padding: 8px 16px; border: 1px solid #fff; border-radius: 12px;">Распечатать</button>
                 </form>
                 <p style="font-weight: 600; color: #05F41D; margin-top: 10px; display: none;">Гарантийный талон будет отправлен вам на почту</p>
             </div>
         </div>
     </div>
-    <div class="ads d-flex justify-content-between align-items-end" style="margin-top: 20px; padding: 20px; background-color: #fff; border-radius: 24px;">
-        <div>
+    <div class="ads d-flex" style="margin-top: 20px; padding: 20px; background-color: #fff; border-radius: 24px;">
+        <div style="width: 600px;" class="d-flex flex-column justify-content-between">
             <h2 style="font-weight: 500; font-size: 32px; color: #333;">Рекламации</h2>
-            <p style="line-height: 24px; margin: 20px 0px;">Уважаемые дилеры, перед созданием рекламации просьба ознакомиться с инструкцией, чтобы не получить авто-отказ</p>
-            <button style="background-color: inherit; color: #4369EF; padding: 5px 15px; border: 1px solid #4369EF; border-radius: 12px;">Инструкция</button>
+            <p style="line-height: 24px; font-size: 20px;">Уважаемые дилеры, перед созданием рекламации просьба ознакомиться с инструкцией, чтобы не получить авто-отказ</p>
+            <button style="background-color: inherit; color: #4369EF; padding: 8px 0px; border: 1px solid #4369EF; border-radius: 12px; width: 160px;">Инструкция</button>
         </div>
-        <div>
-            <p style="font-weight: 500;">Создать рекламации</p>
+        <form method="post" action="{% url 'ads-create' '123' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p style="font-weight: 500; font-size: 32px; margin-bottom: 10px;">Создать рекламации</p>
             <div style="padding: 10px 10px; background-color: #f6f6f6; border-radius: 12px; margin-bottom: 10px;">
-                <input type="text" style="background-color: #f6f6f6;" placeholder="Введите номер заказа">
+                {{ form.order_name }}
+                <input type="text" value="{{ request.user.diler.seller_code }}" name="s_code" hidden>
             </div>
-            <button style="background-color: #4369EF; color: #fff; padding: 5px 15px; border: 1px solid #4369EF; border-radius: 12px;">Подтвердить</button>
-        </div>
+            {{ form.order_name.errors }}
+            <div style="padding: 10px 10px; background-color: #f6f6f6; border-radius: 12px; margin-bottom: 10px;">
+                <textarea style="background-color: inherit;" name="comment" id="" cols="20" rows="3" placeholder="Опишите что произошло в свободной форме"></textarea>
+            </div>
+            <div class="upload-files d-flex">
+                <div class="upload-files__title">Прикрепить файлы рекламации</div>
+                <div class="upload-files__btn" style="margin-left: 5px;" onclick="document.querySelector(`input[name='file1']`).click()">
+                    <input type="file" name="file1" hidden>
+                    <img src="{% static 'new/img/clip.svg' %}" alt="">
+                </div>
+                <div class="upload-files__btn" onclick="document.querySelector(`input[name='file2']`).click()">
+                    <input type="file" name="file2" hidden>
+                    <img src="{% static 'new/img/clip.svg' %}" alt="">
+                </div>
+                <div class="upload-files__btn" onclick="document.querySelector(`input[name='file3']`).click()">
+                    <input type="file" name="file3" hidden>
+                    <img src="{% static 'new/img/clip.svg' %}" alt="">
+                </div>
+                <div class="upload-files__btn" onclick="document.querySelector(`input[name='file4']`).click()">
+                    <input type="file" name="file4" hidden>
+                    <img src="{% static 'new/img/clip.svg' %}" alt="">
+                </div>
+                <div class="upload-files__btn" onclick="document.querySelector(`input[name='file5']`).click()">
+                    <input type="file" name="file5" hidden>
+                    <img src="{% static 'new/img/clip.svg' %}" alt="">
+                </div>
+            </div>
+            <button type="submit" style="background-color: #4369EF; color: #fff; padding: 8px 18px; border: 1px solid #4369EF; border-radius: 12px; font-weight: 600;">Создать</button>
+        </form>
     </div>
     <div class="ads-list" style="margin-top: 10px;">
         <table style="width: 100%;">

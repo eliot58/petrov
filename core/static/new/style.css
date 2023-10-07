@@ -312,3 +312,19 @@ th, td {
 	margin-right: 20px;
 	border-radius: 24px;
 }
+
+.upload-files__btn {
+	padding: 5px;
+	background-color: #f6f6f6;
+	margin-right: 6px;
+	border-radius: 8px;
+}
+
+.prices svg:hover path{
+    stroke: #273E90;
+    fill: #273E90;
+}
+
+.prices svg:hover text:last-child{
+    display: block;
+}

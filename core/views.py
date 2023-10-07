@@ -86,10 +86,10 @@ def talon(request):
         t = 1 if cd["order_name"].strip().split("\\")[0] == 'О' else 2
         order_id = cd["order_name"].strip().split('\\')[1]
         requests.get(f'http://176.62.187.250/loadpic.php?order_id={order_id}&email={request.user.diler.email}&type={t}')
-        return redirect(services)
+    return redirect(services)
 
 def price(request):
-    return render(request, 'cabinet/price.html', {'prices': Price.objects.all().order_by('zone')})
+    return render(request, 'new/cabinet/price.html', {'prices': Price.objects.all().order_by('zone')})
 
 @login_required(login_url='/login/')
 def cart(request):
@@ -245,27 +245,29 @@ def notwork(request):
 
 @require_POST
 def ads_create(request, order_name):
-    comment = request.POST["comment"]
-    order_name = request.POST["order_name"]
-    file_urls = []
-    query = f"exec pg_create_servicedoc_for_lk_filevarchar '{request.user.diler.seller_code}', '{order_name}', '{comment}', '{request.user.username}'"
-    if "file1" in request.FILES:
-        file_urls.append("'" + request.FILES["file1"].name + "'")
-        file_urls.append("'0x" + binascii.hexlify(request.FILES["file1"].read()).decode() + "'")
-    if "file2" in request.FILES:
-        file_urls.append("'" + request.FILES["file2"].name + "'")
-        file_urls.append("'0x" + binascii.hexlify(request.FILES["file2"].read()).decode() + "'")
-    if "file3" in request.FILES:
-        file_urls.append("'" + request.FILES["file3"].name + "'")
-        file_urls.append("'0x" + binascii.hexlify(request.FILES["file3"].read()).decode() + "'")
-    if "file4" in request.FILES:
-        file_urls.append("'" + request.FILES["file4"].name + "'")
-        file_urls.append("'0x" + binascii.hexlify(request.FILES["file4"].read()).decode() + "'")
-    if "file5" in request.FILES:
-        file_urls.append("'" + request.FILES["file5"].name + "'")
-        file_urls.append("'0x" + binascii.hexlify(request.FILES["file5"].read()).decode() + "'")
-    
-    requests.post(f'http://176.62.187.250/createService.php', data={"query": query + ", " + ", ".join(file_urls)})
+    order_name_form = OrderNameForm(request.POST)
+    if order_name_form.is_valid():
+        comment = request.POST["comment"]
+        order_name = request.POST["order_name"]
+        file_urls = []
+        query = f"exec pg_create_servicedoc_for_lk_filevarchar '{request.user.diler.seller_code}', '{order_name}', '{comment}', '{request.user.username}'"
+        if "file1" in request.FILES:
+            file_urls.append("'" + request.FILES["file1"].name + "'")
+            file_urls.append("'0x" + binascii.hexlify(request.FILES["file1"].read()).decode() + "'")
+        if "file2" in request.FILES:
+            file_urls.append("'" + request.FILES["file2"].name + "'")
+            file_urls.append("'0x" + binascii.hexlify(request.FILES["file2"].read()).decode() + "'")
+        if "file3" in request.FILES:
+            file_urls.append("'" + request.FILES["file3"].name + "'")
+            file_urls.append("'0x" + binascii.hexlify(request.FILES["file3"].read()).decode() + "'")
+        if "file4" in request.FILES:
+            file_urls.append("'" + request.FILES["file4"].name + "'")
+            file_urls.append("'0x" + binascii.hexlify(request.FILES["file4"].read()).decode() + "'")
+        if "file5" in request.FILES:
+            file_urls.append("'" + request.FILES["file5"].name + "'")
+            file_urls.append("'0x" + binascii.hexlify(request.FILES["file5"].read()).decode() + "'")
+        
+        requests.post(f'http://176.62.187.250/createService.php', data={"query": query + ", " + ", ".join(file_urls)})
     
     return redirect(services)
 
