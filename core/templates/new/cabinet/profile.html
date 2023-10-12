@@ -49,7 +49,7 @@
             <div>
                 <p style="font-size: 12px; font-weight: 500; color: #525252; margin-bottom: 5px;">Регион</p>
                 <div>
-                    <select name="" id="" style="padding: 8px 20px; border-radius: 8px; width: 70%; background-color: #fff; margin-right: 10px;">
+                    <select name="region" style="padding: 8px 20px; border-radius: 8px; width: 70%; background-color: #fff; margin-right: 10px;">
                         <option value="" disabled {% if request.user.profile.diler.region == null %} selected {% endif %}>Регион</option>
                         {% for region in regions %}
                         <option value="{{ region.id }}" {% if region.id == request.user.diler.region_id %} selected {% endif %}>{{ region.name }}</option>

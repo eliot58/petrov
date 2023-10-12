@@ -30,7 +30,7 @@
         <div style="width: 600px;" class="d-flex flex-column justify-content-between">
             <h2 style="font-weight: 500; font-size: 32px; color: #333;">Рекламации</h2>
             <p style="line-height: 24px; font-size: 20px;">Уважаемые дилеры, перед созданием рекламации просьба ознакомиться с инструкцией, чтобы не получить авто-отказ</p>
-            <button style="background-color: inherit; color: #4369EF; padding: 8px 0px; border: 1px solid #4369EF; border-radius: 12px; width: 160px;">Инструкция</button>
+            <button style="background-color: inherit; color: #4369EF; padding: 8px 0px; border: 1px solid #4369EF; border-radius: 12px; width: 160px;" onclick="window.location.pathname = '/media/learn/instructions/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%86%D0%B8%D1%8F_%D0%BB%D0%BA.docx'">Инструкция</button>
         </div>
         <form method="post" action="{% url 'ads-create' '123' %}" enctype="multipart/form-data">
             {% csrf_token %}
