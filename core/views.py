@@ -266,8 +266,12 @@ def ads_create(request, order_name):
         if "file5" in request.FILES:
             file_urls.append("'" + request.FILES["file5"].name + "'")
             file_urls.append("'0x" + binascii.hexlify(request.FILES["file5"].read()).decode() + "'")
-        
-        requests.post(f'http://176.62.187.250/createService.php', data={"query": query + ", " + ", ".join(file_urls)})
+
+
+        if len(file_urls) == 0:
+            requests.post(f'http://176.62.187.250/createService.php', data={"query": query})
+        else:
+            requests.post(f'http://176.62.187.250/createService.php', data={"query": query + ", " + ", ".join(file_urls)})
     
     return redirect(services)
 
