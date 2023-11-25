@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .forms import *
@@ -75,7 +76,9 @@ def services(request):
         r = requests.get(f"http://176.62.187.250/service.php?s_code={request.user.diler.seller_code}")
         data = json.loads(r.text)
 
-    return render(request, 'new/cabinet/services.html', {'ads': data, 'form': OrderNameForm()})
+    sorted_data = sorted(data, key=lambda x: datetime.strptime(x['dtdoc'], '%b %d %Y %I:%M:%S:%f%p'), reverse=True)
+
+    return render(request, 'new/cabinet/services.html', {'ads': sorted_data, 'form': OrderNameForm()})
 
 @login_required(login_url='/login/')
 @require_POST
