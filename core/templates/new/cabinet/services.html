@@ -46,23 +46,23 @@
             <div class="upload-files d-flex">
                 <div class="upload-files__title">Прикрепить файлы рекламации</div>
                 <div class="upload-files__btn" style="margin-left: 5px;" onclick="document.querySelector(`input[name='file1']`).click()">
-                    <input type="file" name="file1" hidden>
+                    <input type="file" onchange="checkFileSelected(this)" name="file1" hidden>
                     <img src="{% static 'new/img/clip.svg' %}" alt="">
                 </div>
                 <div class="upload-files__btn" onclick="document.querySelector(`input[name='file2']`).click()">
-                    <input type="file" name="file2" hidden>
+                    <input type="file" onchange="checkFileSelected(this)" name="file2" hidden>
                     <img src="{% static 'new/img/clip.svg' %}" alt="">
                 </div>
                 <div class="upload-files__btn" onclick="document.querySelector(`input[name='file3']`).click()">
-                    <input type="file" name="file3" hidden>
+                    <input type="file" onchange="checkFileSelected(this)" name="file3" hidden>
                     <img src="{% static 'new/img/clip.svg' %}" alt="">
                 </div>
                 <div class="upload-files__btn" onclick="document.querySelector(`input[name='file4']`).click()">
-                    <input type="file" name="file4" hidden>
+                    <input type="file" onchange="checkFileSelected(this)" name="file4" hidden>
                     <img src="{% static 'new/img/clip.svg' %}" alt="">
                 </div>
                 <div class="upload-files__btn" onclick="document.querySelector(`input[name='file5']`).click()">
-                    <input type="file" name="file5" hidden>
+                    <input type="file" onchange="checkFileSelected(this)" name="file5" hidden>
                     <img src="{% static 'new/img/clip.svg' %}" alt="">
                 </div>
             </div>
@@ -105,6 +105,13 @@
                 form.nextElementSibling.style.display = "block"
             } else {
                 alert("Заполните email на странице профиля")
+            }
+        }
+
+        function checkFileSelected(fileInput) {
+        
+            if (fileInput.files.length > 0) {
+                fileInput.parentNode.style.backgroundColor = "#939393"
             }
         }
     </script>
